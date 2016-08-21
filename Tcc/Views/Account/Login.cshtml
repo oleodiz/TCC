@@ -5,6 +5,22 @@
 }
 
 <h2>@ViewBag.Title.</h2>
+
+<div class="modal" id="modalLogin">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Login de usuário</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("~/Views/Home/_Login.cshtml", new LoginViewModel { })
+            </div>
+
+        </div>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-md-8">
         <section id="loginForm">
@@ -42,7 +58,7 @@
                     </div>
                 </div>
                 <p>
-                    @Html.ActionLink("Register as a new user", "Register")
+                    @Html.ActionLink("Criar uma conta", "Register")
                 </p>
                 @* Enable this once you have account confirmation enabled for password reset functionality
                     <p>
@@ -51,11 +67,13 @@
             }
         </section>
     </div>
+    <!--
     <div class="col-md-4">
         <section id="socialLoginForm">
             @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
         </section>
     </div>
+        -->
 </div>
 
 @section Scripts {

@@ -92,6 +92,12 @@ namespace Mvc5Project.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
+            if (model.LoginPassword == null || model.LoginUsername == null)
+            { 
+                ModelState.AddModelError("", "Tentativa de Login inválida.");
+                return View("Login");
+            }
+
             var custEmailConf = EmailConfirmation(model.LoginUsername);
             var custUserName = FindUserName(model.LoginUsername);
             var result = await SignInManager.PasswordSignInAsync(model.LoginUsername, model.LoginPassword, model.RememberMe, shouldLockout: false);
@@ -110,14 +116,14 @@ namespace Mvc5Project.Controllers
                     {
                         case SignInStatus.Success:
                             UpdateLastLoginDate(model.LoginUsername);
-                            return RedirectToLocal(returnUrl);
+                            return RedirectToAction("Index", "Projetos");
                         case SignInStatus.LockedOut:
                             return View("Lockout");
                         case SignInStatus.RequiresVerification:
                             return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                         case SignInStatus.Failure:
                         default:
-                            ModelState.AddModelError("", "Invalid login attempt.");
+                            ModelState.AddModelError("", "Tentativa de Login inválida.");
                             return View("Login");
                     }
                 }
@@ -170,7 +176,7 @@ namespace Mvc5Project.Controllers
                         UserManager.AddToRole(user.Id, "Usuario");
                         // Send an email with this link
                         codeType = "EmailConfirmation";
-                        await SendEmail("ConfirmEmail", "Account", user, model.RegisterEmail, "WelcomeEmail", "Confirm your account");
+                        await SendEmail("ConfirmEmail", "Account", user, model.RegisterEmail, "Bem vindo", "Confirme sua conta");
                         return RedirectToAction("ConfirmationEmailSent", "Account");
                     }
                     AddErrors(result);
@@ -179,11 +185,11 @@ namespace Mvc5Project.Controllers
                 {
                     if (custEmail != null)
                     {
-                        ModelState.AddModelError("", "Email is already registered.");
+                        ModelState.AddModelError("", "Este email já se encontra em uso.");
                     }
                     if (custUserName != null)
                     {
-                        ModelState.AddModelError("", "Username " + model.RegisterUsername.ToLower() + " is already taken.");
+                        ModelState.AddModelError("", "Nome de usuário " + model.RegisterUsername.ToLower() + " já está em uso");
                     }
                 }
             }
@@ -217,7 +223,7 @@ namespace Mvc5Project.Controllers
             }
             if (date != null)
             {
-                if (date.AddMinutes(1) < DateTime.Now)
+                if (date.AddDays(1) < DateTime.Now)
                 {
                     return RedirectToAction("ConfirmationLinkExpired", "Account");
                 }

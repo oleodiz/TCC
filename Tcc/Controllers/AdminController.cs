@@ -32,6 +32,7 @@ namespace Mvc5Project.Controllers
         {
             context = new ApplicationDbContext();
             UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+         
         }
 
         [HttpGet]

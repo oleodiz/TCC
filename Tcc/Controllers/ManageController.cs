@@ -63,14 +63,14 @@ namespace Mvc5Project.Controllers
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
-                : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
-                : message == ManageMessageId.PhotoUploadSuccess ? "Your photo has been uploaded."
-                : message == ManageMessageId.FileExtensionError ? "Only jpg, png and gif file formats are allowed."
+                message == ManageMessageId.ChangePasswordSuccess ? "Sua senha foi alterada."
+                : message == ManageMessageId.SetPasswordSuccess ? "Sua senha foi definida."
+                : message == ManageMessageId.SetTwoFactorSuccess ? "Autenticação em duas etapas adicionada com sucesso."
+                : message == ManageMessageId.Error ? "Ocorreu um erro."
+                : message == ManageMessageId.AddPhoneSuccess ? "Seu número de telefone foi adicionado."
+                : message == ManageMessageId.RemovePhoneSuccess ? "Seu número de telefone foi removido."
+                : message == ManageMessageId.PhotoUploadSuccess ? "Sua foto foi enviada."
+                : message == ManageMessageId.FileExtensionError ? "Apenas imagens com extenção jpg ou png são permitidas."
                 : "";
 
             var userId = User.Identity.GetUserId();
@@ -281,8 +281,8 @@ namespace Mvc5Project.Controllers
         public async Task<ActionResult> ManageLogins(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
-                : message == ManageMessageId.Error ? "An error has occurred."
+                message == ManageMessageId.RemoveLoginSuccess ? "Logins externos removidos."
+                : message == ManageMessageId.Error ? "Ocorreu um erro."
                 : "";
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user == null)
