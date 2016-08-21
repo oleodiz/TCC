@@ -4,39 +4,741 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="tccModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="tccModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tb_acoesProjeto">
+          <Key>
+            <PropertyRef Name="id_acao" />
+          </Key>
+          <Property Name="id_acao" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_projeto" Type="int" Nullable="false" />
+          <Property Name="id_usuario" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="id_tipoAcaoProjeto" Type="int" Nullable="false" />
+          <Property Name="data_acao" Type="datetime" Nullable="false" />
+          <Property Name="descricao" Type="varchar" MaxLength="2000" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_atividade">
+          <Key>
+            <PropertyRef Name="id_atividade" />
+          </Key>
+          <Property Name="id_atividade" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_projeto" Type="int" Nullable="false" />
+          <Property Name="titulo" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="descricao" Type="varchar" MaxLength="8000" />
+          <Property Name="data_criacao" Type="datetime" Nullable="false" />
+          <Property Name="id_statusAtividade" Type="int" Nullable="false" />
+          <Property Name="id_usuario" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="id_prioridadeAtividade" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_atividadeResponsavel">
+          <Key>
+            <PropertyRef Name="id_atividade" />
+            <PropertyRef Name="id_usuario" />
+          </Key>
+          <Property Name="id_atividade" Type="int" Nullable="false" />
+          <Property Name="id_usuario" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_comentarioAtividade">
+          <Key>
+            <PropertyRef Name="id_comentario" />
+          </Key>
+          <Property Name="id_comentario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_atividade" Type="int" Nullable="false" />
+          <Property Name="id_usuario" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="comentario" Type="varchar" MaxLength="8000" Nullable="false" />
+          <Property Name="data_comentario" Type="datetime" Nullable="false" />
+          <Property Name="ativo" Type="bit" />
+        </EntityType>
+        <EntityType Name="tb_etapa">
+          <Key>
+            <PropertyRef Name="id_etapa" />
+          </Key>
+          <Property Name="id_etapa" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_projeto" Type="int" Nullable="false" />
+          <Property Name="titulo" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="descricao" Type="varchar" MaxLength="8000" />
+          <Property Name="sequencia" Type="int" Nullable="false" />
+          <Property Name="data_inicio" Type="datetime" Nullable="false" />
+          <Property Name="data_fim" Type="datetime" Nullable="false" />
+          <Property Name="id_statusEtapa" Type="int" Nullable="false" />
+          <Property Name="id_usuario" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_etapaAtividade">
+          <Key>
+            <PropertyRef Name="id_etapa" />
+            <PropertyRef Name="id_atividade" />
+          </Key>
+          <Property Name="id_etapa" Type="int" Nullable="false" />
+          <Property Name="id_atividade" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_funcaoProjeto">
+          <Key>
+            <PropertyRef Name="id_funcaoProjeto" />
+          </Key>
+          <Property Name="id_funcaoProjeto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descricao" Type="varchar" MaxLength="45" />
+        </EntityType>
+        <EntityType Name="tb_prioridadeAtividade">
+          <Key>
+            <PropertyRef Name="id_prioridadeAtividade" />
+          </Key>
+          <Property Name="id_prioridadeAtividade" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descricao" Type="varchar" MaxLength="45" />
+        </EntityType>
         <EntityType Name="tb_projeto">
           <Key>
             <PropertyRef Name="id_projeto" />
           </Key>
           <Property Name="id_projeto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="titulo" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="descricao" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="titulo" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="descricao" Type="varchar" MaxLength="8000" />
           <Property Name="data_inicio" Type="datetime" Nullable="false" />
           <Property Name="data_fim" Type="datetime" />
-          <Property Name="id_status" Type="smallint" Nullable="false" />
+          <Property Name="id_statusProjeto" Type="int" Nullable="false" />
+          <Property Name="id_usuario" Type="nvarchar" MaxLength="128" Nullable="false" />
         </EntityType>
+        <EntityType Name="tb_projetoUsuarioFuncao">
+          <Key>
+            <PropertyRef Name="id_projeto" />
+            <PropertyRef Name="id_usuario" />
+          </Key>
+          <Property Name="id_projeto" Type="int" Nullable="false" />
+          <Property Name="id_usuario" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="id_funcaoProjeto" Type="int" Nullable="false" />
+          <Property Name="data_inclusao" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_statusAtividade">
+          <Key>
+            <PropertyRef Name="id_statusAtividade" />
+          </Key>
+          <Property Name="id_statusAtividade" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descricao" Type="varchar" MaxLength="45" />
+        </EntityType>
+        <EntityType Name="tb_statusEtapa">
+          <Key>
+            <PropertyRef Name="id_statusEtapa" />
+          </Key>
+          <Property Name="id_statusEtapa" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descricao" Type="varchar" MaxLength="45" />
+        </EntityType>
+        <EntityType Name="tb_statusProjeto">
+          <Key>
+            <PropertyRef Name="id_statusProjeto" />
+          </Key>
+          <Property Name="id_statusProjeto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descricao" Type="varchar" MaxLength="45" />
+        </EntityType>
+        <EntityType Name="tb_tipoAcaoProjeto">
+          <Key>
+            <PropertyRef Name="id_tipoAcaoProjeto" />
+          </Key>
+          <Property Name="id_tipoAcaoProjeto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descricao" Type="varchar" MaxLength="45" />
+        </EntityType>
+        <Association Name="fk_acoesProjeto_id_projeto">
+          <End Role="tb_projeto" Type="Self.tb_projeto" Multiplicity="1" />
+          <End Role="tb_acoesProjeto" Type="Self.tb_acoesProjeto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_projeto">
+              <PropertyRef Name="id_projeto" />
+            </Principal>
+            <Dependent Role="tb_acoesProjeto">
+              <PropertyRef Name="id_projeto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_acoesProjeto_id_tipoAcao">
+          <End Role="tb_tipoAcaoProjeto" Type="Self.tb_tipoAcaoProjeto" Multiplicity="1" />
+          <End Role="tb_acoesProjeto" Type="Self.tb_acoesProjeto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_tipoAcaoProjeto">
+              <PropertyRef Name="id_tipoAcaoProjeto" />
+            </Principal>
+            <Dependent Role="tb_acoesProjeto">
+              <PropertyRef Name="id_tipoAcaoProjeto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_atividade_id_prioridadeAtividade">
+          <End Role="tb_prioridadeAtividade" Type="Self.tb_prioridadeAtividade" Multiplicity="1" />
+          <End Role="tb_atividade" Type="Self.tb_atividade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_prioridadeAtividade">
+              <PropertyRef Name="id_prioridadeAtividade" />
+            </Principal>
+            <Dependent Role="tb_atividade">
+              <PropertyRef Name="id_prioridadeAtividade" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_atividade_id_projeto">
+          <End Role="tb_projeto" Type="Self.tb_projeto" Multiplicity="1" />
+          <End Role="tb_atividade" Type="Self.tb_atividade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_projeto">
+              <PropertyRef Name="id_projeto" />
+            </Principal>
+            <Dependent Role="tb_atividade">
+              <PropertyRef Name="id_projeto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_atividade_id_statusEtapa">
+          <End Role="tb_statusAtividade" Type="Self.tb_statusAtividade" Multiplicity="1" />
+          <End Role="tb_atividade" Type="Self.tb_atividade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_statusAtividade">
+              <PropertyRef Name="id_statusAtividade" />
+            </Principal>
+            <Dependent Role="tb_atividade">
+              <PropertyRef Name="id_statusAtividade" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_atividadeResponsavel_id_atividade">
+          <End Role="tb_atividade" Type="Self.tb_atividade" Multiplicity="1" />
+          <End Role="tb_atividadeResponsavel" Type="Self.tb_atividadeResponsavel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_atividade">
+              <PropertyRef Name="id_atividade" />
+            </Principal>
+            <Dependent Role="tb_atividadeResponsavel">
+              <PropertyRef Name="id_atividade" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_comentarioAtividade_id_atividade">
+          <End Role="tb_atividade" Type="Self.tb_atividade" Multiplicity="1" />
+          <End Role="tb_comentarioAtividade" Type="Self.tb_comentarioAtividade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_atividade">
+              <PropertyRef Name="id_atividade" />
+            </Principal>
+            <Dependent Role="tb_comentarioAtividade">
+              <PropertyRef Name="id_atividade" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_etapa_id_projeto">
+          <End Role="tb_projeto" Type="Self.tb_projeto" Multiplicity="1" />
+          <End Role="tb_etapa" Type="Self.tb_etapa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_projeto">
+              <PropertyRef Name="id_projeto" />
+            </Principal>
+            <Dependent Role="tb_etapa">
+              <PropertyRef Name="id_projeto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_etapa_id_statusEtapa">
+          <End Role="tb_statusEtapa" Type="Self.tb_statusEtapa" Multiplicity="1" />
+          <End Role="tb_etapa" Type="Self.tb_etapa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_statusEtapa">
+              <PropertyRef Name="id_statusEtapa" />
+            </Principal>
+            <Dependent Role="tb_etapa">
+              <PropertyRef Name="id_statusEtapa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_etapaAtividade_id_atividade">
+          <End Role="tb_atividade" Type="Self.tb_atividade" Multiplicity="1" />
+          <End Role="tb_etapaAtividade" Type="Self.tb_etapaAtividade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_atividade">
+              <PropertyRef Name="id_atividade" />
+            </Principal>
+            <Dependent Role="tb_etapaAtividade">
+              <PropertyRef Name="id_atividade" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_etapaAtividade_id_etapa">
+          <End Role="tb_etapa" Type="Self.tb_etapa" Multiplicity="1" />
+          <End Role="tb_etapaAtividade" Type="Self.tb_etapaAtividade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_etapa">
+              <PropertyRef Name="id_etapa" />
+            </Principal>
+            <Dependent Role="tb_etapaAtividade">
+              <PropertyRef Name="id_etapa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_projeto_id_statusProjeto">
+          <End Role="tb_statusProjeto" Type="Self.tb_statusProjeto" Multiplicity="1" />
+          <End Role="tb_projeto" Type="Self.tb_projeto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_statusProjeto">
+              <PropertyRef Name="id_statusProjeto" />
+            </Principal>
+            <Dependent Role="tb_projeto">
+              <PropertyRef Name="id_statusProjeto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_projetoUsuarioFuncao_id_projeto">
+          <End Role="tb_projeto" Type="Self.tb_projeto" Multiplicity="1" />
+          <End Role="tb_projetoUsuarioFuncao" Type="Self.tb_projetoUsuarioFuncao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_projeto">
+              <PropertyRef Name="id_projeto" />
+            </Principal>
+            <Dependent Role="tb_projetoUsuarioFuncao">
+              <PropertyRef Name="id_projeto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_projetoUsuarioFuncao_id_statusEtapa">
+          <End Role="tb_funcaoProjeto" Type="Self.tb_funcaoProjeto" Multiplicity="1" />
+          <End Role="tb_projetoUsuarioFuncao" Type="Self.tb_projetoUsuarioFuncao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_funcaoProjeto">
+              <PropertyRef Name="id_funcaoProjeto" />
+            </Principal>
+            <Dependent Role="tb_projetoUsuarioFuncao">
+              <PropertyRef Name="id_funcaoProjeto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="tccModelStoreContainer">
+          <EntitySet Name="tb_acoesProjeto" EntityType="Self.tb_acoesProjeto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_atividade" EntityType="Self.tb_atividade" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_atividadeResponsavel" EntityType="Self.tb_atividadeResponsavel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_comentarioAtividade" EntityType="Self.tb_comentarioAtividade" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_etapa" EntityType="Self.tb_etapa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_etapaAtividade" EntityType="Self.tb_etapaAtividade" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_funcaoProjeto" EntityType="Self.tb_funcaoProjeto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_prioridadeAtividade" EntityType="Self.tb_prioridadeAtividade" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_projeto" EntityType="Self.tb_projeto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_projetoUsuarioFuncao" EntityType="Self.tb_projetoUsuarioFuncao" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_statusAtividade" EntityType="Self.tb_statusAtividade" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_statusEtapa" EntityType="Self.tb_statusEtapa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_statusProjeto" EntityType="Self.tb_statusProjeto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_tipoAcaoProjeto" EntityType="Self.tb_tipoAcaoProjeto" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_acoesProjeto_id_projeto" Association="Self.fk_acoesProjeto_id_projeto">
+            <End Role="tb_projeto" EntitySet="tb_projeto" />
+            <End Role="tb_acoesProjeto" EntitySet="tb_acoesProjeto" />
+          </AssociationSet>
+          <AssociationSet Name="fk_acoesProjeto_id_tipoAcao" Association="Self.fk_acoesProjeto_id_tipoAcao">
+            <End Role="tb_tipoAcaoProjeto" EntitySet="tb_tipoAcaoProjeto" />
+            <End Role="tb_acoesProjeto" EntitySet="tb_acoesProjeto" />
+          </AssociationSet>
+          <AssociationSet Name="fk_atividade_id_prioridadeAtividade" Association="Self.fk_atividade_id_prioridadeAtividade">
+            <End Role="tb_prioridadeAtividade" EntitySet="tb_prioridadeAtividade" />
+            <End Role="tb_atividade" EntitySet="tb_atividade" />
+          </AssociationSet>
+          <AssociationSet Name="fk_atividade_id_projeto" Association="Self.fk_atividade_id_projeto">
+            <End Role="tb_projeto" EntitySet="tb_projeto" />
+            <End Role="tb_atividade" EntitySet="tb_atividade" />
+          </AssociationSet>
+          <AssociationSet Name="fk_atividade_id_statusEtapa" Association="Self.fk_atividade_id_statusEtapa">
+            <End Role="tb_statusAtividade" EntitySet="tb_statusAtividade" />
+            <End Role="tb_atividade" EntitySet="tb_atividade" />
+          </AssociationSet>
+          <AssociationSet Name="fk_atividadeResponsavel_id_atividade" Association="Self.fk_atividadeResponsavel_id_atividade">
+            <End Role="tb_atividade" EntitySet="tb_atividade" />
+            <End Role="tb_atividadeResponsavel" EntitySet="tb_atividadeResponsavel" />
+          </AssociationSet>
+          <AssociationSet Name="fk_comentarioAtividade_id_atividade" Association="Self.fk_comentarioAtividade_id_atividade">
+            <End Role="tb_atividade" EntitySet="tb_atividade" />
+            <End Role="tb_comentarioAtividade" EntitySet="tb_comentarioAtividade" />
+          </AssociationSet>
+          <AssociationSet Name="fk_etapa_id_projeto" Association="Self.fk_etapa_id_projeto">
+            <End Role="tb_projeto" EntitySet="tb_projeto" />
+            <End Role="tb_etapa" EntitySet="tb_etapa" />
+          </AssociationSet>
+          <AssociationSet Name="fk_etapa_id_statusEtapa" Association="Self.fk_etapa_id_statusEtapa">
+            <End Role="tb_statusEtapa" EntitySet="tb_statusEtapa" />
+            <End Role="tb_etapa" EntitySet="tb_etapa" />
+          </AssociationSet>
+          <AssociationSet Name="fk_etapaAtividade_id_atividade" Association="Self.fk_etapaAtividade_id_atividade">
+            <End Role="tb_atividade" EntitySet="tb_atividade" />
+            <End Role="tb_etapaAtividade" EntitySet="tb_etapaAtividade" />
+          </AssociationSet>
+          <AssociationSet Name="fk_etapaAtividade_id_etapa" Association="Self.fk_etapaAtividade_id_etapa">
+            <End Role="tb_etapa" EntitySet="tb_etapa" />
+            <End Role="tb_etapaAtividade" EntitySet="tb_etapaAtividade" />
+          </AssociationSet>
+          <AssociationSet Name="fk_projeto_id_statusProjeto" Association="Self.fk_projeto_id_statusProjeto">
+            <End Role="tb_statusProjeto" EntitySet="tb_statusProjeto" />
+            <End Role="tb_projeto" EntitySet="tb_projeto" />
+          </AssociationSet>
+          <AssociationSet Name="fk_projetoUsuarioFuncao_id_projeto" Association="Self.fk_projetoUsuarioFuncao_id_projeto">
+            <End Role="tb_projeto" EntitySet="tb_projeto" />
+            <End Role="tb_projetoUsuarioFuncao" EntitySet="tb_projetoUsuarioFuncao" />
+          </AssociationSet>
+          <AssociationSet Name="fk_projetoUsuarioFuncao_id_statusEtapa" Association="Self.fk_projetoUsuarioFuncao_id_statusEtapa">
+            <End Role="tb_funcaoProjeto" EntitySet="tb_funcaoProjeto" />
+            <End Role="tb_projetoUsuarioFuncao" EntitySet="tb_projetoUsuarioFuncao" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="tccModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tb_acoesProjeto">
+          <Key>
+            <PropertyRef Name="id_acao" />
+          </Key>
+          <Property Name="id_acao" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_projeto" Type="Int32" Nullable="false" />
+          <Property Name="id_usuario" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="id_tipoAcaoProjeto" Type="Int32" Nullable="false" />
+          <Property Name="data_acao" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="descricao" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tb_projeto" Relationship="Self.fk_acoesProjeto_id_projeto" FromRole="tb_acoesProjeto" ToRole="tb_projeto" />
+          <NavigationProperty Name="tb_tipoAcaoProjeto" Relationship="Self.fk_acoesProjeto_id_tipoAcao" FromRole="tb_acoesProjeto" ToRole="tb_tipoAcaoProjeto" />
+        </EntityType>
+        <EntityType Name="tb_atividade">
+          <Key>
+            <PropertyRef Name="id_atividade" />
+          </Key>
+          <Property Name="id_atividade" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_projeto" Type="Int32" Nullable="false" />
+          <Property Name="titulo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="descricao" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
+          <Property Name="data_criacao" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="id_statusAtividade" Type="Int32" Nullable="false" />
+          <Property Name="id_usuario" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="id_prioridadeAtividade" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tb_prioridadeAtividade" Relationship="Self.fk_atividade_id_prioridadeAtividade" FromRole="tb_atividade" ToRole="tb_prioridadeAtividade" />
+          <NavigationProperty Name="tb_projeto" Relationship="Self.fk_atividade_id_projeto" FromRole="tb_atividade" ToRole="tb_projeto" />
+          <NavigationProperty Name="tb_statusAtividade" Relationship="Self.fk_atividade_id_statusEtapa" FromRole="tb_atividade" ToRole="tb_statusAtividade" />
+          <NavigationProperty Name="tb_atividadeResponsavel" Relationship="Self.fk_atividadeResponsavel_id_atividade" FromRole="tb_atividade" ToRole="tb_atividadeResponsavel" />
+          <NavigationProperty Name="tb_comentarioAtividade" Relationship="Self.fk_comentarioAtividade_id_atividade" FromRole="tb_atividade" ToRole="tb_comentarioAtividade" />
+          <NavigationProperty Name="tb_etapa" Relationship="Self.tb_etapaAtividade" FromRole="tb_atividade" ToRole="tb_etapa" />
+        </EntityType>
+        <EntityType Name="tb_atividadeResponsavel">
+          <Key>
+            <PropertyRef Name="id_atividade" />
+            <PropertyRef Name="id_usuario" />
+          </Key>
+          <Property Name="id_atividade" Type="Int32" Nullable="false" />
+          <Property Name="id_usuario" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="tb_atividade" Relationship="Self.fk_atividadeResponsavel_id_atividade" FromRole="tb_atividadeResponsavel" ToRole="tb_atividade" />
+        </EntityType>
+        <EntityType Name="tb_comentarioAtividade">
+          <Key>
+            <PropertyRef Name="id_comentario" />
+          </Key>
+          <Property Name="id_comentario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_atividade" Type="Int32" Nullable="false" />
+          <Property Name="id_usuario" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="comentario" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="data_comentario" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ativo" Type="Boolean" />
+          <NavigationProperty Name="tb_atividade" Relationship="Self.fk_comentarioAtividade_id_atividade" FromRole="tb_comentarioAtividade" ToRole="tb_atividade" />
+        </EntityType>
+        <EntityType Name="tb_etapa">
+          <Key>
+            <PropertyRef Name="id_etapa" />
+          </Key>
+          <Property Name="id_etapa" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_projeto" Type="Int32" Nullable="false" />
+          <Property Name="titulo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="descricao" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
+          <Property Name="sequencia" Type="Int32" Nullable="false" />
+          <Property Name="data_inicio" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="data_fim" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="id_statusEtapa" Type="Int32" Nullable="false" />
+          <Property Name="id_usuario" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="tb_projeto" Relationship="Self.fk_etapa_id_projeto" FromRole="tb_etapa" ToRole="tb_projeto" />
+          <NavigationProperty Name="tb_statusEtapa" Relationship="Self.fk_etapa_id_statusEtapa" FromRole="tb_etapa" ToRole="tb_statusEtapa" />
+          <NavigationProperty Name="tb_atividade" Relationship="Self.tb_etapaAtividade" FromRole="tb_etapa" ToRole="tb_atividade" />
+        </EntityType>
+        <EntityType Name="tb_funcaoProjeto">
+          <Key>
+            <PropertyRef Name="id_funcaoProjeto" />
+          </Key>
+          <Property Name="id_funcaoProjeto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descricao" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tb_projetoUsuarioFuncao" Relationship="Self.fk_projetoUsuarioFuncao_id_statusEtapa" FromRole="tb_funcaoProjeto" ToRole="tb_projetoUsuarioFuncao" />
+        </EntityType>
+        <EntityType Name="tb_prioridadeAtividade">
+          <Key>
+            <PropertyRef Name="id_prioridadeAtividade" />
+          </Key>
+          <Property Name="id_prioridadeAtividade" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descricao" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tb_atividade" Relationship="Self.fk_atividade_id_prioridadeAtividade" FromRole="tb_prioridadeAtividade" ToRole="tb_atividade" />
+        </EntityType>
         <EntityType Name="tb_projeto">
           <Key>
             <PropertyRef Name="id_projeto" />
           </Key>
           <Property Name="id_projeto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="titulo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="descricao" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="titulo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="descricao" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
           <Property Name="data_inicio" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="data_fim" Type="DateTime" Precision="3" />
-          <Property Name="id_status" Type="Int16" Nullable="false" />
+          <Property Name="id_statusProjeto" Type="Int32" Nullable="false" />
+          <Property Name="id_usuario" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="tb_acoesProjeto" Relationship="Self.fk_acoesProjeto_id_projeto" FromRole="tb_projeto" ToRole="tb_acoesProjeto" />
+          <NavigationProperty Name="tb_atividade" Relationship="Self.fk_atividade_id_projeto" FromRole="tb_projeto" ToRole="tb_atividade" />
+          <NavigationProperty Name="tb_etapa" Relationship="Self.fk_etapa_id_projeto" FromRole="tb_projeto" ToRole="tb_etapa" />
+          <NavigationProperty Name="tb_statusProjeto" Relationship="Self.fk_projeto_id_statusProjeto" FromRole="tb_projeto" ToRole="tb_statusProjeto" />
+          <NavigationProperty Name="tb_projetoUsuarioFuncao" Relationship="Self.fk_projetoUsuarioFuncao_id_projeto" FromRole="tb_projeto" ToRole="tb_projetoUsuarioFuncao" />
         </EntityType>
+        <EntityType Name="tb_projetoUsuarioFuncao">
+          <Key>
+            <PropertyRef Name="id_projeto" />
+            <PropertyRef Name="id_usuario" />
+          </Key>
+          <Property Name="id_projeto" Type="Int32" Nullable="false" />
+          <Property Name="id_usuario" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="id_funcaoProjeto" Type="Int32" Nullable="false" />
+          <Property Name="data_inclusao" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="tb_funcaoProjeto" Relationship="Self.fk_projetoUsuarioFuncao_id_statusEtapa" FromRole="tb_projetoUsuarioFuncao" ToRole="tb_funcaoProjeto" />
+          <NavigationProperty Name="tb_projeto" Relationship="Self.fk_projetoUsuarioFuncao_id_projeto" FromRole="tb_projetoUsuarioFuncao" ToRole="tb_projeto" />
+        </EntityType>
+        <EntityType Name="tb_statusAtividade">
+          <Key>
+            <PropertyRef Name="id_statusAtividade" />
+          </Key>
+          <Property Name="id_statusAtividade" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descricao" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tb_atividade" Relationship="Self.fk_atividade_id_statusEtapa" FromRole="tb_statusAtividade" ToRole="tb_atividade" />
+        </EntityType>
+        <EntityType Name="tb_statusEtapa">
+          <Key>
+            <PropertyRef Name="id_statusEtapa" />
+          </Key>
+          <Property Name="id_statusEtapa" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descricao" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tb_etapa" Relationship="Self.fk_etapa_id_statusEtapa" FromRole="tb_statusEtapa" ToRole="tb_etapa" />
+        </EntityType>
+        <EntityType Name="tb_statusProjeto">
+          <Key>
+            <PropertyRef Name="id_statusProjeto" />
+          </Key>
+          <Property Name="id_statusProjeto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descricao" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tb_projeto" Relationship="Self.fk_projeto_id_statusProjeto" FromRole="tb_statusProjeto" ToRole="tb_projeto" />
+        </EntityType>
+        <EntityType Name="tb_tipoAcaoProjeto">
+          <Key>
+            <PropertyRef Name="id_tipoAcaoProjeto" />
+          </Key>
+          <Property Name="id_tipoAcaoProjeto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descricao" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tb_acoesProjeto" Relationship="Self.fk_acoesProjeto_id_tipoAcao" FromRole="tb_tipoAcaoProjeto" ToRole="tb_acoesProjeto" />
+        </EntityType>
+        <Association Name="fk_acoesProjeto_id_projeto">
+          <End Role="tb_projeto" Type="Self.tb_projeto" Multiplicity="1" />
+          <End Role="tb_acoesProjeto" Type="Self.tb_acoesProjeto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_projeto">
+              <PropertyRef Name="id_projeto" />
+            </Principal>
+            <Dependent Role="tb_acoesProjeto">
+              <PropertyRef Name="id_projeto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_acoesProjeto_id_tipoAcao">
+          <End Role="tb_tipoAcaoProjeto" Type="Self.tb_tipoAcaoProjeto" Multiplicity="1" />
+          <End Role="tb_acoesProjeto" Type="Self.tb_acoesProjeto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_tipoAcaoProjeto">
+              <PropertyRef Name="id_tipoAcaoProjeto" />
+            </Principal>
+            <Dependent Role="tb_acoesProjeto">
+              <PropertyRef Name="id_tipoAcaoProjeto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_atividade_id_prioridadeAtividade">
+          <End Role="tb_prioridadeAtividade" Type="Self.tb_prioridadeAtividade" Multiplicity="1" />
+          <End Role="tb_atividade" Type="Self.tb_atividade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_prioridadeAtividade">
+              <PropertyRef Name="id_prioridadeAtividade" />
+            </Principal>
+            <Dependent Role="tb_atividade">
+              <PropertyRef Name="id_prioridadeAtividade" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_atividade_id_projeto">
+          <End Role="tb_projeto" Type="Self.tb_projeto" Multiplicity="1" />
+          <End Role="tb_atividade" Type="Self.tb_atividade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_projeto">
+              <PropertyRef Name="id_projeto" />
+            </Principal>
+            <Dependent Role="tb_atividade">
+              <PropertyRef Name="id_projeto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_atividade_id_statusEtapa">
+          <End Role="tb_statusAtividade" Type="Self.tb_statusAtividade" Multiplicity="1" />
+          <End Role="tb_atividade" Type="Self.tb_atividade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_statusAtividade">
+              <PropertyRef Name="id_statusAtividade" />
+            </Principal>
+            <Dependent Role="tb_atividade">
+              <PropertyRef Name="id_statusAtividade" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_atividadeResponsavel_id_atividade">
+          <End Role="tb_atividade" Type="Self.tb_atividade" Multiplicity="1" />
+          <End Role="tb_atividadeResponsavel" Type="Self.tb_atividadeResponsavel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_atividade">
+              <PropertyRef Name="id_atividade" />
+            </Principal>
+            <Dependent Role="tb_atividadeResponsavel">
+              <PropertyRef Name="id_atividade" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_comentarioAtividade_id_atividade">
+          <End Role="tb_atividade" Type="Self.tb_atividade" Multiplicity="1" />
+          <End Role="tb_comentarioAtividade" Type="Self.tb_comentarioAtividade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_atividade">
+              <PropertyRef Name="id_atividade" />
+            </Principal>
+            <Dependent Role="tb_comentarioAtividade">
+              <PropertyRef Name="id_atividade" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_etapa_id_projeto">
+          <End Role="tb_projeto" Type="Self.tb_projeto" Multiplicity="1" />
+          <End Role="tb_etapa" Type="Self.tb_etapa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_projeto">
+              <PropertyRef Name="id_projeto" />
+            </Principal>
+            <Dependent Role="tb_etapa">
+              <PropertyRef Name="id_projeto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_etapa_id_statusEtapa">
+          <End Role="tb_statusEtapa" Type="Self.tb_statusEtapa" Multiplicity="1" />
+          <End Role="tb_etapa" Type="Self.tb_etapa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_statusEtapa">
+              <PropertyRef Name="id_statusEtapa" />
+            </Principal>
+            <Dependent Role="tb_etapa">
+              <PropertyRef Name="id_statusEtapa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_projetoUsuarioFuncao_id_statusEtapa">
+          <End Role="tb_funcaoProjeto" Type="Self.tb_funcaoProjeto" Multiplicity="1" />
+          <End Role="tb_projetoUsuarioFuncao" Type="Self.tb_projetoUsuarioFuncao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_funcaoProjeto">
+              <PropertyRef Name="id_funcaoProjeto" />
+            </Principal>
+            <Dependent Role="tb_projetoUsuarioFuncao">
+              <PropertyRef Name="id_funcaoProjeto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_projeto_id_statusProjeto">
+          <End Role="tb_statusProjeto" Type="Self.tb_statusProjeto" Multiplicity="1" />
+          <End Role="tb_projeto" Type="Self.tb_projeto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_statusProjeto">
+              <PropertyRef Name="id_statusProjeto" />
+            </Principal>
+            <Dependent Role="tb_projeto">
+              <PropertyRef Name="id_statusProjeto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_projetoUsuarioFuncao_id_projeto">
+          <End Role="tb_projeto" Type="Self.tb_projeto" Multiplicity="1" />
+          <End Role="tb_projetoUsuarioFuncao" Type="Self.tb_projetoUsuarioFuncao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_projeto">
+              <PropertyRef Name="id_projeto" />
+            </Principal>
+            <Dependent Role="tb_projetoUsuarioFuncao">
+              <PropertyRef Name="id_projeto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="tb_etapaAtividade">
+          <End Role="tb_atividade" Type="Self.tb_atividade" Multiplicity="*" />
+          <End Role="tb_etapa" Type="Self.tb_etapa" Multiplicity="*" />
+        </Association>
         <EntityContainer Name="tccEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tb_acoesProjeto" EntityType="Self.tb_acoesProjeto" />
+          <EntitySet Name="tb_atividade" EntityType="Self.tb_atividade" />
+          <EntitySet Name="tb_atividadeResponsavel" EntityType="Self.tb_atividadeResponsavel" />
+          <EntitySet Name="tb_comentarioAtividade" EntityType="Self.tb_comentarioAtividade" />
+          <EntitySet Name="tb_etapa" EntityType="Self.tb_etapa" />
+          <EntitySet Name="tb_funcaoProjeto" EntityType="Self.tb_funcaoProjeto" />
+          <EntitySet Name="tb_prioridadeAtividade" EntityType="Self.tb_prioridadeAtividade" />
           <EntitySet Name="tb_projeto" EntityType="Self.tb_projeto" />
+          <EntitySet Name="tb_projetoUsuarioFuncao" EntityType="Self.tb_projetoUsuarioFuncao" />
+          <EntitySet Name="tb_statusAtividade" EntityType="Self.tb_statusAtividade" />
+          <EntitySet Name="tb_statusEtapa" EntityType="Self.tb_statusEtapa" />
+          <EntitySet Name="tb_statusProjeto" EntityType="Self.tb_statusProjeto" />
+          <EntitySet Name="tb_tipoAcaoProjeto" EntityType="Self.tb_tipoAcaoProjeto" />
+          <AssociationSet Name="fk_acoesProjeto_id_projeto" Association="Self.fk_acoesProjeto_id_projeto">
+            <End Role="tb_projeto" EntitySet="tb_projeto" />
+            <End Role="tb_acoesProjeto" EntitySet="tb_acoesProjeto" />
+          </AssociationSet>
+          <AssociationSet Name="fk_acoesProjeto_id_tipoAcao" Association="Self.fk_acoesProjeto_id_tipoAcao">
+            <End Role="tb_tipoAcaoProjeto" EntitySet="tb_tipoAcaoProjeto" />
+            <End Role="tb_acoesProjeto" EntitySet="tb_acoesProjeto" />
+          </AssociationSet>
+          <AssociationSet Name="fk_atividade_id_prioridadeAtividade" Association="Self.fk_atividade_id_prioridadeAtividade">
+            <End Role="tb_prioridadeAtividade" EntitySet="tb_prioridadeAtividade" />
+            <End Role="tb_atividade" EntitySet="tb_atividade" />
+          </AssociationSet>
+          <AssociationSet Name="fk_atividade_id_projeto" Association="Self.fk_atividade_id_projeto">
+            <End Role="tb_projeto" EntitySet="tb_projeto" />
+            <End Role="tb_atividade" EntitySet="tb_atividade" />
+          </AssociationSet>
+          <AssociationSet Name="fk_atividade_id_statusEtapa" Association="Self.fk_atividade_id_statusEtapa">
+            <End Role="tb_statusAtividade" EntitySet="tb_statusAtividade" />
+            <End Role="tb_atividade" EntitySet="tb_atividade" />
+          </AssociationSet>
+          <AssociationSet Name="fk_atividadeResponsavel_id_atividade" Association="Self.fk_atividadeResponsavel_id_atividade">
+            <End Role="tb_atividade" EntitySet="tb_atividade" />
+            <End Role="tb_atividadeResponsavel" EntitySet="tb_atividadeResponsavel" />
+          </AssociationSet>
+          <AssociationSet Name="fk_comentarioAtividade_id_atividade" Association="Self.fk_comentarioAtividade_id_atividade">
+            <End Role="tb_atividade" EntitySet="tb_atividade" />
+            <End Role="tb_comentarioAtividade" EntitySet="tb_comentarioAtividade" />
+          </AssociationSet>
+          <AssociationSet Name="fk_etapa_id_projeto" Association="Self.fk_etapa_id_projeto">
+            <End Role="tb_projeto" EntitySet="tb_projeto" />
+            <End Role="tb_etapa" EntitySet="tb_etapa" />
+          </AssociationSet>
+          <AssociationSet Name="fk_etapa_id_statusEtapa" Association="Self.fk_etapa_id_statusEtapa">
+            <End Role="tb_statusEtapa" EntitySet="tb_statusEtapa" />
+            <End Role="tb_etapa" EntitySet="tb_etapa" />
+          </AssociationSet>
+          <AssociationSet Name="fk_projetoUsuarioFuncao_id_statusEtapa" Association="Self.fk_projetoUsuarioFuncao_id_statusEtapa">
+            <End Role="tb_funcaoProjeto" EntitySet="tb_funcaoProjeto" />
+            <End Role="tb_projetoUsuarioFuncao" EntitySet="tb_projetoUsuarioFuncao" />
+          </AssociationSet>
+          <AssociationSet Name="fk_projeto_id_statusProjeto" Association="Self.fk_projeto_id_statusProjeto">
+            <End Role="tb_statusProjeto" EntitySet="tb_statusProjeto" />
+            <End Role="tb_projeto" EntitySet="tb_projeto" />
+          </AssociationSet>
+          <AssociationSet Name="fk_projetoUsuarioFuncao_id_projeto" Association="Self.fk_projetoUsuarioFuncao_id_projeto">
+            <End Role="tb_projeto" EntitySet="tb_projeto" />
+            <End Role="tb_projetoUsuarioFuncao" EntitySet="tb_projetoUsuarioFuncao" />
+          </AssociationSet>
+          <AssociationSet Name="tb_etapaAtividade" Association="Self.tb_etapaAtividade">
+            <End Role="tb_atividade" EntitySet="tb_atividade" />
+            <End Role="tb_etapa" EntitySet="tb_etapa" />
+          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -44,6 +746,83 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="tccModelStoreContainer" CdmEntityContainer="tccEntities">
+          <EntitySetMapping Name="tb_acoesProjeto">
+            <EntityTypeMapping TypeName="tccModel.tb_acoesProjeto">
+              <MappingFragment StoreEntitySet="tb_acoesProjeto">
+                <ScalarProperty Name="id_acao" ColumnName="id_acao" />
+                <ScalarProperty Name="id_projeto" ColumnName="id_projeto" />
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+                <ScalarProperty Name="id_tipoAcaoProjeto" ColumnName="id_tipoAcaoProjeto" />
+                <ScalarProperty Name="data_acao" ColumnName="data_acao" />
+                <ScalarProperty Name="descricao" ColumnName="descricao" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_atividade">
+            <EntityTypeMapping TypeName="tccModel.tb_atividade">
+              <MappingFragment StoreEntitySet="tb_atividade">
+                <ScalarProperty Name="id_atividade" ColumnName="id_atividade" />
+                <ScalarProperty Name="id_projeto" ColumnName="id_projeto" />
+                <ScalarProperty Name="titulo" ColumnName="titulo" />
+                <ScalarProperty Name="descricao" ColumnName="descricao" />
+                <ScalarProperty Name="data_criacao" ColumnName="data_criacao" />
+                <ScalarProperty Name="id_statusAtividade" ColumnName="id_statusAtividade" />
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+                <ScalarProperty Name="id_prioridadeAtividade" ColumnName="id_prioridadeAtividade" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_atividadeResponsavel">
+            <EntityTypeMapping TypeName="tccModel.tb_atividadeResponsavel">
+              <MappingFragment StoreEntitySet="tb_atividadeResponsavel">
+                <ScalarProperty Name="id_atividade" ColumnName="id_atividade" />
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_comentarioAtividade">
+            <EntityTypeMapping TypeName="tccModel.tb_comentarioAtividade">
+              <MappingFragment StoreEntitySet="tb_comentarioAtividade">
+                <ScalarProperty Name="id_comentario" ColumnName="id_comentario" />
+                <ScalarProperty Name="id_atividade" ColumnName="id_atividade" />
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+                <ScalarProperty Name="comentario" ColumnName="comentario" />
+                <ScalarProperty Name="data_comentario" ColumnName="data_comentario" />
+                <ScalarProperty Name="ativo" ColumnName="ativo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_etapa">
+            <EntityTypeMapping TypeName="tccModel.tb_etapa">
+              <MappingFragment StoreEntitySet="tb_etapa">
+                <ScalarProperty Name="id_etapa" ColumnName="id_etapa" />
+                <ScalarProperty Name="id_projeto" ColumnName="id_projeto" />
+                <ScalarProperty Name="titulo" ColumnName="titulo" />
+                <ScalarProperty Name="descricao" ColumnName="descricao" />
+                <ScalarProperty Name="sequencia" ColumnName="sequencia" />
+                <ScalarProperty Name="data_inicio" ColumnName="data_inicio" />
+                <ScalarProperty Name="data_fim" ColumnName="data_fim" />
+                <ScalarProperty Name="id_statusEtapa" ColumnName="id_statusEtapa" />
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_funcaoProjeto">
+            <EntityTypeMapping TypeName="tccModel.tb_funcaoProjeto">
+              <MappingFragment StoreEntitySet="tb_funcaoProjeto">
+                <ScalarProperty Name="id_funcaoProjeto" ColumnName="id_funcaoProjeto" />
+                <ScalarProperty Name="descricao" ColumnName="descricao" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_prioridadeAtividade">
+            <EntityTypeMapping TypeName="tccModel.tb_prioridadeAtividade">
+              <MappingFragment StoreEntitySet="tb_prioridadeAtividade">
+                <ScalarProperty Name="id_prioridadeAtividade" ColumnName="id_prioridadeAtividade" />
+                <ScalarProperty Name="descricao" ColumnName="descricao" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tb_projeto">
             <EntityTypeMapping TypeName="tccModel.tb_projeto">
               <MappingFragment StoreEntitySet="tb_projeto">
@@ -52,10 +831,61 @@
                 <ScalarProperty Name="descricao" ColumnName="descricao" />
                 <ScalarProperty Name="data_inicio" ColumnName="data_inicio" />
                 <ScalarProperty Name="data_fim" ColumnName="data_fim" />
-                <ScalarProperty Name="id_status" ColumnName="id_status" />
+                <ScalarProperty Name="id_statusProjeto" ColumnName="id_statusProjeto" />
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tb_projetoUsuarioFuncao">
+            <EntityTypeMapping TypeName="tccModel.tb_projetoUsuarioFuncao">
+              <MappingFragment StoreEntitySet="tb_projetoUsuarioFuncao">
+                <ScalarProperty Name="id_projeto" ColumnName="id_projeto" />
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+                <ScalarProperty Name="id_funcaoProjeto" ColumnName="id_funcaoProjeto" />
+                <ScalarProperty Name="data_inclusao" ColumnName="data_inclusao" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_statusAtividade">
+            <EntityTypeMapping TypeName="tccModel.tb_statusAtividade">
+              <MappingFragment StoreEntitySet="tb_statusAtividade">
+                <ScalarProperty Name="id_statusAtividade" ColumnName="id_statusAtividade" />
+                <ScalarProperty Name="descricao" ColumnName="descricao" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_statusEtapa">
+            <EntityTypeMapping TypeName="tccModel.tb_statusEtapa">
+              <MappingFragment StoreEntitySet="tb_statusEtapa">
+                <ScalarProperty Name="id_statusEtapa" ColumnName="id_statusEtapa" />
+                <ScalarProperty Name="descricao" ColumnName="descricao" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_statusProjeto">
+            <EntityTypeMapping TypeName="tccModel.tb_statusProjeto">
+              <MappingFragment StoreEntitySet="tb_statusProjeto">
+                <ScalarProperty Name="id_statusProjeto" ColumnName="id_statusProjeto" />
+                <ScalarProperty Name="descricao" ColumnName="descricao" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_tipoAcaoProjeto">
+            <EntityTypeMapping TypeName="tccModel.tb_tipoAcaoProjeto">
+              <MappingFragment StoreEntitySet="tb_tipoAcaoProjeto">
+                <ScalarProperty Name="id_tipoAcaoProjeto" ColumnName="id_tipoAcaoProjeto" />
+                <ScalarProperty Name="descricao" ColumnName="descricao" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="tb_etapaAtividade" TypeName="tccModel.tb_etapaAtividade" StoreEntitySet="tb_etapaAtividade">
+            <EndProperty Name="tb_atividade">
+              <ScalarProperty Name="id_atividade" ColumnName="id_atividade" />
+            </EndProperty>
+            <EndProperty Name="tb_etapa">
+              <ScalarProperty Name="id_etapa" ColumnName="id_etapa" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

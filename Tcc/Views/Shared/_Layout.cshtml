@@ -6,6 +6,7 @@
     <title>@ViewBag.Title - TCC</title>
     <link href="~/Content/Site.css" rel="stylesheet" />
     <script src="~/ckeditor/ckeditor.js"></script>
+
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @RenderSection("Style", required: false)
@@ -21,15 +22,14 @@
                 </button>
                 @Html.ActionLink("TCC", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             
-            
-
+           
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
 
                     @if (Request.IsAuthenticated)
                     {
-                        <div class="btn-group">
+                        <div class="btn-group" style="margin-top: 5px;">
                             <a href="Projetos" class="btn btn-primary">Projetos</a>
                             <a href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></a>
                             <ul class="dropdown-menu">
@@ -57,10 +57,12 @@
 
                 </ul>
                 @Html.Partial("_LoginPartial")
+
             </div>
         </div>
     </div>
     <div class="container body-content">
+        
         @RenderBody()
         <hr />
         <footer>

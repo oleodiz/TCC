@@ -4,8 +4,33 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="7e8edeab5a5e4bfcb5c1f5b05f23a529" Name="Diagram1">
-        <EntityTypeShape EntityType="tccModel.tb_projeto" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+      <Diagram DiagramId="5e384688ae19496eaf7c2afeb2bf16bd" Name="Diagram1">
+        <EntityTypeShape EntityType="tccModel.tb_acoesProjeto" Width="1.5" PointX="5.25" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="tccModel.tb_atividade" Width="1.5" PointX="8.25" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="tccModel.tb_atividadeResponsavel" Width="1.5" PointX="10.5" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="tccModel.tb_comentarioAtividade" Width="1.5" PointX="10.5" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="tccModel.tb_etapa" Width="1.5" PointX="13" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="tccModel.tb_funcaoProjeto" Width="1.5" PointX="1.5" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="tccModel.tb_prioridadeAtividade" Width="1.5" PointX="6" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="tccModel.tb_projeto" Width="1.5" PointX="3" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="tccModel.tb_projetoUsuarioFuncao" Width="1.5" PointX="5.25" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="tccModel.tb_statusAtividade" Width="1.5" PointX="6" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="tccModel.tb_statusEtapa" Width="1.5" PointX="11.25" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="tccModel.tb_statusProjeto" Width="1.5" PointX="0.75" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="tccModel.tb_tipoAcaoProjeto" Width="1.5" PointX="3" PointY="12.25" IsExpanded="true" />
+        <AssociationConnector Association="tccModel.fk_acoesProjeto_id_projeto" ManuallyRouted="false" />
+        <AssociationConnector Association="tccModel.fk_acoesProjeto_id_tipoAcao" ManuallyRouted="false" />
+        <AssociationConnector Association="tccModel.fk_atividade_id_prioridadeAtividade" ManuallyRouted="false" />
+        <AssociationConnector Association="tccModel.fk_atividade_id_projeto" ManuallyRouted="false" />
+        <AssociationConnector Association="tccModel.fk_atividade_id_statusEtapa" ManuallyRouted="false" />
+        <AssociationConnector Association="tccModel.fk_atividadeResponsavel_id_atividade" ManuallyRouted="false" />
+        <AssociationConnector Association="tccModel.fk_comentarioAtividade_id_atividade" ManuallyRouted="false" />
+        <AssociationConnector Association="tccModel.fk_etapa_id_projeto" ManuallyRouted="false" />
+        <AssociationConnector Association="tccModel.fk_etapa_id_statusEtapa" ManuallyRouted="false" />
+        <AssociationConnector Association="tccModel.fk_projetoUsuarioFuncao_id_statusEtapa" ManuallyRouted="false" />
+        <AssociationConnector Association="tccModel.fk_projeto_id_statusProjeto" ManuallyRouted="false" />
+        <AssociationConnector Association="tccModel.fk_projetoUsuarioFuncao_id_projeto" ManuallyRouted="false" />
+        <AssociationConnector Association="tccModel.tb_etapaAtividade" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -25,6 +25,18 @@ namespace Model
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<tb_acoesProjeto> tb_acoesProjeto { get; set; }
+        public virtual DbSet<tb_atividade> tb_atividade { get; set; }
+        public virtual DbSet<tb_atividadeResponsavel> tb_atividadeResponsavel { get; set; }
+        public virtual DbSet<tb_comentarioAtividade> tb_comentarioAtividade { get; set; }
+        public virtual DbSet<tb_etapa> tb_etapa { get; set; }
+        public virtual DbSet<tb_funcaoProjeto> tb_funcaoProjeto { get; set; }
+        public virtual DbSet<tb_prioridadeAtividade> tb_prioridadeAtividade { get; set; }
         public virtual DbSet<tb_projeto> tb_projeto { get; set; }
+        public virtual DbSet<tb_projetoUsuarioFuncao> tb_projetoUsuarioFuncao { get; set; }
+        public virtual DbSet<tb_statusAtividade> tb_statusAtividade { get; set; }
+        public virtual DbSet<tb_statusEtapa> tb_statusEtapa { get; set; }
+        public virtual DbSet<tb_statusProjeto> tb_statusProjeto { get; set; }
+        public virtual DbSet<tb_tipoAcaoProjeto> tb_tipoAcaoProjeto { get; set; }
     }
 }

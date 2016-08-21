@@ -1,8 +1,59 @@
-﻿
+﻿@using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<div class="col-lg-8" style="padding-top: 50px;">
+    <div class="jumbotronnomarginbot">
+        <center>
+            <p class="corBranca">Últimos acontecimentos</p>
+        </center>
+     </div>
+    <div class="jumbotronnomargintop">
 
+       
+
+        <a href="#" class="btn btn-default btn-lg btn-block">Carregar Mais...</a>
+
+    </div>
+    </div>
+
+<div class="col-lg-4" style="padding-top: 50px;">
+    <div class="jumbotron">
+            @{
+                var imgUrl = Url.Content("~/Content/images/profile/" + User.Identity.GetUserName() + ".png") + "?time=" + DateTime.Now.ToString();
+            }
+
+        <div class="container" style="padding-left: 0px; padding-right: 0px;">
+            <div class="row" style="padding-left: 0px; padding-right: 0px;">
+                <div class="col-md-5"><img src="@imgUrl" height="100" width="100" class="perfilImagem" /> </div>
+                <div class="col-md-7"> <h4 class="perfilNomeUsuario">@User.Identity.GetUserName()</h4></div>
+              
+            </div>
+            <div class="row" style="padding-left: 0px; padding-right: 0px;">
+                <div class="col-lg-offset-9 col-lg-10">
+                    @Html.ActionLink("Editar", "Index", "Home", null, new { @class = "btn btn-default" })
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="jumbotron">
+        <center>
+            <p>Projetos</p>
+        </center>
+
+        <div class="container" style="padding-left: 0px; padding-right: 0px;">       
+            <div class="row" style="padding-left: 0px; padding-right: 0px;">
+                <div class="col-lg-offset-9 col-lg-10">
+                    @Html.ActionLink("Novo", "Novo", "Projetos", null, new { @class = "btn btn-default" })
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>

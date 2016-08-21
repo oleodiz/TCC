@@ -19,6 +19,7 @@ html {
 }
 body {
   margin: 0;
+
 }
 article,
 aside,
@@ -1090,7 +1091,7 @@ body {
   font-size: 16px;
   line-height: 1.42857143;
   color: #333333;
-  background-color: #ffffff;
+  background-color: #ebebeb;
 }
 input,
 button,
@@ -4171,7 +4172,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .navbar {
   position: relative;
-  min-height: 65px;
+  height: 50px;
   margin-bottom: 22px;
   border: 1px solid transparent;
 }
@@ -4330,9 +4331,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   margin: 10.75px -15px;
 }
 .navbar-nav > li > a {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  line-height: 22px;
+ 
 }
 @media (max-width: 767px) {
   .navbar-nav .open .dropdown-menu {
@@ -4966,8 +4965,27 @@ a.badge:focus {
   padding-bottom: 30px;
   margin-bottom: 30px;
   color: inherit;
-  background-color: #f7f7f7;
+  background-color: #FFFFFF;
+  border: 1px solid #b3b3b3;
 }
+.jumbotronnomarginbot {
+  color: inherit;
+  background-color: #b3b3b3;
+  border: 1px solid #b3b3b3;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.jumbotronnomargintop {
+  padding-top: 30px;
+  margin-bottom: 30px;
+  color: inherit;
+  background-color: #FFFFFF;
+  border: 1px solid #b3b3b3;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
 .jumbotron h1,
 .jumbotron .h1 {
   color: inherit;
@@ -6766,7 +6784,7 @@ button.close {
   margin-right: 0;
 }
 .navbar-nav > li > a {
-  margin: 12.5px 6px;
+  margin: 5px 6px;
   padding: 8px 12px;
   border: 1px solid transparent;
   border-radius: 4px;
@@ -6787,7 +6805,6 @@ button.close {
 .navbar-brand {
   padding-top: 12.5px;
   padding-bottom: 12.5px;
-  line-height: 1.9;
 }
 @media (min-width: 768px) {
   .navbar .navbar-nav > li > a {
@@ -6871,4 +6888,22 @@ legend {
 }
 .modal .close {
   color: #333333;
+}
+.perfilImagem{
+    border-radius: 50px;
+    border: 3px solid #ddd;
+    float: left;
+}
+.perfilNomeUsuario {
+    margin-top: 20px;
+}
+.corBranca{
+    color :#FFFFFF;
+    font-size: 24px;
+    font-weight: bold;
+     vertical-align: middle;
+     margin-bottom: 0px;
+}
+.perfiltopo{
+    vertical-align:middle;
 }

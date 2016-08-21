@@ -15,7 +15,9 @@
             @{
                 var imgUrl = Url.Content("~/Content/images/profile/" + User.Identity.GetUserName() + ".png") + "?time=" + DateTime.Now.ToString();
             }
-            <img src="@imgUrl" height="50" width="50" />
+            <div>
+                <img src="@imgUrl" height="49" width="49" class="perfiltopo"/>
+            </div>
         </li>
         <li>
             @Html.ActionLink( User.Identity.GetUserName() , "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
