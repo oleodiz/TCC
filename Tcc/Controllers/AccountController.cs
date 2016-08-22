@@ -240,6 +240,19 @@ namespace Mvc5Project.Controllers
 
         }
 
+        [HttpGet]
+        public ActionResult BuscaUsuario(string userEmail)
+        {
+            String user;
+            if (userEmail.Contains("@"))
+                user = FindIdByEmail(userEmail);
+            else
+                user = FindIdByUser(userEmail);
+
+
+            return Json(user, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -859,7 +872,20 @@ namespace Mvc5Project.Controllers
             methodName = "FindUserId";
             return ReturnString(userprokey);
         }
-
+        public string FindIdByUser(string UserName)
+        {
+            command = "SELECT Id AS UserId FROM AspNetUsers WHERE UserName = @UserName";
+            parameterName = "@UserName";
+            methodName = "FindUserId";
+            return ReturnString(UserName);
+        }
+        public string FindIdByEmail(string Email)
+        {
+            command = "SELECT Id AS UserId FROM AspNetUsers WHERE Email = @Email";
+            parameterName = "@Email";
+            methodName = "FindUserId";
+            return ReturnString(Email);
+        }
 
         public bool ReturnBool(string str)
         {

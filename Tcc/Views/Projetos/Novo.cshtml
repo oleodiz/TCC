@@ -5,64 +5,114 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Novo Projeto</h2>
+
 
 
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
-    <div class="form-horizontal">
+    <div class="container"  style="padding-top: 50px;">
+        <div class="jumbotron">
+            <h2>Novo Projeto</h2>
+            <hr />
+            <div class="row">
+                <div class="col-md-6">
+                
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.titulo, htmlAttributes: new { })
+                        @Html.EditorFor(model => model.titulo, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.titulo, "", new { @class = "text-danger" })
+                    </div>
 
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.titulo, htmlAttributes: new { })
-                @Html.EditorFor(model => model.titulo, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.titulo, "", new { @class = "text-danger" })
-        </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.descricao, htmlAttributes: new { })
+                        @Html.EditorFor(model => model.descricao, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.descricao, "", new { @class = "text-danger" })
+                    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.descricao, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.descricao, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.descricao, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.data_inicio, htmlAttributes: new { })
+                        @Html.EditorFor(model => model.data_inicio, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                        @Html.ValidationMessageFor(model => model.data_inicio, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.data_fim, htmlAttributes: new { })
+                        @Html.EditorFor(model => model.data_fim, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.data_fim, "", new { @class = "text-danger" })
+                    </div>
+                 
+                </div>
+               
+                <div class="col-md-6">
+
+                    <h4>Participantes</h4>
+                    <hr />
+
+                    <div class="form-group">
+                        <label class="control-label">Nome de usuário ou email:</label>
+                        <div class="input-group">
+                            <input id="txt_usuario" type="text" class="form-control" style="height: 40px;">
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button" onclick="getPerson()">Buscar</button>
+                            </span>
+                        </div>
+                    </div>
+                    <table class="table table-striped table-hover ">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Membro</th>
+                                <th>Função</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Teste</td>
+                                <td>Aluno</td>
+                            </tr>
+                         
+                        </tbody>
+                    </table> 
+                    
+                 
+                </div>
+               
+            </div>
+            <div class="modal-footer">      
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Criar" class="btn btn-primary" />
+                </div>
             </div>
         </div>
+     </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.data_inicio, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.data_inicio, new { htmlAttributes = new { @class = "form-control datepicker" } })
-                @Html.ValidationMessageFor(model => model.data_inicio, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.data_fim, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.data_fim, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.data_fim, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Voltar", "Index", null, new { @class = "btn btn-default" })
 </div>
 
-<script type="text/javascript">
-    $(function () { // will trigger when the document is ready
-       $('.datepicker').datepicker(); //Initialise any date pickers
-    });
+<script>
+
+    function getPerson() {
+        $.ajax({
+            url: '@Url.Action("BuscaUsuario", "Account")',
+            type: 'GET',
+            dataType: 'json',
+            // we set cache: false because GET requests are often cached by browsers
+            // IE is particularly aggressive in that respect
+            cache: false,
+            data: { userEmail: document.getElementById("txt_usuario").value },
+            success: function (user) {
+               
+            }
+        });
+    }
+
 </script>
 
 @section Scripts {

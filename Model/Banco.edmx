@@ -739,8 +739,8 @@
             <End Role="tb_atividade" EntitySet="tb_atividade" />
             <End Role="tb_etapa" EntitySet="tb_etapa" />
           </AssociationSet>
-        </EntityContainer>
-      </Schema>
+          </EntityContainer>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>

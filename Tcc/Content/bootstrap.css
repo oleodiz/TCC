@@ -2568,7 +2568,7 @@ output {
   -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
   -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
   transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-  margin-left: 20px;
+
 }
 .form-control:focus {
   border-color: #66afe9;
@@ -3822,7 +3822,7 @@ tbody.collapse.in {
 }
 .input-group {
   position: relative;
-  display: table;
+  /*display: table;*/
   border-collapse: separate;
 }
 .input-group[class*="col-"] {
@@ -6907,3 +6907,9 @@ legend {
 .perfiltopo{
     vertical-align:middle;
 }
+
+hr.vertical
+{
+   width: 5px;
+   height: 100%; /* or height in PX */
+} 
