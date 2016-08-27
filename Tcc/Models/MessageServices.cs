@@ -13,9 +13,9 @@ namespace Mvc5Project.Models
         {
             try
             {
-                var _email = "xxxxx";
-                var _epass = "xxxxxx";
-                var _dispName = "Devsone";
+                var _email = "leoss@outlook.com";
+                var _epass = "Popoiokai2@";
+                var _dispName = "TCC";
                 MailMessage myMessage = new MailMessage();
                 myMessage.To.Add(email);
                 myMessage.From = new MailAddress(_email, _dispName);

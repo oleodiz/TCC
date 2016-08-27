@@ -243,14 +243,19 @@ namespace Mvc5Project.Controllers
         [HttpGet]
         public ActionResult BuscaUsuario(string userEmail)
         {
-            String user;
+            String userID;
             if (userEmail.Contains("@"))
-                user = FindIdByEmail(userEmail);
+                userID = FindIdByEmail(userEmail);
             else
-                user = FindIdByUser(userEmail);
-
-
-            return Json(user, JsonRequestBehavior.AllowGet);
+                userID = FindIdByUser(userEmail);
+            if (userID != null)
+            {
+                ApplicationUser user = UserManager.FindById(userID);
+                
+                return Json(user, JsonRequestBehavior.AllowGet);
+            }
+            
+            return null;
         }
 
         [HttpPost]

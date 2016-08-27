@@ -17,16 +17,7 @@ namespace Mvc5Project.Controllers
 
         public ActionResult About()
         {
-            using (var context = new tccEntities())
-            {
-                tb_projeto proj = new tb_projeto() {id_projeto= 1, titulo = "TESTE", data_inicio = DateTime.Now, id_statusProjeto = 1, descricao = "OUTRO TESTE", data_fim = DateTime.Now };
-
-                context.tb_projeto.Add(proj);
-                context.SaveChanges();
-            }
-
            
-          
 
             ViewBag.Message = "Your application description page.";
 

@@ -5,8 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
 
 @using (Html.BeginForm()) 
 {
@@ -33,14 +34,14 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.data_inicio, htmlAttributes: new { })
-                        @Html.EditorFor(model => model.data_inicio, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                        @Html.LabelFor(model => model.data_inicio, htmlAttributes: new {id="data_ini"})
+                        @Html.EditorFor(model => model.data_inicio, new { htmlAttributes = new { type = "date", @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.data_inicio, "", new { @class = "text-danger" })
                     </div>
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.data_fim, htmlAttributes: new { })
-                        @Html.EditorFor(model => model.data_fim, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.data_fim, new { htmlAttributes = new { type = "date", @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.data_fim, "", new { @class = "text-danger" })
                     </div>
                  
@@ -53,33 +54,30 @@
 
                     <div class="form-group">
                         <label class="control-label">Nome de usuário ou email:</label>
-                        <div class="input-group">
+                       
                             <input id="txt_usuario" type="text" class="form-control" style="height: 40px;">
-                            <span class="input-group-btn">
-                                <button class="btn btn-primary" type="button" onclick="getPerson()">Buscar</button>
-                            </span>
-                        </div>
+                        <label hidden id="mensagem_usuario" style="font-size: 12px" class="text-warning">Usuário não encontrado.</label>
+
                     </div>
-                    <table class="table table-striped table-hover ">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Membro</th>
-                                <th>Função</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Teste</td>
-                                <td>Aluno</td>
-                            </tr>
-                         
-                        </tbody>
-                    </table> 
-                    
-                 
-                </div>
+                    <label class="control-label">Função no projeto:</label>
+                    <div class="form-group">
+                        @Html.DropDownList("ComboFuncoes", null, new { @class = "form-control", id = "cbb_funcao" })
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary" type="button" onclick="getUsuario(true)">Adicionar membro</button>
+                    </div>
+                        <table id="tabela_participantes" class="table table-striped table-hover ">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Membro</th>
+                                    <th></th>
+                                    <th>Função</th>
+                                </tr>
+                            </thead>
+
+                        </table>
+                    </div>
                
             </div>
             <div class="modal-footer">      
@@ -96,25 +94,38 @@
     @Html.ActionLink("Voltar", "Index", null, new { @class = "btn btn-default" })
 </div>
 
+
 <script>
 
-    function getPerson() {
+   
+    $('#txt_usuario').on({
+        blur: function () { getUsuario(false) }
+    });
+
+   
+
+    function getUsuario(adicionarNaLista) {
         $.ajax({
             url: '@Url.Action("BuscaUsuario", "Account")',
             type: 'GET',
             dataType: 'json',
-            // we set cache: false because GET requests are often cached by browsers
-            // IE is particularly aggressive in that respect
             cache: false,
             data: { userEmail: document.getElementById("txt_usuario").value },
             success: function (user) {
-               
+                if (adicionarNaLista)
+                {
+                var id_funcao = $('#cbb_funcao').val();
+                var funcao = $('#cbb_funcao option:selected').text();
+                $('#tabela_participantes').append("<tbody><tr><td hidden>" + user.Id + "</td><td></td><td>" + user.UserName + "</td><td hidden>" + id_funcao + "</td><td></td><td>" + funcao + "</td></tr></tbody>");
+
+                }
+                $('#mensagem_usuario').hide();
+            },
+            error: function () {
+                $('#mensagem_usuario').show();
             }
+
         });
     }
 
 </script>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}

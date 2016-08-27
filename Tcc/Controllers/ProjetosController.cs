@@ -1,4 +1,5 @@
 ﻿using Model;
+using Persistencia.Manter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,8 @@ namespace Mvc5Project.Controllers
 {
     public class ProjetosController : Controller
     {
+
+        ManterFuncao mFuncao = new ManterFuncao();
         // GET: Projetos       
         public ActionResult Index()
         {
@@ -26,6 +29,17 @@ namespace Mvc5Project.Controllers
         {
             if (!User.Identity.IsAuthenticated)
                 return RedirectToAction("Index", "Home");
+
+
+            List<SelectListItem> comboBoxFuncoes = new List<SelectListItem>();
+            List<tb_funcaoProjeto> funcoes = mFuncao.obterTodos();
+
+            for (int i =0; i < funcoes.Count; i++)
+            {
+                comboBoxFuncoes.Add(new SelectListItem { Text = funcoes[i].descricao, Value = funcoes[i].id_funcaoProjeto.ToString() });
+            }
+
+            ViewBag.ComboFuncoes = comboBoxFuncoes;
 
 
             return View();
