@@ -30,7 +30,8 @@
                     @if (Request.IsAuthenticated)
                     {
                         <div class="btn-group" style="margin-top: 5px;">
-                            <a href="Projetos" class="btn btn-primary">Projetos</a>
+                            @Html.ActionLink("Projetos", "Index", "Projetos", null, new { @class = "btn btn-primary" })
+                        
                             <a href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="#">Action</a></li>

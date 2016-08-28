@@ -301,7 +301,7 @@ namespace Mvc5Project.Controllers
                             var user = await UserManager.FindByEmailAsync(res);
                             UpdateEmailLinkDate(EConfUser);
                             codeType = "EmailConfirmation";
-                            await SendEmail("ConfirmEmail", "Account", user, res, "WelcomeEmail", "Confirm your account");
+                            await SendEmail("ConfirmEmail", "Account", user, res, "Bem vindo", "Confirm your account");
                         }
                         myConnection.Close();
                     }

@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNet.Identity
+@using Model;
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -22,7 +23,11 @@
 <div class="col-lg-4" style="padding-top: 50px;">
     <div class="jumbotron">
             @{
-                var imgUrl = Url.Content("~/Content/images/profile/" + User.Identity.GetUserName() + ".png") + "?time=" + DateTime.Now.ToString();
+                var imgUrl = Url.Content("~/Content/images/profile/" + User.Identity.Name + ".png");
+                if (!File.Exists(Server.MapPath( imgUrl)))              
+                {
+                    imgUrl = Url.Content("~/Content/images/profile/noUser.png") + "?time=" + DateTime.Now.ToString();
+                }
             }
 
         <div class="container" style="padding-left: 0px; padding-right: 0px;">
@@ -40,20 +45,26 @@
         </div>
     </div>
 
-    <div class="jumbotron">
-        <center>
-            <p>Projetos</p>
-        </center>
+    <div class="panel panel-default">
+            <div class="panel-heading"><center><h4>Projetos</h4></center></div>
+            <div class="panel-body">
 
-        <div class="container" style="padding-left: 0px; padding-right: 0px;">       
-            <div class="row" style="padding-left: 0px; padding-right: 0px;">
+                @foreach (var projeto in ViewBag.Projetos as List<tb_projeto>)
+                {
+                    <ul class="nav">
+                        <li>@Html.ActionLink(projeto.titulo, "P",new { id = projeto.id_projeto })</li>
+
+                    </ul>
+                   
+                }
+                
                 <div class="col-lg-offset-9 col-lg-10">
                     @Html.ActionLink("Novo", "Novo", "Projetos", null, new { @class = "btn btn-default" })
                 </div>
-
             </div>
-        </div>
 
+           
     </div>
+
 
 </div>

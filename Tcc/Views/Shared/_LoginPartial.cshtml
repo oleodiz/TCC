@@ -13,7 +13,12 @@
     <ul class="nav navbar-nav navbar-right">
         <li>
             @{
-                var imgUrl = Url.Content("~/Content/images/profile/" + User.Identity.GetUserName() + ".png") + "?time=" + DateTime.Now.ToString();
+                var imgUrl = Url.Content("~/Content/images/profile/" + User.Identity.Name + ".png");
+                if (!File.Exists(Server.MapPath(imgUrl)))
+                {
+                    imgUrl = Url.Content("~/Content/images/profile/noUser.png") + "?time=" + DateTime.Now.ToString();
+                }
+
             }
             <div>
                 <img src="@imgUrl" height="49" width="49" class="perfiltopo"/>

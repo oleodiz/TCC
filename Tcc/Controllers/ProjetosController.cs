@@ -22,6 +22,11 @@ namespace Mvc5Project.Controllers
 
             if (!User.Identity.IsAuthenticated)
                 return RedirectToAction("Index", "Home");
+
+            string idUser = AccountController.FindIdByUser(User.Identity.Name);
+
+            ViewBag.Projetos = mProjeto.obterProjetosDoUsuario(idUser);
+
             return View();
         }
 
@@ -42,11 +47,17 @@ namespace Mvc5Project.Controllers
             if (!User.Identity.IsAuthenticated)
                 return RedirectToAction("Index", "Home");
             AccountController.membros = new List<tb_projetoUsuarioFuncao>();
+            tb_projetoUsuarioFuncao dono = new tb_projetoUsuarioFuncao();
+            dono.id_funcaoProjeto = 2;
+            dono.id_usuario = AccountController.FindIdByUser(User.Identity.Name);
+            dono.username = User.Identity.Name;
+            dono.funcao = "Orientador";
+            AccountController.membros.Add(dono);
             List<SelectListItem> comboBoxFuncoes = carregaFuncoes();
 
             ViewBag.ComboFuncoes = comboBoxFuncoes;
 
-
+            
             return View();
         }
 

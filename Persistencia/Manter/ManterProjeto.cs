@@ -37,5 +37,11 @@ namespace Persistencia.Manter
             tb_projeto projeto = conexao.tb_projeto.ToList().Where(p => p.id_projeto == idProjeto).FirstOrDefault();
             return projeto;
         }
+
+        public List<tb_projeto> obterProjetosDoUsuario(string idUsuario)
+        {
+            List<tb_projeto> projetos = conexao.tb_projeto.Where(p => p.tb_projetoUsuarioFuncao.Any(f => f.id_usuario == idUsuario)).ToList();
+            return projetos;
+        }
     }
 }
