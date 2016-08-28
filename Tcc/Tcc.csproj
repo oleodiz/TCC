@@ -310,6 +310,7 @@
     <Content Include="Views\Projetos\Index.cshtml" />
     <Content Include="Views\Projetos\Novo.cshtml" />
     <Content Include="Views\Account\BuscaUsuario.cshtml" />
+    <Content Include="Views\Projetos\P.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

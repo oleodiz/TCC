@@ -17,11 +17,9 @@ namespace Model
         public int id_projeto { get; set; }
         public string id_usuario { get; set; }
         public int id_funcaoProjeto { get; set; }
+        public DateTime data_inclusao { get { return DateTime.Now; } set {} }
         public string username { get; set; }
         public string funcao { get; set; }
-
-        public System.DateTime data_inclusao { get; set; }
-    
         public virtual tb_funcaoProjeto tb_funcaoProjeto { get; set; }
         public virtual tb_projeto tb_projeto { get; set; }
     }

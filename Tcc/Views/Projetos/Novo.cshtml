@@ -102,7 +102,8 @@
             dataType: 'json',
             cache: false,
             data: { userEmail: document.getElementById("txt_usuario").value,
-                    idFuncao: $('#cbb_funcao').val()
+                idFuncao: $('#cbb_funcao').val(),
+                add : adicionarNaLista
             },
             success: function (vHtml) {
                 if (request != null) {

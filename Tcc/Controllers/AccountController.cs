@@ -244,7 +244,7 @@ namespace Mvc5Project.Controllers
         }
         public static List<tb_projetoUsuarioFuncao> membros = new List<tb_projetoUsuarioFuncao>();
         [HttpGet]
-        public ActionResult BuscaUsuario(string userEmail, int idFuncao)
+        public ActionResult BuscaUsuario(string userEmail, int idFuncao, bool add)
         {
             String userID;
             if (userEmail.Contains("@"))
@@ -256,23 +256,25 @@ namespace Mvc5Project.Controllers
                 for (int i = 0; i < membros.Count; i++)//Verifica se o usuário já está na lista
                     if (membros[i].id_usuario == userID)
                         return PartialView(membros); ;
-
-                tb_funcaoProjeto fun =  mFuncao.obterProId(idFuncao);
-                if (fun != null)
+                if (add)
                 {
-                    ApplicationUser user = UserManager.FindById(userID);
-                    tb_projetoUsuarioFuncao puf = new tb_projetoUsuarioFuncao();
-                    puf.id_funcaoProjeto = idFuncao;
-                    puf.id_usuario = userID;
-                    puf.username = user.UserName;
-                    puf.funcao = fun.descricao;
-                    membros.Add(puf);
+                    tb_funcaoProjeto fun = mFuncao.obterProId(idFuncao);
+                    if (fun != null)
+                    {
+                        ApplicationUser user = UserManager.FindById(userID);
+                        tb_projetoUsuarioFuncao puf = new tb_projetoUsuarioFuncao();
+                        puf.id_funcaoProjeto = idFuncao;
+                        puf.id_usuario = userID;
+                        puf.username = user.UserName;
+                        puf.funcao = fun.descricao;
+                        membros.Add(puf);
 
-                    return PartialView(membros);
+                        return PartialView(membros);
+                    }
                 }
             }
 
-            return PartialView(membros); ;
+            return PartialView(membros);
         }
      
         [HttpPost]

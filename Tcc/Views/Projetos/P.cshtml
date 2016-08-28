@@ -1,0 +1,67 @@
+﻿@model Model.tb_projeto
+
+@{
+    ViewBag.Title = "P";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>P</h2>
+
+<div>
+    <h4>tb_projeto</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.titulo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.titulo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.descricao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.descricao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.data_inicio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.data_inicio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.data_fim)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.data_fim)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.id_usuario)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.id_usuario)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tb_statusProjeto.descricao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tb_statusProjeto.descricao)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id_projeto }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

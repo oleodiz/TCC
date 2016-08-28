@@ -17,26 +17,25 @@ namespace Persistencia.Manter
             conexao = new tccEntities();
         }
 
-        public void salvarProjeto(tb_projeto projeto)
+        public int salvarProjeto(tb_projeto projeto)
         {
             try
             {
                 conexao.tb_projeto.Add(projeto);
                 conexao.SaveChanges();
+                return projeto.id_projeto;
             }
-            catch (DbEntityValidationException dbEx)
+            catch (Exception dbEx)
             {
-                foreach (var validationErrors in dbEx.EntityValidationErrors)
-                {
-                    foreach (var validationError in validationErrors.ValidationErrors)
-                    {
-                        Trace.TraceInformation("Property: {0} Error: {1}",
-                                                validationError.PropertyName,
-                                                validationError.ErrorMessage);
-                    }
-                }
+                return -1;
             }
 
+        }
+
+        public tb_projeto obterProId(int idProjeto)
+        {
+            tb_projeto projeto = conexao.tb_projeto.ToList().Where(p => p.id_projeto == idProjeto).FirstOrDefault();
+            return projeto;
         }
     }
 }

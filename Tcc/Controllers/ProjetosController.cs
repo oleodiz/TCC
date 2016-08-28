@@ -26,6 +26,16 @@ namespace Mvc5Project.Controllers
         }
 
 
+        // GET: Projetos       
+        public ActionResult P(int id)
+        {
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
+            tb_projeto projeto = mProjeto.obterProId(id);
+            return View(projeto);
+        }
+
         [HttpGet]
         public ActionResult Novo()
         {
@@ -52,7 +62,10 @@ namespace Mvc5Project.Controllers
                 model.id_usuario = AccountController.FindIdByUser(User.Identity.Name);
                 model.id_statusProjeto = 1;
 
-                mProjeto.salvarProjeto(model);
+            
+                int id = mProjeto.salvarProjeto(model);
+                if (id != -1)
+                    return RedirectToAction("P", "Projetos", new { id = id });
             }
 
             List<SelectListItem> comboBoxFuncoes = carregaFuncoes();
