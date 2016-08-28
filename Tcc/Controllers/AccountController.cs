@@ -2,7 +2,9 @@
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using Model;
 using Mvc5Project.Models;
+using Persistencia.Manter;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -24,6 +26,7 @@ namespace Mvc5Project.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        ManterFuncao mFuncao = new ManterFuncao();
 
         public AccountController()
         {
@@ -239,9 +242,9 @@ namespace Mvc5Project.Controllers
             }
 
         }
-
+        public static List<tb_projetoUsuarioFuncao> membros = new List<tb_projetoUsuarioFuncao>();
         [HttpGet]
-        public ActionResult BuscaUsuario(string userEmail)
+        public ActionResult BuscaUsuario(string userEmail, int idFuncao)
         {
             String userID;
             if (userEmail.Contains("@"))
@@ -250,14 +253,28 @@ namespace Mvc5Project.Controllers
                 userID = FindIdByUser(userEmail);
             if (userID != null)
             {
-                ApplicationUser user = UserManager.FindById(userID);
-                
-                return Json(user, JsonRequestBehavior.AllowGet);
-            }
-            
-            return null;
-        }
+                for (int i = 0; i < membros.Count; i++)//Verifica se o usuário já está na lista
+                    if (membros[i].id_usuario == userID)
+                        return PartialView(membros); ;
 
+                tb_funcaoProjeto fun =  mFuncao.obterProId(idFuncao);
+                if (fun != null)
+                {
+                    ApplicationUser user = UserManager.FindById(userID);
+                    tb_projetoUsuarioFuncao puf = new tb_projetoUsuarioFuncao();
+                    puf.id_funcaoProjeto = idFuncao;
+                    puf.id_usuario = userID;
+                    puf.username = user.UserName;
+                    puf.funcao = fun.descricao;
+                    membros.Add(puf);
+
+                    return PartialView(membros);
+                }
+            }
+
+            return PartialView(membros); ;
+        }
+     
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -877,7 +894,7 @@ namespace Mvc5Project.Controllers
             methodName = "FindUserId";
             return ReturnString(userprokey);
         }
-        public string FindIdByUser(string UserName)
+        public static string FindIdByUser(string UserName)
         {
             command = "SELECT Id AS UserId FROM AspNetUsers WHERE UserName = @UserName";
             parameterName = "@UserName";

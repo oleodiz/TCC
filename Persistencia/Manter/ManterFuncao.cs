@@ -21,5 +21,10 @@ namespace Persistencia.Manter
             List<tb_funcaoProjeto> funcoes =  conexao.tb_funcaoProjeto.ToList();
             return funcoes;
         }
+        public tb_funcaoProjeto obterProId(int idFuncao)
+        {
+            tb_funcaoProjeto funcao = conexao.tb_funcaoProjeto.ToList().Where(f => f.id_funcaoProjeto == idFuncao).FirstOrDefault();
+            return funcao;
+        }
     }
 }

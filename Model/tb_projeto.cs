@@ -12,6 +12,7 @@ namespace Model
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public partial class tb_projeto
     {
@@ -37,10 +38,12 @@ namespace Model
         public string descricao { get; set; }
 
         [Required]
+        [Column(TypeName = "DateTime2")]
         [Display(Name = "Início:")]
         public System.DateTime data_inicio { get; set; }
         [Required]
         [Display(Name = "Termino:")]
+        [Column(TypeName = "DateTime2")]
         public Nullable<System.DateTime> data_fim { get; set; }
 
         public int id_statusProjeto { get; set; }
