@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Model;
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -29,22 +30,26 @@
 
                     @if (Request.IsAuthenticated)
                     {
+                        if (ViewBag.Projetos != null)
+                        {
                         <div class="btn-group" style="margin-top: 5px;">
                             @Html.ActionLink("Projetos", "Index", "Projetos", null, new { @class = "btn btn-primary" })
-                        
+ 
                             <a href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="#">Action</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something else here</a></li>
+
+                            @foreach (tb_projeto pro in ViewBag.Projetos as List<tb_projeto>)
+                            {
+                                <li>@Html.ActionLink(pro.titulo, "P", "Projetos",new { id = pro.id_projeto}, null  )</li>
                                 <li class="divider"></li>
-                                <li><a href="#">Separated link</a></li>
+                            }
+                             
                             </ul>
                         </div>
-
+                        }
                     }
-
-
+                
+                   
                    <!-- <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>-->
@@ -55,11 +60,20 @@
                         <li>@Html.ActionLink("Administrativo", "Index", "Admin")</li>
                     }
 
-
+                   
                 </ul>
+                <ul class="nav navbar-nav">
+                    <li>
+                        <h4>@ViewBag.Informacao</h4>
+                    </li>
+                </ul>
+
+
                 @Html.Partial("_LoginPartial")
 
             </div>
+
+          
         </div>
     </div>
     <div class="container body-content">
@@ -73,7 +87,6 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    <!-- Go to www.addthis.com/dashboard to customize your tools -->
    
     @RenderSection("scripts", required: false)
 </body>

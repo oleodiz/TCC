@@ -1,67 +1,133 @@
 ﻿@model Model.tb_projeto
-
+@using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = "P";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>P</h2>
 
-<div>
-    <h4>tb_projeto</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.titulo)
-        </dt>
+<div class="col-lg-8" style="padding-top: 50px;">
+  
+    <div class="jumbotronnomarginbot" style="background-color: #FFFFFF;">
+        <center>
+            <h4>Atividades</h4>
+            <div class="btn-group btn-group-justified">
+                <a href="#" class="btn btn-default">Pendentes</a>
+                <a href="#" class="btn btn-default">Em andamento</a>
+                <a href="#" class="btn btn-default">Em verificação</a>
+                <a href="#" class="btn btn-default">Finalizadas</a>
+            </div>
+        </center>
 
-        <dd>
-            @Html.DisplayFor(model => model.titulo)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.descricao)
-        </dt>
+    </div>
+    
 
-        <dd>
-            @Html.DisplayFor(model => model.descricao)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.data_inicio)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.data_inicio)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.data_fim)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.data_fim)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.id_usuario)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.id_usuario)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.tb_statusProjeto.descricao)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.tb_statusProjeto.descricao)
-        </dd>
-
-    </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id_projeto }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+
+<div class="col-lg-4" style="padding-top: 50px;">
+    <div class="jumbotron">
+        <center>
+            <h4>Membros</h4>
+        </center>
+
+            @foreach (var usu in ViewBag.Participantes as List<string>)
+            {
+                var imgUrl = Url.Content("~/Content/images/profile/" + usu + ".png");
+                if (!File.Exists(Server.MapPath(imgUrl)))
+                {
+                    imgUrl = Url.Content("~/Content/images/profile/noUser.png") + "?time=" + DateTime.Now.ToString();
+                }
+
+                <div class="col-md-5">
+                    <a class="tooltips" href="@Url.Action("U", "Usuario",new { id = usu })">
+                        <img src="@imgUrl" height="50" width="50" class="perfilImagem" />
+                      
+                    </a>
+            </div>
+            }
+
+
+            <div class="container" style="padding-left: 0px; padding-right: 0px;">
+                <div class="row" style="padding-left: 0px; padding-right: 0px;">
+
+                </div>
+                <div class="row" style="padding-left: 0px; padding-right: 0px;">
+                    <div class="col-lg-offset-9 col-lg-10">
+                        @Html.ActionLink("Editar", "Index", "Home", null, new { @class = "btn btn-default" })
+                    </div>
+
+                </div>
+            </div>
+</div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading"><center><h4>Projetos</h4></center></div>
+      
+    
+    </div>
+
+
+</div>
+
+
+
+    <div>
+        <h4>tb_projeto</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.titulo)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.titulo)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.descricao)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.descricao)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.data_inicio)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.data_inicio)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.data_fim)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.data_fim)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.id_usuario)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.id_usuario)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.tb_statusProjeto.descricao)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.tb_statusProjeto.descricao)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.id_projeto }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>

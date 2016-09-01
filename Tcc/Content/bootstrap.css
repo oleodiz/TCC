@@ -3980,7 +3980,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .nav {
   margin-bottom: 0;
-  padding-left: 0;
+  /*padding-left: 0;*/
   list-style: none;
 }
 .nav > li {
@@ -6912,4 +6912,51 @@ hr.vertical
 {
    width: 5px;
    height: 100%; /* or height in PX */
-} 
+}
+ a.tooltips {
+  position: relative;
+  display: inline;
+}
+a.tooltips span {
+  position: absolute;
+  width:140px;
+  color: #FFFFFF;
+  background: #000000;
+  border: 2px solid #6D6D6D;
+  height: 43px;
+  line-height: 43px;
+  text-align: center;
+  visibility: hidden;
+  border-radius: 11px;
+  box-shadow: 0px 0px 2px #800000;
+}
+a.tooltips span:before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -12px;
+  width: 0; height: 0;
+  border-bottom: 12px solid #6D6D6D;
+  border-right: 12px solid transparent;
+  border-left: 12px solid transparent;
+}
+a.tooltips span:after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -8px;
+  width: 0; height: 0;
+  border-bottom: 8px solid #000000;
+  border-right: 8px solid transparent;
+  border-left: 8px solid transparent;
+}
+a:hover.tooltips span {
+  visibility: visible;
+  opacity: 0.4;
+  top: 30px;
+  left: 50%;
+  margin-left: -76px;
+  z-index: 999;
+}

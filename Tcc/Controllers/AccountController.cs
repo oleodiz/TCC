@@ -882,7 +882,7 @@ namespace Mvc5Project.Controllers
             methodName = "FindUserName";
             return ReturnString(username);
         }
-        public string FindUserNameById(string userid)
+        public static string FindUserNameById(string userid)
         {
             command = "SELECT UserName AS UserName FROM AspNetUsers WHERE Id = @Id";
             parameterName = "@Id";

@@ -24,7 +24,6 @@ namespace Mvc5Project.Controllers
                 return RedirectToAction("Index", "Home");
 
             string idUser = AccountController.FindIdByUser(User.Identity.Name);
-
             ViewBag.Projetos = mProjeto.obterProjetosDoUsuario(idUser);
 
             return View();
@@ -37,7 +36,19 @@ namespace Mvc5Project.Controllers
             if (!User.Identity.IsAuthenticated)
                 return RedirectToAction("Index", "Home");
 
+            string idUser = AccountController.FindIdByUser(User.Identity.Name);
+            ViewBag.Projetos = mProjeto.obterProjetosDoUsuario(idUser);
+
             tb_projeto projeto = mProjeto.obterProId(id);
+
+            List<string> participantes = new List<string>();
+            foreach(tb_projetoUsuarioFuncao usu in projeto.tb_projetoUsuarioFuncao)
+            {
+                participantes.Add(AccountController.FindUserNameById(usu.id_usuario));
+            }
+
+            ViewBag.Participantes  = participantes;
+            ViewBag.Informacao = projeto.titulo;
             return View(projeto);
         }
 
@@ -46,6 +57,10 @@ namespace Mvc5Project.Controllers
         {
             if (!User.Identity.IsAuthenticated)
                 return RedirectToAction("Index", "Home");
+
+            string idUser = AccountController.FindIdByUser(User.Identity.Name);
+            ViewBag.Projetos = mProjeto.obterProjetosDoUsuario(idUser);
+
             AccountController.membros = new List<tb_projetoUsuarioFuncao>();
             tb_projetoUsuarioFuncao dono = new tb_projetoUsuarioFuncao();
             dono.id_funcaoProjeto = 2;
@@ -68,6 +83,7 @@ namespace Mvc5Project.Controllers
             if (!User.Identity.IsAuthenticated)
                 return RedirectToAction("Index", "Home");
 
+
             if (ModelState.IsValid)
             {
                 model.id_usuario = AccountController.FindIdByUser(User.Identity.Name);
@@ -78,6 +94,8 @@ namespace Mvc5Project.Controllers
                 if (id != -1)
                     return RedirectToAction("P", "Projetos", new { id = id });
             }
+            string idUser = AccountController.FindIdByUser(User.Identity.Name);
+            ViewBag.Projetos = mProjeto.obterProjetosDoUsuario(idUser);
 
             List<SelectListItem> comboBoxFuncoes = carregaFuncoes();
             ViewBag.ComboFuncoes = comboBoxFuncoes;
