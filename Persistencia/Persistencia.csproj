@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Manter\ManterEtapa.cs" />
     <Compile Include="Manter\ManterFuncao.cs" />
     <Compile Include="Manter\ManterProjeto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

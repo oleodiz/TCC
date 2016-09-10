@@ -11,7 +11,9 @@ namespace Model
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
     public partial class tb_etapa
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,10 +24,23 @@ namespace Model
     
         public int id_etapa { get; set; }
         public int id_projeto { get; set; }
+        [Required]
+        [StringLength(20, ErrorMessage = "O título de {0} deve conter entre {2} e {1} caracteres.", MinimumLength = 5)]
+        [Display(Name = "Título:")]
         public string titulo { get; set; }
+
+        [DataType(DataType.MultilineText)]
+        [StringLength(8000, ErrorMessage = "Limite de caracteres excedido. Máximo 8000 caracteres!", MinimumLength = 0)]
+        [Display(Name = "Descrição:")]
         public string descricao { get; set; }
         public int sequencia { get; set; }
+        [Required]
+        [Column(TypeName = "DateTime2")]
+        [Display(Name = "Início:")]
         public System.DateTime data_inicio { get; set; }
+        [Required]
+        [Column(TypeName = "DateTime2")]
+        [Display(Name = "Fim:")]
         public System.DateTime data_fim { get; set; }
         public int id_statusEtapa { get; set; }
         public string id_usuario { get; set; }

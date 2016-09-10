@@ -15,6 +15,7 @@ namespace Mvc5Project.Controllers
 
         ManterFuncao mFuncao = new ManterFuncao();
         ManterProjeto mProjeto = new ManterProjeto();
+        ManterEtapa mEtapa = new ManterEtapa();
 
         // GET: Projetos       
         public ActionResult Index()
@@ -102,7 +103,50 @@ namespace Mvc5Project.Controllers
 
             return View();
         }
-       
+
+        // GET: Projetos       
+        public ActionResult NovaEtapa(int id)
+        {
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
+            string idUser = AccountController.FindIdByUser(User.Identity.Name);
+          
+            tb_projeto projeto = mProjeto.obterProId(id);
+
+            ViewBag.Informacao = projeto.titulo;
+            ViewBag.Id_projeto = id;
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> NovaEtapa(tb_etapa model)
+        {
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
+            
+            if (ModelState.IsValid)
+            {
+                model.id_usuario = AccountController.FindIdByUser(User.Identity.Name);
+                model.id_statusEtapa = 1;
+                model.sequencia = 1;
+                
+
+                int id = mEtapa.salvarEtapa(model);
+                if (id != -1)
+                    return RedirectToAction("P", "Projetos", new { id = model.id_projeto });
+            }
+            string idUser = AccountController.FindIdByUser(User.Identity.Name);
+
+            tb_projeto projeto = mProjeto.obterProId(model.id_projeto);
+
+            ViewBag.Informacao = projeto.titulo;
+            ViewBag.Id_projeto = model.id_projeto;
+
+            return View();
+        }
 
         private List<SelectListItem> carregaFuncoes()
         {

@@ -311,6 +311,7 @@
     <Content Include="Views\Projetos\Novo.cshtml" />
     <Content Include="Views\Account\BuscaUsuario.cshtml" />
     <Content Include="Views\Projetos\P.cshtml" />
+    <Content Include="Views\Projetos\NovaEtapa.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
