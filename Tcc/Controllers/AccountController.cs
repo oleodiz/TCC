@@ -276,6 +276,8 @@ namespace Mvc5Project.Controllers
 
             return PartialView(membros);
         }
+
+
      
         [HttpPost]
         [AllowAnonymous]
@@ -903,7 +905,7 @@ namespace Mvc5Project.Controllers
             methodName = "FindUserId";
             return ReturnString(UserName);
         }
-        public string FindIdByEmail(string Email)
+        public static string FindIdByEmail(string Email)
         {
             command = "SELECT Id AS UserId FROM AspNetUsers WHERE Email = @Email";
             parameterName = "@Email";

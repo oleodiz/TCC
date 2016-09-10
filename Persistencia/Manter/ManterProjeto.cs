@@ -43,5 +43,7 @@ namespace Persistencia.Manter
             List<tb_projeto> projetos = conexao.tb_projeto.Where(p => p.tb_projetoUsuarioFuncao.Any(f => f.id_usuario == idUsuario)).ToList();
             return projetos;
         }
+
+       
     }
 }

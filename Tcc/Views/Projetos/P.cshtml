@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
+<script src="~/Scripts/jquery-2.1.4.min.js"></script>
 <div class="col-lg-8" style="padding-top: 50px;">
 
 
@@ -20,19 +20,18 @@
             </div>
         </center>
 
-
     </div>
-    
+ 
 
 </div>
 
 
 <div class="col-lg-4" style="padding-top: 50px;">
-    <div class="jumbotron">
+    <div class="jumbotron" style="margin-bottom: 10px;">
         <center>
             <h4>Membros</h4>
         </center>
-
+        @{int i = 0; }
         @foreach (var usu in ViewBag.Participantes as List<string>)
         {
             var imgUrl = Url.Content("~/Content/images/profile/" + usu + ".png");
@@ -43,21 +42,106 @@
 
             <div class="col-md-5">
                 <a class="tooltips" href="@Url.Action("U", "Usuario",new { id = usu })">
-                    <img src="@imgUrl" height="50" width="50" class="perfilImagem" />
-                      
+                    <table>
+                        <tr>
+                            <th><center><p style="font-size:10px;margin-bottom: 0px;">(@ViewBag.Funcoes[i])</p></center></th></tr>
+                        <tr>
+                            <th><img src="@imgUrl" height="50" width="50" class="perfilImagem" /></th></tr>
+                        <tr>
+                            <th><center><p style="font-size:15px;margin-bottom: 0px;">@usu</p></center></th></tr>
+                    </table>
                 </a>
-        </div>
+            </div>
+            i = i + 1;
         }
 
         <div class="container" style="padding-left: 0px; padding-right: 0px;">
             <div class="row" style="padding-left: 0px; padding-right: 0px;">
 
+
             </div>
             <div class="row" style="padding-left: 0px; padding-right: 0px;">
-                    
-
+                @if (ViewBag.IsOrientador)
+                {
+                    <div id="novoMembro"  hidden>
+                        <hr>
+                        <label style="width:70%;"> Usuário</label>
+                        <label  style="width:20%;">Função</label>
+                        <input class="form-control input-sm" type="text" id="txt_usuario" placeholder="Usuário ou e-mail" style="width:70%;float:left;">
+                        @Html.DropDownList("ComboFuncoes", null, new { @class = "form-control dropCostumizado", id = "cbb_funcao"  })
+                        
+                        <a  onclick="AdicionarUsuarioAoProjeto()" class="btn btn-info costumizado" >Adicionar</a>
+                    </div>
+                    <a onclick="mostrarBlocoNovoMembro()" id="btn_plus" style="float:right;">+ Membro</a>
+                }            
             </div>
         </div>
     </div>
+    <div class="alert alert-dismissible alert-warning" id="alertaAmarelo" hidden>
+        <button type="button" class="close" onclick="hideAmarelo()">&times;</button>
+        <div id="retornoUsuarioErro"></div>
+    </div>
+    <div class="alert alert-dismissible alert-info" id="alertaAzul" hidden>
+        <button type="button" class="close" onclick="hideAzul()" >&times;</button>
+        <div id="retornoUsuarioSucesso"></div>
+    </div>
 
 </div>
+
+
+<script>
+
+    function hideAzul() {
+        $('#alertaAzul').hide();
+    }
+    function hideAmarelo() {
+        $('#alertaAmarelo').hide();
+    }
+
+    function mostrarBlocoNovoMembro()
+    {
+        $('#novoMembro').show();
+        $('#btn_plus').hide();
+    }
+
+    function AdicionarUsuarioAoProjeto() {
+        $.ajax({
+            url: '@Url.Action("AdicionarUsuarioAoProjeto", "Projetos")',
+            type: 'GET',
+            dataType: 'json',
+            cache: false,
+            data: {
+                userEmail: document.getElementById("txt_usuario").value,
+                idFuncao: $('#cbb_funcao').val(),
+                idProjeto: '@Model.id_projeto'
+            },
+            success: function (request) {
+                if (request != null) {
+
+                    if (request.indexOf("adicionado") >= 0) {
+                        $('#alertaAzul').show();
+                        hideAmarelo();
+                        $('#retornoUsuarioSucesso').html(request);
+                    }
+                    else
+                    {
+                        $('#alertaAmarelo').show();
+                        hideAzul();
+                        $('#retornoUsuarioErro').html(request);
+                    }
+                }
+                
+            },
+            error: function (request) {
+                if (request != null) {
+                    $('#alertaAmarelo').show();
+                }
+              
+                  
+            }
+
+        });
+    }
+
+
+</script>

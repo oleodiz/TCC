@@ -16,6 +16,7 @@ namespace Mvc5Project.Controllers
         ManterFuncao mFuncao = new ManterFuncao();
         ManterProjeto mProjeto = new ManterProjeto();
         ManterEtapa mEtapa = new ManterEtapa();
+        ManterProjetoUsuarioFuncao mPuf = new ManterProjetoUsuarioFuncao();
 
         // GET: Projetos       
         public ActionResult Index()
@@ -39,17 +40,32 @@ namespace Mvc5Project.Controllers
 
             string idUser = AccountController.FindIdByUser(User.Identity.Name);
             ViewBag.Projetos = mProjeto.obterProjetosDoUsuario(idUser);
-
+            bool isOrientador = false;
             tb_projeto projeto = mProjeto.obterProId(id);
+            List<SelectListItem> comboBoxFuncoes = carregaFuncoes();
 
             List<string> participantes = new List<string>();
-            foreach(tb_projetoUsuarioFuncao usu in projeto.tb_projetoUsuarioFuncao)
+            List<string> funcoes = new List<string>();
+            foreach (tb_projetoUsuarioFuncao usu in projeto.tb_projetoUsuarioFuncao)
             {
                 participantes.Add(AccountController.FindUserNameById(usu.id_usuario));
+                if (usu.id_usuario == idUser && usu.id_funcaoProjeto == 2)
+                    isOrientador = true;
+                
+                foreach (SelectListItem item in comboBoxFuncoes)
+                {
+                    if (item.Value == usu.id_funcaoProjeto + "")
+                        funcoes.Add(item.Text);
+                }
+
             }
 
+            
+            ViewBag.ComboFuncoes = comboBoxFuncoes;
+            ViewBag.Funcoes = funcoes;
             ViewBag.Participantes  = participantes;
             ViewBag.Informacao = projeto.titulo;
+            ViewBag.IsOrientador = isOrientador;
             return View(projeto);
         }
 
@@ -161,6 +177,44 @@ namespace Mvc5Project.Controllers
             return comboBoxFuncoes;
         }
 
-        
+        [HttpGet]
+        public JsonResult AdicionarUsuarioAoProjeto(string userEmail, int idFuncao, int idProjeto)
+        {
+            if (!User.Identity.IsAuthenticated)
+                return Json("Você não está autenticado!", JsonRequestBehavior.AllowGet);
+
+            string IdOrientador = AccountController.FindIdByUser(User.Identity.Name); //Verificar se o usuário que está tentando adicionar outro ao projeto é Orientador
+            if (!mPuf.usuarioIsOrientador(IdOrientador, idProjeto))
+                return Json("Você não tem permissão!", JsonRequestBehavior.AllowGet);
+           
+
+            if (userEmail.Contains("@"))
+                userEmail = AccountController.FindIdByEmail(userEmail);
+            else
+                userEmail = AccountController.FindIdByUser(userEmail);
+
+            if (mPuf.usuarioJaEstaNoProjeto(userEmail, idProjeto))
+                return Json("Este usuário já é um membro do projeto!", JsonRequestBehavior.AllowGet);
+
+            if (userEmail == null || userEmail == "")
+                return Json("Usuário não encontrado", JsonRequestBehavior.AllowGet);
+
+            tb_projetoUsuarioFuncao puf = new tb_projetoUsuarioFuncao();
+            puf.data_inclusao = DateTime.Now;
+            puf.id_funcaoProjeto = idFuncao;
+            puf.id_usuario = userEmail;
+            puf.id_projeto = idProjeto;
+
+            if (mPuf.adicionarUsuario(puf) != -1)
+            {
+                return Json("Usuário adicionado!", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("Problema ao adicionar Usuário!", JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
     }
 }

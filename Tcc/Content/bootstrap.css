@@ -2711,11 +2711,11 @@ fieldset[disabled] .checkbox label {
   padding-right: 0;
 }
 .input-sm {
-  height: 33px;
+  height: 26px;
   padding: 5px 10px;
-  font-size: 14px;
-  line-height: 1.5;
-  border-radius: 3px;
+  font-size: 10px;
+  line-height: 1.0;
+  border-radius: 2px;
 }
 select.input-sm {
   height: 33px;
@@ -3291,6 +3291,8 @@ fieldset[disabled] .btn-info.focus {
   color: #5bc0de;
   background-color: #ffffff;
 }
+
+
 .btn-warning {
   color: #ffffff;
   background-color: #f0ad4e;
@@ -6959,4 +6961,19 @@ a:hover.tooltips span {
   left: 50%;
   margin-left: -76px;
   z-index: 999;
+}
+a {
+    display:inline-block;
+    text-decoration:none !important;
+}
+
+.costumizado{
+    height: 26px;font-size:10px;padding:6px 12px; margin-left:10px;float:right; margin-top:10px;
+}
+
+.dropCostumizado{
+    width:30%;float:left;height:26px;font-size:10px; padding-top: 5px;
+}
+p {
+    color: #616161;
 }

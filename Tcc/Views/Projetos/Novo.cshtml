@@ -107,7 +107,7 @@
                 idFuncao: $('#cbb_funcao').val(),
                 add : adicionarNaLista
             },
-            success: function (vHtml) {
+            success: function (request) {
                 if (request != null) {
                     $("#tabela").html("");
                     $("#tabela").html(request.responseText);
