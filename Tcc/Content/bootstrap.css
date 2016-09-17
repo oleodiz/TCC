@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Raleway:400,700");
+@import url("https://fonts.googleapis.com/css?family=Montserrat-Regular:400,700");
 /*!
  * bootswatch v3.3.7
  * Homepage: http://bootswatch.com
@@ -12,8 +12,13 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
+@font-face {
+    font-family: 'Montserrat-Regular';
+    src: url('fonts/Montserrat-Regular.otf') format('opentype');
+}
+
 html {
-  font-family: sans-serif;
+  font-family: Montserrat-Regular;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }
@@ -1087,11 +1092,11 @@ html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 body {
-  font-family: Georgia, "Times New Roman", Times, serif;
+  font-family: "Montserrat-Regular", "Helvetica Neue", Helvetica, Arial;
   font-size: 16px;
   line-height: 1.42857143;
-  color: #333333;
-  background-color: #ebebeb;
+  color: #3f4752;
+  background-color: #f1f4f4;
 }
 input,
 button,
@@ -1188,7 +1193,7 @@ h6,
 .h4,
 .h5,
 .h6 {
-  font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Montserrat-Regular", "Helvetica Neue", Helvetica, Arial, Montserrat-Regular;
   font-weight: bold;
   line-height: 1.1;
   color: inherit;
@@ -1346,7 +1351,7 @@ mark,
 }
 a.text-primary:hover,
 a.text-primary:focus {
-  color: #1863e6;
+  color: #418ed6;
 }
 .text-success {
   color: #3fad46;
@@ -1382,7 +1387,7 @@ a.text-danger:focus {
 }
 a.bg-primary:hover,
 a.bg-primary:focus {
-  background-color: #1863e6;
+  background-color: #418ed6;
 }
 .bg-success {
   background-color: #dff0d8;
@@ -3122,26 +3127,26 @@ fieldset[disabled] .btn-default.focus {
 }
 .btn-primary {
   color: #ffffff;
-  background-color: #4582ec;
-  border-color: #4582ec;
+  /*background-color: #418ed6;*/
+  border-color: #808080;
 }
 .btn-primary:focus,
 .btn-primary.focus {
   color: #ffffff;
-  background-color: #1863e6;
-  border-color: #1045a1;
+  background-color: #5a6573;
+  border-color: #ffffff;
 }
 .btn-primary:hover {
   color: #ffffff;
-  background-color: #1863e6;
-  border-color: #175fdd;
+  background-color: #bebebe;
+  border-color: #ffffff;
 }
 .btn-primary:active,
 .btn-primary.active,
 .open > .dropdown-toggle.btn-primary {
   color: #ffffff;
-  background-color: #1863e6;
-  border-color: #175fdd;
+  background-color: #5a6573;
+  border-color: #ffffff;
 }
 .btn-primary:active:hover,
 .btn-primary.active:hover,
@@ -3153,8 +3158,8 @@ fieldset[disabled] .btn-default.focus {
 .btn-primary.active.focus,
 .open > .dropdown-toggle.btn-primary.focus {
   color: #ffffff;
-  background-color: #1455c6;
-  border-color: #1045a1;
+  background-color: #5a6573;
+  border-color: #ffffff;
 }
 .btn-primary:active,
 .btn-primary.active,
@@ -4282,10 +4287,10 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .navbar-brand {
   float: left;
-  padding: 21.5px 15px;
+  /*padding: 21.5px 15px;*/
   font-size: 20px;
   line-height: 22px;
-  height: 65px;
+  /*height: 65px;*/
 }
 .navbar-brand:hover,
 .navbar-brand:focus {
@@ -4297,7 +4302,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 @media (min-width: 768px) {
   .navbar > .container .navbar-brand,
   .navbar > .container-fluid .navbar-brand {
-    margin-left: -15px;
+    /*margin-left: -15px;*/
   }
 }
 .navbar-toggle {
@@ -4596,26 +4601,26 @@ fieldset[disabled] .navbar-default .btn-link:focus {
   color: #333333;
 }
 .navbar-inverse {
-  background-color: #ffffff;
-  border-color: #dddddd;
+  background-color: #3f4752;
+  /*border-color: #dddddd;*/
 }
 .navbar-inverse .navbar-brand {
-  color: #333333;
+  color: #f1f2f3;
 }
 .navbar-inverse .navbar-brand:hover,
 .navbar-inverse .navbar-brand:focus {
-  color: #333333;
+  color: #f1f2f3;
   background-color: transparent;
 }
 .navbar-inverse .navbar-text {
   color: #333333;
 }
 .navbar-inverse .navbar-nav > li > a {
-  color: #333333;
+  color: #f1f2f3;
 }
 .navbar-inverse .navbar-nav > li > a:hover,
 .navbar-inverse .navbar-nav > li > a:focus {
-  color: #333333;
+  color: #f1f2f3;
   background-color: transparent;
 }
 .navbar-inverse .navbar-nav > .active > a,
@@ -4648,7 +4653,7 @@ fieldset[disabled] .navbar-default .btn-link:focus {
 .navbar-inverse .navbar-nav > .open > a:hover,
 .navbar-inverse .navbar-nav > .open > a:focus {
   background-color: transparent;
-  color: #333333;
+  color: #f1f2f3;
 }
 @media (max-width: 767px) {
   .navbar-inverse .navbar-nav .open .dropdown-menu > .dropdown-header {
@@ -4886,7 +4891,7 @@ a.label:focus {
 }
 .label-primary[href]:hover,
 .label-primary[href]:focus {
-  background-color: #1863e6;
+  background-color: #418ed6;
 }
 .label-success {
   background-color: #3fad46;
@@ -4967,8 +4972,8 @@ a.badge:focus {
   padding-bottom: 30px;
   margin-bottom: 30px;
   color: inherit;
-  background-color: #FFFFFF;
-  border: 1px solid #b3b3b3;
+  background-color: rgba(255,255,255,0.8);
+  border: 1px solid rgba(0, 0, 0, 0.075);
 }
 .jumbotronnomarginbot {
   color: inherit;
@@ -5709,11 +5714,11 @@ button.list-group-item-danger.active:focus {
   border-bottom: 1px solid #dddddd;
 }
 .panel-default {
-  border-color: #b3b3b3;
+  border-color: rgba(0, 0, 0, 0.075);
 }
 .panel-default > .panel-heading {
   color: #333333;
-  background-color: #f5f5f5;
+  background-color: #b3b3b3;
   border-color: #dddddd;
 }
 .panel-default > .panel-heading + .panel-collapse > .panel-body {
@@ -6778,7 +6783,7 @@ button.close {
   }
 }
 .navbar {
-  font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Montserrat-Regular", "Helvetica Neue", Helvetica, Arial, Montserrat-Regular;
 }
 .navbar-nav,
 .navbar-form {
@@ -6819,13 +6824,13 @@ button.close {
   }
 }
 .btn {
-  font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Montserrat-Regular", "Helvetica Neue", Helvetica, Arial, Montserrat-Regular;
 }
 legend {
-  font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Montserrat-Regular", "Helvetica Neue", Helvetica, Arial, Montserrat-Regular;
 }
 .input-group-addon {
-  font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Montserrat-Regular", "Helvetica Neue", Helvetica, Arial, Montserrat-Regular;
 }
 .nav .open > a,
 .nav .open > a:hover,
@@ -6833,14 +6838,14 @@ legend {
   border: 1px solid #ddd;
 }
 .pagination {
-  font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Montserrat-Regular", "Helvetica Neue", Helvetica, Arial, Montserrat-Regular;
 }
 .pagination-lg > li > a,
 .pagination-lg > li > span {
   padding: 14px 24px;
 }
 .pager {
-  font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Montserrat-Regular", "Helvetica Neue", Helvetica, Arial, Montserrat-Regular;
 }
 .pager a {
   color: #333333;
@@ -6868,7 +6873,7 @@ legend {
   text-decoration: underline;
 }
 .label {
-  font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Montserrat-Regular", "Helvetica Neue", Helvetica, Arial, Montserrat-Regular;
   font-weight: normal;
 }
 .label-default {
@@ -6878,7 +6883,7 @@ legend {
 .badge {
   padding: 1px 7px 5px;
   vertical-align: 2px;
-  font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Montserrat-Regular", "Helvetica Neue", Helvetica, Arial, Montserrat-Regular;
   font-weight: normal;
 }
 .panel {
@@ -6896,18 +6901,22 @@ legend {
     border: 3px solid #ddd;
     float: left;
 }
+
 .perfilNomeUsuario {
     margin-top: 20px;
 }
 .corBranca{
+    font-family: "Montserrat-Regular", "Helvetica Neue", Helvetica, Arial, Montserrat-Regular;
     color :#FFFFFF;
     font-size: 24px;
-    font-weight: bold;
      vertical-align: middle;
      margin-bottom: 0px;
 }
 .perfiltopo{
     vertical-align:middle;
+    margin-top:5px;
+     border-radius: 40px;
+
 }
 
 hr.vertical
