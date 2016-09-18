@@ -21,7 +21,6 @@ namespace Mvc5Project.Controllers
         // GET: Projetos       
         public ActionResult Index()
         {
-
             if (!User.Identity.IsAuthenticated)
                 return RedirectToAction("Index", "Home");
 
@@ -30,7 +29,6 @@ namespace Mvc5Project.Controllers
 
             return View();
         }
-
 
         // GET: Projetos       
         public ActionResult P(int id)

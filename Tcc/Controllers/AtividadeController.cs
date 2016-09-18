@@ -16,7 +16,7 @@ namespace Mvc5Project.Controllers
         ManterStatusAtividade mStatus = new ManterStatusAtividade();
         ManterProjeto mProjeto = new ManterProjeto();
         ManterProjetoUsuarioFuncao mPuf = new ManterProjetoUsuarioFuncao();
-
+        ManterAcoesProjeto mAcoes = new ManterAcoesProjeto();
         public ActionResult Nova(int id)
         {
 
@@ -49,6 +49,7 @@ namespace Mvc5Project.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Nova(int id,tb_atividade model)
         {
+            //Request.Form
             if (!User.Identity.IsAuthenticated)
                 return RedirectToAction("Index", "Home");
             string idUser = AccountController.FindIdByUser(User.Identity.Name);
@@ -57,15 +58,20 @@ namespace Mvc5Project.Controllers
 
             model.data_criacao = DateTime.Now;
             model.id_statusAtividade = 1;
-            model.id_atividade = id;
+            //model.id_atividade = id;
             model.id_usuario = idUser;
             model.id_projeto = id;
+
+          
             if (ModelState.IsValid)
             {
                 int idAtividade = mAtividade.salvarAtividade(model);
 
                 if (idAtividade != -1)
-                    return RedirectToAction("Nova", "Atividade", new { id = id });
+                {
+                    mAcoes.registraNovaAtividade(id, idUser, "Atividade '"+model.titulo+"'");
+                    return RedirectToAction("P", "Projetos", new { id = id });
+                }
             }
 
             

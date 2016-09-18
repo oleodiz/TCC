@@ -4,9 +4,11 @@
     ViewBag.Title = "Nova";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script src="~/Scripts/jquery-2.1.4.min.js"></script>
+
 <div class="container" style="padding-top: 50px;">
-@using (Html.BeginForm())
-            {
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "form"}))
+{
     @Html.AntiForgeryToken()
 
     <div class="jumbotron">
@@ -63,18 +65,15 @@
                             imgUrl = Url.Content("~/Content/images/profile/noUser.png") + "?time=" + DateTime.Now.ToString();
                         }
                         <li>
-                            <input type="checkbox" id="cb\@i" checked/>
-                            <label class="labelimg" for="cb\@i"><img src="@imgUrl" /></label>
+                            <input type="checkbox" id="tb_atividadeResponsavel[@i].id_usuario" name="tb_atividadeResponsavel[@i].id_usuario" value="@ViewBag.Ids[i]" checked/>
+                            <label class="labelimg" for="tb_atividadeResponsavel[@i].id_usuario"><img src="@imgUrl" /></label>
                             <center>@usu</center>
-                            <input type="hidden" id="cb_idUser" value="@ViewBag.Ids[i]" />
+                            
                         </li>
 
                         i = i + 1;
                     }
 
-
-
-                    
                 </ul>         
 
             </div>
@@ -86,7 +85,31 @@
 
             </div>
         </div>
-
-        
+     
        }
 </div>
+
+<script>
+
+    $(document).ready(function () {
+        $('#form').on('submit', function (e) {
+            e.preventDefault();
+            var i = 0;
+            $('input[type=checkbox]').each(function () {
+
+                if ($(this).is(":checked"))
+                {
+                    $(this).attr("name", "tb_atividadeResponsavel[" + i + "].id_usuario");
+                    i = i + 1;
+                }
+                else
+                    $(this).attr("name", "");
+
+            });
+
+            this.submit();
+
+        });
+    });
+
+</script>

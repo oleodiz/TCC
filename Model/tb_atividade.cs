@@ -28,7 +28,7 @@ namespace Model
 
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Campo Obrigatório", ErrorMessageResourceName = null, ErrorMessageResourceType = null)]
-        [StringLength(20, ErrorMessage = "O título de {0} deve conter entre {2} e {1} caracteres.", MinimumLength = 5)]
+        [StringLength(200, ErrorMessage = "O título deve conter entre {2} e {1} caracteres.", MinimumLength = 5)]
         [Display(Name = "Título:")]
         public string titulo { get; set; }
 

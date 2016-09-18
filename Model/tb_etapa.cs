@@ -25,7 +25,7 @@ namespace Model
         public int id_etapa { get; set; }
         public int id_projeto { get; set; }
         [Required]
-        [StringLength(20, ErrorMessage = "O título de {0} deve conter entre {2} e {1} caracteres.", MinimumLength = 5)]
+        [StringLength(20, ErrorMessage = "O título deve conter entre {2} e {1} caracteres.", MinimumLength = 5)]
         [Display(Name = "Título:")]
         public string titulo { get; set; }
 
