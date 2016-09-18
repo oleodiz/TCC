@@ -17,7 +17,7 @@ namespace Mvc5Project.Controllers
         ManterProjeto mProjeto = new ManterProjeto();
         ManterEtapa mEtapa = new ManterEtapa();
         ManterProjetoUsuarioFuncao mPuf = new ManterProjetoUsuarioFuncao();
-
+        ManterAcoesProjeto mAcoes = new ManterAcoesProjeto();
         // GET: Projetos       
         public ActionResult Index()
         {
@@ -212,6 +212,39 @@ namespace Mvc5Project.Controllers
             {
                 return Json("Problema ao adicionar Usuário!", JsonRequestBehavior.AllowGet);
             }
+        }
+
+        [HttpGet]
+        public ActionResult ListaAcoes(String ultimaData)
+        {
+            if (ultimaData == null)
+                return null;
+            //TODO VERIFICAR SE ESSE METODO ESTÁ DEMORANDO
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
+            string idUser = AccountController.FindIdByUser(User.Identity.Name);
+
+            List<int> idsProjetoUsuario = new List<int>();
+            List<tb_projeto> projetos = mProjeto.obterProjetosDoUsuario(idUser);
+
+            for (int i=0; i < projetos.Count; i++)
+            {
+                idsProjetoUsuario.Add(projetos[i].id_projeto);
+            }
+
+            List<tb_acoesProjeto> acoes = mAcoes.obterAcoesDosProjetosDoUsuario(idUser, idsProjetoUsuario, DateTime.Parse( ultimaData));
+            if (acoes != null)
+            for (int i =0; i < acoes.Count; i++) //Preguiça de fazer um Join
+            {
+                foreach(tb_projeto p in projetos)
+                {
+                    if (acoes[i].id_projeto == p.id_projeto)
+                        acoes[i].nomeProjeto = p.titulo;
+                }
+            }
+
+            return PartialView(acoes);
         }
 
 

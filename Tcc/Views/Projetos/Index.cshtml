@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<script src="~/Scripts/jquery-2.1.4.min.js"></script>
 <div class="col-lg-8" style="padding-top: 50px;">
     <div class="jumbotronnomarginbot">
         <center>
@@ -12,10 +12,13 @@
         </center>
      </div>
     <div class="jumbotronnomargintop">
+        <div id="acoes">
 
+
+        </div>
        
 
-        <a href="#" class="btn btn-default btn-lg btn-block">Carregar Mais...</a>
+        <a  id="mais" class="btn btn-default btn-lg btn-block">Carregar Mais...</a>
 
     </div>
 </div>
@@ -60,10 +63,46 @@
                 <div class="col-lg-offset-9 col-lg-10">
                     @Html.ActionLink("Novo", "Novo", "Projetos", null, new { @class = "btn btn-default" })
                 </div>
-            </div>
-
-           
+            </div>          
     </div>
-
-
 </div>
+
+
+<script>
+    var antesDe = '@DateTime.Now';
+    jQuery(document).ready(function () {
+        getAcoes(antesDe)
+    });
+
+    $("#mais").click(function () {
+        getAcoes(antesDe)
+    });
+    function getAcoes(ultimadata) {
+        $.ajax({
+            url: '@Url.Action("ListaAcoes", "Projetos")',
+            type: 'GET',
+            dataType: 'json',
+            cache: false,
+            data: {
+                ultimaData: ultimadata
+            },
+            success: function (request) {
+                if (request != null) {
+                    $("#acoes").append(request.responseText);
+                    antesDe = $("acronym").last().attr("title");
+                   
+                }
+
+            },
+            error: function (request) {
+                if (request != null) {
+                    $("#acoes").append(request.responseText);
+                    antesDe = $("acronym").last().attr("title");
+
+                }
+            }
+
+        });
+    }
+
+</script>

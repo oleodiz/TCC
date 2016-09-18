@@ -317,6 +317,8 @@
     <Content Include="Views\Projetos\NovaEtapa.cshtml" />
     <Content Include="Views\Usuario\U.cshtml" />
     <Content Include="Views\Atividade\Nova.cshtml" />
+    <Content Include="Views\Projetos\ListaAcoes.cshtml" />
+    <Content Include="Views\Atividade\A.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

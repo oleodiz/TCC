@@ -18,6 +18,7 @@
           <Property Name="id_atividade" Type="int" />
           <Property Name="id_comentarioAtividade" Type="int" />
           <Property Name="id_etapa" Type="int" />
+          <Property Name="username" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <EntityType Name="tb_atividade">
           <Key>
@@ -478,6 +479,7 @@
           <NavigationProperty Name="tb_atividade" Relationship="tccModel.fk_acoesProjeto_id_atividade" FromRole="tb_acoesProjeto" ToRole="tb_atividade" />
           <NavigationProperty Name="tb_comentarioAtividade" Relationship="tccModel.fk_acoesProjeto_id_comentarioAtividade" FromRole="tb_acoesProjeto" ToRole="tb_comentarioAtividade" />
           <NavigationProperty Name="tb_etapa" Relationship="tccModel.fk_acoesProjeto_id_etapa" FromRole="tb_acoesProjeto" ToRole="tb_etapa" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="tb_atividade">
           <Key>
@@ -929,6 +931,7 @@
           <EntitySetMapping Name="tb_acoesProjeto">
             <EntityTypeMapping TypeName="tccModel.tb_acoesProjeto">
               <MappingFragment StoreEntitySet="tb_acoesProjeto">
+                <ScalarProperty Name="username" ColumnName="username" />
                 <ScalarProperty Name="id_etapa" ColumnName="id_etapa" />
                 <ScalarProperty Name="id_comentarioAtividade" ColumnName="id_comentarioAtividade" />
                 <ScalarProperty Name="id_atividade" ColumnName="id_atividade" />

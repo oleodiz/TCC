@@ -1,0 +1,89 @@
+﻿@model IEnumerable<Model.tb_acoesProjeto>
+
+@if (Model != null && Model.ToList().Count > 0)
+{
+<table class="table">
+@foreach (var item in Model) {
+    <tr>
+        @{
+            var imgUrl = Url.Content("~/Content/images/profile/" + item.username + ".png");
+            if (!File.Exists(Server.MapPath(imgUrl)))
+            {
+                imgUrl = Url.Content("~/Content/images/profile/noUser.png") + "?time=" + DateTime.Now.ToString();
+            }
+        }
+
+        <div class="container-fluid" style="padding-left: 0px;">
+            <div class="row">
+                <a class="tooltips" href="@Url.Action("U", "Usuario",new { id = item.username })">
+                    <div class="col-md-2">
+                        <center>
+                            <img alt="@item.username" src="@imgUrl" class="img-thumbnail" height="60" width="60" />
+                            <h5 class="perfilNomeUsuario">@item.username</h5>
+                        </center>
+                    </div>
+                </a>
+                <div class="col-md-7">
+                    <blockquote style="padding-left: 0px;">
+                        <div style="margin-left:10px">
+                            <a class="tooltips" href="@Url.Action("P", "Projetos",new { id = item.id_projeto })">
+                                <p>
+                                    <b>@item.nomeProjeto</b>
+                                </p>
+                            </a>
+                            @switch (item.id_tipoAcaoProjeto)
+                            {
+                                case 7:
+                                    {
+                                        <p>Nova Atividade</p>
+                                        <small> @item.descricao</small> break;
+                                    }
+                            }
+
+                        </div>
+                    </blockquote>
+                </div>
+                <div class="col-md-3">
+                    <center>
+                        <acronym style="font-size:12px" title="@item.data_acao">@textoDaData(item.data_acao)</acronym>
+                        
+                        @switch (item.id_tipoAcaoProjeto)
+                        {
+                            case 7:
+                                {
+                                    <div style="padding-top: 60px;">
+                                        <p>
+                                            @Html.ActionLink("Ver atividade...", "A", "Atividade", new { id = item.id_projeto, id2 = item.id_atividade }, null)
+                                        </p>
+                                    </div>
+                                    break;
+                                }
+                        }
+                    </center>
+                </div>
+            </div>
+        </div>
+        <hr />
+    </tr>
+   
+}
+</table>
+}
+@functions{
+    public string textoDaData(DateTime data_acao)
+    {
+        TimeSpan diferenca = DateTime.Now - data_acao;
+
+        if (diferenca.Days > 0)
+        {
+            return diferenca.Days+" dia"+(diferenca.Days ==1 ?"":"s") +" atrás";
+        }
+        if (diferenca.Hours > 0)
+            return diferenca.Hours + " hora" + (diferenca.Hours == 1 ? "" : "s") + " atrás";
+        if (diferenca.Minutes > 0)
+            return diferenca.Minutes + " minuto" + (diferenca.Minutes == 1 ? "" : "s") + " atrás";
+        if (diferenca.Seconds > 0)
+            return diferenca.Seconds + " segundo" + (diferenca.Seconds == 1 ? "" : "s") + " atrás";
+        return string.Empty;
+    }
+}

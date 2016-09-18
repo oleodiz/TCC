@@ -17,6 +17,22 @@ namespace Mvc5Project.Controllers
         ManterProjeto mProjeto = new ManterProjeto();
         ManterProjetoUsuarioFuncao mPuf = new ManterProjetoUsuarioFuncao();
         ManterAcoesProjeto mAcoes = new ManterAcoesProjeto();
+
+
+
+        public ActionResult A(int id, int id2)
+        {
+
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
+            string idUser = AccountController.FindIdByUser(User.Identity.Name);
+            if (!mPuf.usuarioEstaNoProjeto(idUser, id))
+                return RedirectToAction("Index", "Projetos");
+
+            return View();
+        }
+
         public ActionResult Nova(int id)
         {
 
@@ -69,7 +85,7 @@ namespace Mvc5Project.Controllers
 
                 if (idAtividade != -1)
                 {
-                    mAcoes.registraNovaAtividade(id, idUser, idAtividade, "Atividade '"+model.titulo+"' criada");
+                    mAcoes.registraNovaAtividade(id, idUser, User.Identity.Name, idAtividade, "Criou a atividade '"+model.titulo+"'");
                     return RedirectToAction("P", "Projetos", new { id = id });
                 }
             }

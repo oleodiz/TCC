@@ -23,7 +23,9 @@ namespace Model
         public Nullable<int> id_atividade { get; set; }
         public Nullable<int> id_comentarioAtividade { get; set; }
         public Nullable<int> id_etapa { get; set; }
-    
+        public string username { get; set; }
+        public string nomeProjeto { get; set; }
+
         public virtual tb_projeto tb_projeto { get; set; }
         public virtual tb_tipoAcaoProjeto tb_tipoAcaoProjeto { get; set; }
         public virtual tb_atividade tb_atividade { get; set; }
