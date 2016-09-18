@@ -15,7 +15,7 @@ namespace Persistencia.Manter
             conexao = new tccEntities();
         }
 
-        public bool registraNovaAtividade(int id_projeto, string id_usuario, string descricao)
+        public bool registraNovaAtividade(int id_projeto, string id_usuario, int id_atividade, string descricao)
         {
             tb_acoesProjeto acao = new tb_acoesProjeto();
             acao.data_acao = DateTime.Now;
@@ -23,6 +23,7 @@ namespace Persistencia.Manter
             acao.id_projeto = id_projeto;
             acao.id_usuario = id_usuario;
             acao.id_tipoAcaoProjeto = 8; //Id de nova atividade
+            acao.id_atividade = id_atividade;
             try
             {
                 conexao.tb_acoesProjeto.Add(acao);

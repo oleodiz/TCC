@@ -4,8 +4,8 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="5e384688ae19496eaf7c2afeb2bf16bd" Name="Diagram1" ZoomLevel="61">
-        <EntityTypeShape EntityType="tccModel.tb_acoesProjeto" Width="1.5" PointX="5.25" PointY="7.75" IsExpanded="true" />
+      <Diagram DiagramId="5e384688ae19496eaf7c2afeb2bf16bd" Name="Diagram1" ZoomLevel="80">
+        <EntityTypeShape EntityType="tccModel.tb_acoesProjeto" Width="1.5" PointX="5.5" PointY="7.25" IsExpanded="true" />
         <EntityTypeShape EntityType="tccModel.tb_atividade" Width="1.5" PointX="8.25" PointY="7.25" IsExpanded="true" />
         <EntityTypeShape EntityType="tccModel.tb_atividadeResponsavel" Width="1.5" PointX="10.5" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="tccModel.tb_comentarioAtividade" Width="1.5" PointX="10.5" PointY="9.125" IsExpanded="true" />
@@ -31,6 +31,9 @@
         <AssociationConnector Association="tccModel.fk_projeto_id_statusProjeto" ManuallyRouted="false" />
         <AssociationConnector Association="tccModel.fk_projetoUsuarioFuncao_id_projeto" ManuallyRouted="false" />
         <AssociationConnector Association="tccModel.tb_etapaAtividade" ManuallyRouted="false" />
+        <AssociationConnector Association="tccModel.fk_acoesProjeto_id_atividade" />
+        <AssociationConnector Association="tccModel.fk_acoesProjeto_id_comentarioAtividade" />
+        <AssociationConnector Association="tccModel.fk_acoesProjeto_id_etapa" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

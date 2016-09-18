@@ -15,6 +15,9 @@
           <Property Name="id_tipoAcaoProjeto" Type="int" Nullable="false" />
           <Property Name="data_acao" Type="datetime" Nullable="false" />
           <Property Name="descricao" Type="varchar" MaxLength="2000" Nullable="false" />
+          <Property Name="id_atividade" Type="int" />
+          <Property Name="id_comentarioAtividade" Type="int" />
+          <Property Name="id_etapa" Type="int" />
         </EntityType>
         <EntityType Name="tb_atividade">
           <Key>
@@ -134,6 +137,42 @@
           <Property Name="id_tipoAcaoProjeto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="descricao" Type="varchar" MaxLength="45" />
         </EntityType>
+        <Association Name="fk_acoesProjeto_id_atividade">
+          <End Role="tb_atividade" Type="Self.tb_atividade" Multiplicity="0..1" />
+          <End Role="tb_acoesProjeto" Type="Self.tb_acoesProjeto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_atividade">
+              <PropertyRef Name="id_atividade" />
+            </Principal>
+            <Dependent Role="tb_acoesProjeto">
+              <PropertyRef Name="id_atividade" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_acoesProjeto_id_comentarioAtividade">
+          <End Role="tb_comentarioAtividade" Type="Self.tb_comentarioAtividade" Multiplicity="0..1" />
+          <End Role="tb_acoesProjeto" Type="Self.tb_acoesProjeto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_comentarioAtividade">
+              <PropertyRef Name="id_comentario" />
+            </Principal>
+            <Dependent Role="tb_acoesProjeto">
+              <PropertyRef Name="id_comentarioAtividade" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_acoesProjeto_id_etapa">
+          <End Role="tb_etapa" Type="Self.tb_etapa" Multiplicity="0..1" />
+          <End Role="tb_acoesProjeto" Type="Self.tb_acoesProjeto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_etapa">
+              <PropertyRef Name="id_etapa" />
+            </Principal>
+            <Dependent Role="tb_acoesProjeto">
+              <PropertyRef Name="id_etapa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_acoesProjeto_id_projeto">
           <End Role="tb_projeto" Type="Self.tb_projeto" Multiplicity="1" />
           <End Role="tb_acoesProjeto" Type="Self.tb_acoesProjeto" Multiplicity="*" />
@@ -348,6 +387,18 @@
           <EntitySet Name="tb_statusEtapa" EntityType="Self.tb_statusEtapa" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_statusProjeto" EntityType="Self.tb_statusProjeto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_tipoAcaoProjeto" EntityType="Self.tb_tipoAcaoProjeto" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_acoesProjeto_id_atividade" Association="Self.fk_acoesProjeto_id_atividade">
+            <End Role="tb_atividade" EntitySet="tb_atividade" />
+            <End Role="tb_acoesProjeto" EntitySet="tb_acoesProjeto" />
+          </AssociationSet>
+          <AssociationSet Name="fk_acoesProjeto_id_comentarioAtividade" Association="Self.fk_acoesProjeto_id_comentarioAtividade">
+            <End Role="tb_comentarioAtividade" EntitySet="tb_comentarioAtividade" />
+            <End Role="tb_acoesProjeto" EntitySet="tb_acoesProjeto" />
+          </AssociationSet>
+          <AssociationSet Name="fk_acoesProjeto_id_etapa" Association="Self.fk_acoesProjeto_id_etapa">
+            <End Role="tb_etapa" EntitySet="tb_etapa" />
+            <End Role="tb_acoesProjeto" EntitySet="tb_acoesProjeto" />
+          </AssociationSet>
           <AssociationSet Name="fk_acoesProjeto_id_projeto" Association="Self.fk_acoesProjeto_id_projeto">
             <End Role="tb_projeto" EntitySet="tb_projeto" />
             <End Role="tb_acoesProjeto" EntitySet="tb_acoesProjeto" />
@@ -421,6 +472,12 @@
           <Property Name="descricao" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="tb_projeto" Relationship="Self.fk_acoesProjeto_id_projeto" FromRole="tb_acoesProjeto" ToRole="tb_projeto" />
           <NavigationProperty Name="tb_tipoAcaoProjeto" Relationship="Self.fk_acoesProjeto_id_tipoAcao" FromRole="tb_acoesProjeto" ToRole="tb_tipoAcaoProjeto" />
+          <Property Name="id_atividade" Type="Int32" />
+          <Property Name="id_comentarioAtividade" Type="Int32" />
+          <Property Name="id_etapa" Type="Int32" />
+          <NavigationProperty Name="tb_atividade" Relationship="tccModel.fk_acoesProjeto_id_atividade" FromRole="tb_acoesProjeto" ToRole="tb_atividade" />
+          <NavigationProperty Name="tb_comentarioAtividade" Relationship="tccModel.fk_acoesProjeto_id_comentarioAtividade" FromRole="tb_acoesProjeto" ToRole="tb_comentarioAtividade" />
+          <NavigationProperty Name="tb_etapa" Relationship="tccModel.fk_acoesProjeto_id_etapa" FromRole="tb_acoesProjeto" ToRole="tb_etapa" />
         </EntityType>
         <EntityType Name="tb_atividade">
           <Key>
@@ -440,6 +497,7 @@
           <NavigationProperty Name="tb_atividadeResponsavel" Relationship="Self.fk_atividadeResponsavel_id_atividade" FromRole="tb_atividade" ToRole="tb_atividadeResponsavel" />
           <NavigationProperty Name="tb_comentarioAtividade" Relationship="Self.fk_comentarioAtividade_id_atividade" FromRole="tb_atividade" ToRole="tb_comentarioAtividade" />
           <NavigationProperty Name="tb_etapa" Relationship="Self.tb_etapaAtividade" FromRole="tb_atividade" ToRole="tb_etapa" />
+          <NavigationProperty Name="tb_acoesProjeto" Relationship="tccModel.fk_acoesProjeto_id_atividade" FromRole="tb_atividade" ToRole="tb_acoesProjeto" />
         </EntityType>
         <EntityType Name="tb_atividadeResponsavel">
           <Key>
@@ -461,6 +519,7 @@
           <Property Name="data_comentario" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ativo" Type="Boolean" />
           <NavigationProperty Name="tb_atividade" Relationship="Self.fk_comentarioAtividade_id_atividade" FromRole="tb_comentarioAtividade" ToRole="tb_atividade" />
+          <NavigationProperty Name="tb_acoesProjeto" Relationship="tccModel.fk_acoesProjeto_id_comentarioAtividade" FromRole="tb_comentarioAtividade" ToRole="tb_acoesProjeto" />
         </EntityType>
         <EntityType Name="tb_etapa">
           <Key>
@@ -478,6 +537,7 @@
           <NavigationProperty Name="tb_projeto" Relationship="Self.fk_etapa_id_projeto" FromRole="tb_etapa" ToRole="tb_projeto" />
           <NavigationProperty Name="tb_statusEtapa" Relationship="Self.fk_etapa_id_statusEtapa" FromRole="tb_etapa" ToRole="tb_statusEtapa" />
           <NavigationProperty Name="tb_atividade" Relationship="Self.tb_etapaAtividade" FromRole="tb_etapa" ToRole="tb_atividade" />
+          <NavigationProperty Name="tb_acoesProjeto" Relationship="tccModel.fk_acoesProjeto_id_etapa" FromRole="tb_etapa" ToRole="tb_acoesProjeto" />
         </EntityType>
         <EntityType Name="tb_funcaoProjeto">
           <Key>
@@ -800,6 +860,18 @@
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
+          <AssociationSet Name="fk_acoesProjeto_id_atividade" Association="tccModel.fk_acoesProjeto_id_atividade">
+            <End Role="tb_atividade" EntitySet="tb_atividade" />
+            <End Role="tb_acoesProjeto" EntitySet="tb_acoesProjeto" />
+          </AssociationSet>
+          <AssociationSet Name="fk_acoesProjeto_id_comentarioAtividade" Association="tccModel.fk_acoesProjeto_id_comentarioAtividade">
+            <End Role="tb_comentarioAtividade" EntitySet="tb_comentarioAtividade" />
+            <End Role="tb_acoesProjeto" EntitySet="tb_acoesProjeto" />
+          </AssociationSet>
+          <AssociationSet Name="fk_acoesProjeto_id_etapa" Association="tccModel.fk_acoesProjeto_id_etapa">
+            <End Role="tb_etapa" EntitySet="tb_etapa" />
+            <End Role="tb_acoesProjeto" EntitySet="tb_acoesProjeto" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -812,6 +884,42 @@
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
+        <Association Name="fk_acoesProjeto_id_atividade">
+          <End Type="tccModel.tb_atividade" Role="tb_atividade" Multiplicity="0..1" />
+          <End Type="tccModel.tb_acoesProjeto" Role="tb_acoesProjeto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_atividade">
+              <PropertyRef Name="id_atividade" />
+            </Principal>
+            <Dependent Role="tb_acoesProjeto">
+              <PropertyRef Name="id_atividade" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_acoesProjeto_id_comentarioAtividade">
+          <End Type="tccModel.tb_comentarioAtividade" Role="tb_comentarioAtividade" Multiplicity="0..1" />
+          <End Type="tccModel.tb_acoesProjeto" Role="tb_acoesProjeto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_comentarioAtividade">
+              <PropertyRef Name="id_comentario" />
+            </Principal>
+            <Dependent Role="tb_acoesProjeto">
+              <PropertyRef Name="id_comentarioAtividade" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_acoesProjeto_id_etapa">
+          <End Type="tccModel.tb_etapa" Role="tb_etapa" Multiplicity="0..1" />
+          <End Type="tccModel.tb_acoesProjeto" Role="tb_acoesProjeto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_etapa">
+              <PropertyRef Name="id_etapa" />
+            </Principal>
+            <Dependent Role="tb_acoesProjeto">
+              <PropertyRef Name="id_etapa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -821,6 +929,9 @@
           <EntitySetMapping Name="tb_acoesProjeto">
             <EntityTypeMapping TypeName="tccModel.tb_acoesProjeto">
               <MappingFragment StoreEntitySet="tb_acoesProjeto">
+                <ScalarProperty Name="id_etapa" ColumnName="id_etapa" />
+                <ScalarProperty Name="id_comentarioAtividade" ColumnName="id_comentarioAtividade" />
+                <ScalarProperty Name="id_atividade" ColumnName="id_atividade" />
                 <ScalarProperty Name="id_acao" ColumnName="id_acao" />
                 <ScalarProperty Name="id_projeto" ColumnName="id_projeto" />
                 <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />

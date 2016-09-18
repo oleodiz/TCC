@@ -20,8 +20,14 @@ namespace Model
         public int id_tipoAcaoProjeto { get; set; }
         public System.DateTime data_acao { get; set; }
         public string descricao { get; set; }
+        public Nullable<int> id_atividade { get; set; }
+        public Nullable<int> id_comentarioAtividade { get; set; }
+        public Nullable<int> id_etapa { get; set; }
     
         public virtual tb_projeto tb_projeto { get; set; }
         public virtual tb_tipoAcaoProjeto tb_tipoAcaoProjeto { get; set; }
+        public virtual tb_atividade tb_atividade { get; set; }
+        public virtual tb_comentarioAtividade tb_comentarioAtividade { get; set; }
+        public virtual tb_etapa tb_etapa { get; set; }
     }
 }

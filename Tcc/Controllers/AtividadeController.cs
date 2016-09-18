@@ -69,7 +69,7 @@ namespace Mvc5Project.Controllers
 
                 if (idAtividade != -1)
                 {
-                    mAcoes.registraNovaAtividade(id, idUser, "Atividade '"+model.titulo+"'");
+                    mAcoes.registraNovaAtividade(id, idUser, idAtividade, "Atividade '"+model.titulo+"' criada");
                     return RedirectToAction("P", "Projetos", new { id = id });
                 }
             }
