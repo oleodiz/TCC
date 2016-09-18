@@ -182,7 +182,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
-    <Compile Include="Controllers\EtapaController.cs" />
+    <Compile Include="Controllers\AtividadeController.cs" />
     <Compile Include="Controllers\FormExampleController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -316,6 +316,7 @@
     <Content Include="Views\Projetos\P.cshtml" />
     <Content Include="Views\Projetos\NovaEtapa.cshtml" />
     <Content Include="Views\Usuario\U.cshtml" />
+    <Content Include="Views\Atividade\Nova.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

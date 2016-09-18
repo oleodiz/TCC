@@ -27,7 +27,7 @@ namespace Model
     
         public int id_projeto { get; set; }   
 
-        [Required]
+        [Required(AllowEmptyStrings =false,ErrorMessage ="Campo Obrigatório",ErrorMessageResourceName =null,ErrorMessageResourceType =null)]      
         [StringLength(20, ErrorMessage = "O título de {0} deve conter entre {2} e {1} caracteres.", MinimumLength = 5)]
         [Display(Name = "Título:")]
         public string titulo { get; set; }
@@ -37,12 +37,12 @@ namespace Model
         [Display(Name = "Descrição:")]
         public string descricao { get; set; }
 
-        [Required]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Campo Obrigatório", ErrorMessageResourceName = null, ErrorMessageResourceType = null)]
         [Column(TypeName = "DateTime2")]
         [Display(Name = "Início:")]
         public System.DateTime data_inicio { get; set; }
-        [Required]
-        [Display(Name = "Termino:")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Campo Obrigatório", ErrorMessageResourceName = null, ErrorMessageResourceType = null)]
+        [Display(Name = "Término:")]
         [Column(TypeName = "DateTime2")]
         public Nullable<System.DateTime> data_fim { get; set; }
 

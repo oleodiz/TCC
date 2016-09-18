@@ -66,6 +66,7 @@ namespace Mvc5Project.Controllers
             ViewBag.Participantes  = participantes;
             ViewBag.Informacao = projeto.titulo;
             ViewBag.IsOrientador = isOrientador;
+            ViewBag.IdProjeto = id;
             return View(projeto);
         }
 
@@ -193,7 +194,7 @@ namespace Mvc5Project.Controllers
             else
                 userEmail = AccountController.FindIdByUser(userEmail);
 
-            if (mPuf.usuarioJaEstaNoProjeto(userEmail, idProjeto))
+            if (mPuf.usuarioEstaNoProjeto(userEmail, idProjeto))
                 return Json("Este usuário já é um membro do projeto!", JsonRequestBehavior.AllowGet);
 
             if (userEmail == null || userEmail == "")

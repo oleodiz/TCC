@@ -1,0 +1,92 @@
+﻿@model Model.tb_atividade
+
+@{
+    ViewBag.Title = "Nova";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container" style="padding-top: 50px;">
+@using (Html.BeginForm())
+            {
+    @Html.AntiForgeryToken()
+
+    <div class="jumbotron">
+        <h2>Nova Atividade</h2>
+        <div class="row">
+            <div class="col-md-6">
+
+                <div class="form-horizontal">
+                    <br />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.titulo, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.titulo, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.titulo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.descricao, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.descricao, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.descricao, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Prioridade:</label>
+                        <div class="col-md-10">
+                            @Html.DropDownList("id_prioridadeAtividade", null, new { @class = "form-control", id = "id_prioridadeAtividade", style = "padding-bottom: 4px" })
+                        </div>
+                    </div>
+
+                    
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6">
+
+                <h4>Responsáveis</h4>
+                <hr />    
+                
+                <ul>
+
+                    @{int i = 0; }
+                    @foreach (var usu in ViewBag.Participantes as List<string>)
+                    {
+                        var imgUrl = Url.Content("~/Content/images/profile/" + usu + ".png");
+                        if (!File.Exists(Server.MapPath(imgUrl)))
+                        {
+                            imgUrl = Url.Content("~/Content/images/profile/noUser.png") + "?time=" + DateTime.Now.ToString();
+                        }
+                        <li>
+                            <input type="checkbox" id="cb\@i" checked/>
+                            <label class="labelimg" for="cb\@i"><img src="@imgUrl" /></label>
+                            <center>@usu</center>
+                            <input type="hidden" id="cb_idUser" value="@ViewBag.Ids[i]" />
+                        </li>
+
+                        i = i + 1;
+                    }
+
+
+
+                    
+                </ul>         
+
+            </div>
+            <div class="modal-footer">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Criar" class="btn btn-primary" />
+                </div>
+            </div>
+
+            </div>
+        </div>
+
+        
+       }
+</div>

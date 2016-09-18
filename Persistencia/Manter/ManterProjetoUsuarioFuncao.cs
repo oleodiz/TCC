@@ -39,7 +39,7 @@ namespace Persistencia.Manter
                 return false;
         }
 
-        public bool usuarioJaEstaNoProjeto(string idUser, int idProjeto)
+        public bool usuarioEstaNoProjeto(string idUser, int idProjeto)
         {
             tb_projetoUsuarioFuncao puf = conexao.tb_projetoUsuarioFuncao.Where(p => p.id_projeto == idProjeto && p.id_usuario == idUser).FirstOrDefault();
             if (puf != null)

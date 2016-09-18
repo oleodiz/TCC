@@ -11,7 +11,8 @@ namespace Model
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class tb_atividade
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -24,11 +25,25 @@ namespace Model
     
         public int id_atividade { get; set; }
         public int id_projeto { get; set; }
+
+
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Campo Obrigatório", ErrorMessageResourceName = null, ErrorMessageResourceType = null)]
+        [StringLength(20, ErrorMessage = "O título de {0} deve conter entre {2} e {1} caracteres.", MinimumLength = 5)]
+        [Display(Name = "Título:")]
         public string titulo { get; set; }
+
+
+        [DataType(DataType.MultilineText)]
+        [StringLength(8000, ErrorMessage = "Limite de caracteres excedido. Máximo 8000 caracteres!", MinimumLength = 0)]
+        [Display(Name = "Descrição:")]
         public string descricao { get; set; }
+
+
         public System.DateTime data_criacao { get; set; }
         public int id_statusAtividade { get; set; }
         public string id_usuario { get; set; }
+
+
         public int id_prioridadeAtividade { get; set; }
     
         public virtual tb_prioridadeAtividade tb_prioridadeAtividade { get; set; }

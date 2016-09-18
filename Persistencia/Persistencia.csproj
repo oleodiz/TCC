@@ -49,10 +49,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Manter\ManterAtividade.cs" />
     <Compile Include="Manter\ManterEtapa.cs" />
     <Compile Include="Manter\ManterFuncao.cs" />
+    <Compile Include="Manter\ManterPrioridadeAtividade.cs" />
     <Compile Include="Manter\ManterProjeto.cs" />
     <Compile Include="Manter\ManterProjetoUsuarioFuncao.cs" />
+    <Compile Include="Manter\ManterStatusAtividade.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
