@@ -42,7 +42,7 @@ namespace Model
         public System.DateTime data_criacao { get; set; }
         public int id_statusAtividade { get; set; }
         public string id_usuario { get; set; }
-
+        public int sequencia { get; set; }
 
         public int id_prioridadeAtividade { get; set; }
     

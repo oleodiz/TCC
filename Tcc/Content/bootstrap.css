@@ -8487,7 +8487,7 @@ input[type="checkbox"][id^="tb_atividade"] {
 label {
   border: 1px solid #fff;
   padding: 10px;
-  display: block;
+  /*display: block;*/
   position: relative;
   cursor: pointer;
 }

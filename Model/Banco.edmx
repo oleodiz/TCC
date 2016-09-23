@@ -32,6 +32,7 @@
           <Property Name="id_statusAtividade" Type="int" Nullable="false" />
           <Property Name="id_usuario" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="id_prioridadeAtividade" Type="int" Nullable="false" />
+          <Property Name="sequencia" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="tb_atividadeResponsavel">
           <Key>
@@ -500,6 +501,7 @@
           <NavigationProperty Name="tb_comentarioAtividade" Relationship="Self.fk_comentarioAtividade_id_atividade" FromRole="tb_atividade" ToRole="tb_comentarioAtividade" />
           <NavigationProperty Name="tb_etapa" Relationship="Self.tb_etapaAtividade" FromRole="tb_atividade" ToRole="tb_etapa" />
           <NavigationProperty Name="tb_acoesProjeto" Relationship="tccModel.fk_acoesProjeto_id_atividade" FromRole="tb_atividade" ToRole="tb_acoesProjeto" />
+          <Property Name="sequencia" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="tb_atividadeResponsavel">
           <Key>
@@ -947,6 +949,7 @@
           <EntitySetMapping Name="tb_atividade">
             <EntityTypeMapping TypeName="tccModel.tb_atividade">
               <MappingFragment StoreEntitySet="tb_atividade">
+                <ScalarProperty Name="sequencia" ColumnName="sequencia" />
                 <ScalarProperty Name="id_atividade" ColumnName="id_atividade" />
                 <ScalarProperty Name="id_projeto" ColumnName="id_projeto" />
                 <ScalarProperty Name="titulo" ColumnName="titulo" />

@@ -18,6 +18,7 @@ namespace Mvc5Project.Controllers
         ManterEtapa mEtapa = new ManterEtapa();
         ManterProjetoUsuarioFuncao mPuf = new ManterProjetoUsuarioFuncao();
         ManterAcoesProjeto mAcoes = new ManterAcoesProjeto();
+        ManterAtividade mAtividade = new ManterAtividade();
         // GET: Projetos       
         public ActionResult Index()
         {
@@ -58,7 +59,7 @@ namespace Mvc5Project.Controllers
 
             }
 
-            
+            ViewBag.Atividades = mAtividade.obterAtividadesDoProjeto(id);
             ViewBag.ComboFuncoes = comboBoxFuncoes;
             ViewBag.Funcoes = funcoes;
             ViewBag.Participantes  = participantes;

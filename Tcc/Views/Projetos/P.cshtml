@@ -1,4 +1,5 @@
 ﻿@model Model.tb_projeto
+@using Model;
 @using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = "P";
@@ -7,19 +8,118 @@
 
 <script src="~/Scripts/jquery-2.1.4.min.js"></script>
 <div class="col-lg-8" style="padding-top: 50px;">
-    @Html.ActionLink("Nova", "Nova", "Atividade", new { id = ViewBag.IdProjeto }, new {@class = "btn btn-success btn-lg", style = "float: left"})
-
-
+    
     <div class="jumbotronnomarginbot" style="background-color: #FFFFFF;">
         <center>         
             <h4 style="margin-right:60px">Atividades</h4>
+            @Html.ActionLink("Nova", "Nova", "Atividade", new { id = ViewBag.IdProjeto }, new { @class = "btn btn-success btn-lg", style = "float: left" })
+            <ul class="nav nav-tabs">
+              
+                <li class=""><a href="#pendentes" data-toggle="tab" aria-expanded="true">Pendentes</a></li>
+                <li class="active"><a href="#andamento" data-toggle="tab" aria-expanded="false">Em andamento</a></li>
+                <li class=""><a href="#verificacao" data-toggle="tab" aria-expanded="false">Em verificação</a></li>
+                <li class=""><a href="#finalizada" data-toggle="tab" aria-expanded="false">Finalizadas</a></li>
+                
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade active in" id="pendentes">
+                    <p>
+                        @foreach (tb_atividade item in ViewBag.Atividades as List<tb_atividade>)
+                        {
+                            if (item.id_statusAtividade == 1)
+                            {
+                            
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        @item.sequencia
+                                    </div>
+                                    <div class="col-md-3">
+                                        @Html.ActionLink(item.titulo, "A", "Atividade", new { id = item.id_projeto, id2 = item.id_atividade }, null)
+                                    </div>
+                                    <div class="col-md-4">
+                                        @item.tb_prioridadeAtividade.descricao
+                                    </div>
+                                    <div class="col-md-2">
+                                        a
+                                    </div>
+                                    <div class="col-md-2">
+                                        a
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                            }
+                        }
 
-            <div class="btn-group btn-group-justified">
-                <a href="#" class="btn btn-default">Pendentes</a>
-                <a href="#" class="btn btn-default">Em andamento</a>
-                <a href="#" class="btn btn-default">Em verificação</a>
-                <a href="#" class="btn btn-default">Finalizadas</a>
+                    </p>
+                </div>
+                <div class="tab-pane fade" id="andamento">
+                    <p>
+                        @foreach (var item in ViewBag.Atividades as List<tb_atividade>)
+                        {
+                            if (item.id_statusAtividade == 2)
+                            {
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                        </div>
+                                        <div class="col-md-4">
+                                        </div>
+                                        <div class="col-md-2">
+                                        </div>
+                                        <div class="col-md-2">
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+
+                    </p>
+                </div>
+                <div class="tab-pane fade" id="verificacao">
+                    <p>@foreach (var item in ViewBag.Atividades as List<tb_atividade>)
+                    {
+                        if (item.id_statusAtividade == 3)
+                        {
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                    </div>
+                                    <div class="col-md-4">
+                                    </div>
+                                    <div class="col-md-2">
+                                    </div>
+                                    <div class="col-md-2">
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }</p>
+                </div>
+                <div class="tab-pane fade" id="finalizada">
+                    <p>@foreach (var item in ViewBag.Atividades as List<tb_atividade>)
+                    {
+                        if (item.id_statusAtividade == 4)
+                        {
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                    </div>
+                                    <div class="col-md-4">
+                                    </div>
+                                    <div class="col-md-2">
+                                    </div>
+                                    <div class="col-md-2">
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }</p>
+                </div>
             </div>
+
+
         </center>
     </div>
 </div>
