@@ -66,9 +66,10 @@
                         }
                         <li>
                             <input type="checkbox" id="tb_atividadeResponsavel[@i].id_usuario" name="tb_atividadeResponsavel[@i].id_usuario" value="@ViewBag.Ids[i]" checked/>
+
                             <label class="labelimg" for="tb_atividadeResponsavel[@i].id_usuario"><img src="@imgUrl" /></label>
                             <center>@usu</center>
-                            
+
                         </li>
 
                         i = i + 1;
@@ -103,8 +104,9 @@
                     i = i + 1;
                 }
                 else
+                {
                     $(this).attr("name", "");
-
+                }
             });
 
             this.submit();

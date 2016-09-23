@@ -31,5 +31,6 @@ namespace Model
         public virtual tb_atividade tb_atividade { get; set; }
         public virtual tb_comentarioAtividade tb_comentarioAtividade { get; set; }
         public virtual tb_etapa tb_etapa { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

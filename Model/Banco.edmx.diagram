@@ -34,6 +34,14 @@
         <AssociationConnector Association="tccModel.fk_acoesProjeto_id_atividade" />
         <AssociationConnector Association="tccModel.fk_acoesProjeto_id_comentarioAtividade" />
         <AssociationConnector Association="tccModel.fk_acoesProjeto_id_etapa" />
+        <EntityTypeShape EntityType="tccModel.AspNetUser" Width="1.5" PointX="0.75" PointY="5.625" />
+        <AssociationConnector Association="tccModel.fk_acoesProjeto_id_usuario" />
+        <AssociationConnector Association="tccModel.fk_atividade_id_usuario" />
+        <AssociationConnector Association="tccModel.fk_atividadeResponsavel_id_usuario" />
+        <AssociationConnector Association="tccModel.fk_comentarioAtividade_id_usuario" />
+        <AssociationConnector Association="tccModel.fk_etapa_id_usuario" />
+        <AssociationConnector Association="tccModel.fk_projeto_id_usuario" />
+        <AssociationConnector Association="tccModel.fk_projetoUsuarioFuncao_id_usuario" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -40,6 +40,7 @@ namespace Model
         public virtual DbSet<tb_statusEtapa> tb_statusEtapa { get; set; }
         public virtual DbSet<tb_statusProjeto> tb_statusProjeto { get; set; }
         public virtual DbSet<tb_tipoAcaoProjeto> tb_tipoAcaoProjeto { get; set; }
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {

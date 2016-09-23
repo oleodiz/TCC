@@ -16,7 +16,9 @@ namespace Model
     {
         public int id_atividade { get; set; }
         public string id_usuario { get; set; }
+        public string UserName { get; set; }
     
         public virtual tb_atividade tb_atividade { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

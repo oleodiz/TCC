@@ -57,5 +57,6 @@ namespace Model
         public virtual ICollection<tb_etapa> tb_etapa { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_acoesProjeto> tb_acoesProjeto { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

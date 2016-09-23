@@ -78,7 +78,9 @@ namespace Mvc5Project.Controllers
             model.id_usuario = idUser;
             model.id_projeto = id;
             model.sequencia = mAtividade.obterUltimoNumeroSequencia(id);
-          
+         
+
+
             if (ModelState.IsValid)
             {
                 int idAtividade = mAtividade.salvarAtividade(model);

@@ -58,5 +58,6 @@ namespace Model
         public virtual tb_statusProjeto tb_statusProjeto { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_projetoUsuarioFuncao> tb_projetoUsuarioFuncao { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

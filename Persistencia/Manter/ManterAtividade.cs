@@ -51,11 +51,11 @@ namespace Persistencia.Manter
 
         public int obterUltimoNumeroSequencia(int idProjeto)
         {
-            tb_atividade atividades = conexao.tb_atividade.Where(p => p.id_projeto == idProjeto).ToList().Last();
-            if (atividades == null)
+            List<tb_atividade> atividades = conexao.tb_atividade.Where(p => p.id_projeto == idProjeto).ToList();
+            if (atividades.Count ==0)
                 return 1;
 
-            return atividades.sequencia+1;
+            return atividades.Last().sequencia +1;
         }
     }
 }

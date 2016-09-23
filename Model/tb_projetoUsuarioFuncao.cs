@@ -22,5 +22,6 @@ namespace Model
         public string funcao { get; set; }
         public virtual tb_funcaoProjeto tb_funcaoProjeto { get; set; }
         public virtual tb_projeto tb_projeto { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

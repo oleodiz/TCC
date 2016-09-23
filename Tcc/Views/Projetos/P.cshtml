@@ -1,5 +1,6 @@
 ﻿@model Model.tb_projeto
 @using Model;
+@using Mvc5Project.Controllers;
 @using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = "P";
@@ -15,8 +16,8 @@
             @Html.ActionLink("Nova", "Nova", "Atividade", new { id = ViewBag.IdProjeto }, new { @class = "btn btn-success btn-lg", style = "float: left" })
             <ul class="nav nav-tabs">
               
-                <li class=""><a href="#pendentes" data-toggle="tab" aria-expanded="true">Pendentes</a></li>
-                <li class="active"><a href="#andamento" data-toggle="tab" aria-expanded="false">Em andamento</a></li>
+                <li class="active"><a href="#pendentes" data-toggle="tab" aria-expanded="true">Pendentes</a></li>
+                <li class=""><a href="#andamento" data-toggle="tab" aria-expanded="false">Em andamento</a></li>
                 <li class=""><a href="#verificacao" data-toggle="tab" aria-expanded="false">Em verificação</a></li>
                 <li class=""><a href="#finalizada" data-toggle="tab" aria-expanded="false">Finalizadas</a></li>
                 
@@ -24,30 +25,60 @@
             <div id="myTabContent" class="tab-content">
                 <div class="tab-pane fade active in" id="pendentes">
                     <p>
+                        <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                            <div class="col-md-1">
+                                Cod.
+                            </div>
+                            <div class="col-md-3">
+                                Título
+                            </div>
+                            <div class="col-md-4">
+                                Prioridade
+                            </div>
+                            <div class="col-md-2">
+                                Responsáveis
+                            </div>
+                            <div class="col-md-2">
+                                Ações
+                            </div>
+
+                        </div>
+                        <hr />
                         @foreach (tb_atividade item in ViewBag.Atividades as List<tb_atividade>)
                         {
                             if (item.id_statusAtividade == 1)
                             {
                             
                             <div class="container-fluid">
-                                <div class="row">
-                                    <div class="col-md-1">
-                                        @item.sequencia
-                                    </div>
-                                    <div class="col-md-3">
-                                        @Html.ActionLink(item.titulo, "A", "Atividade", new { id = item.id_projeto, id2 = item.id_atividade }, null)
-                                    </div>
-                                    <div class="col-md-4">
-                                        @item.tb_prioridadeAtividade.descricao
-                                    </div>
-                                    <div class="col-md-2">
-                                        a
-                                    </div>
-                                    <div class="col-md-2">
-                                        a
+                                   
+                                    <div class="row">
+
+                                        <div class="col-md-1">
+                                            @item.sequencia
+                                        </div>
+                                       
+                                        <div class="col-md-3">
+                                            @Html.ActionLink(item.titulo, "A", "Atividade", new { id = item.id_projeto, id2 = item.id_atividade }, new { @style = "color:#333333" })
+                                        </div>
+                                        <div class="col-md-4">
+                                            @item.tb_prioridadeAtividade.descricao
+                                        </div>
+                                        <div class="col-md-2">
+                                            @foreach (tb_atividadeResponsavel ar in item.tb_atividadeResponsavel)
+                                            {
+                                                var imgUrl = Url.Content("~/Content/images/profile/" + ar.AspNetUser.UserName + ".png");
+                                                if (!File.Exists(Server.MapPath(imgUrl)))
+                                                {
+                                                    imgUrl = Url.Content("~/Content/images/profile/noUser.png") + "?time=" + DateTime.Now.ToString();
+                                                }
+                                                <div class="col-md-5"><img src="@imgUrl" height="30" width="30" class="perfilImagem" /> </div>
+                                            }
+                                        </div>
+                                        <div class="col-md-2">
+                                            @Html.ActionLink("Ver...", "A", "Atividade", new { id = item.id_projeto, id2 = item.id_atividade }, null)
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                             <hr />
                             }
                         }
@@ -56,66 +87,192 @@
                 </div>
                 <div class="tab-pane fade" id="andamento">
                     <p>
-                        @foreach (var item in ViewBag.Atividades as List<tb_atividade>)
+                        <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                            <div class="col-md-1">
+                                Cod.
+                            </div>
+                            <div class="col-md-3">
+                                Título
+                            </div>
+                            <div class="col-md-4">
+                                Prioridade
+                            </div>
+                            <div class="col-md-2">
+                                Responsáveis
+                            </div>
+                            <div class="col-md-2">
+                                Ações
+                            </div>
+
+                        </div>
+                        <hr />
+                        @foreach (tb_atividade item in ViewBag.Atividades as List<tb_atividade>)
                         {
                             if (item.id_statusAtividade == 2)
                             {
+
                                 <div class="container-fluid">
+
                                     <div class="row">
-                                        <div class="col-md-4">
+
+                                        <div class="col-md-1">
+                                            @item.sequencia
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            @Html.ActionLink(item.titulo, "A", "Atividade", new { id = item.id_projeto, id2 = item.id_atividade }, new { @style = "color:#333333" })
                                         </div>
                                         <div class="col-md-4">
+                                            @item.tb_prioridadeAtividade.descricao
                                         </div>
                                         <div class="col-md-2">
+                                            @foreach (tb_atividadeResponsavel ar in item.tb_atividadeResponsavel)
+                                            {
+                                                var imgUrl = Url.Content("~/Content/images/profile/" + ar.UserName + ".png");
+                                                if (!File.Exists(Server.MapPath(imgUrl)))
+                                                {
+                                                    imgUrl = Url.Content("~/Content/images/profile/noUser.png") + "?time=" + DateTime.Now.ToString();
+                                                }
+                                                <div class="col-md-5"><img src="@imgUrl" height="30" width="30" class="perfilImagem" /> </div>
+                                            }
                                         </div>
                                         <div class="col-md-2">
+                                            @Html.ActionLink("Ver...", "A", "Atividade", new { id = item.id_projeto, id2 = item.id_atividade }, null)
                                         </div>
                                     </div>
                                 </div>
+                                <hr />
                             }
                         }
 
                     </p>
+
                 </div>
                 <div class="tab-pane fade" id="verificacao">
-                    <p>@foreach (var item in ViewBag.Atividades as List<tb_atividade>)
-                    {
-                        if (item.id_statusAtividade == 3)
+                    <p>
+                        <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                            <div class="col-md-1">
+                                Cod.
+                            </div>
+                            <div class="col-md-3">
+                                Título
+                            </div>
+                            <div class="col-md-4">
+                                Prioridade
+                            </div>
+                            <div class="col-md-2">
+                                Responsáveis
+                            </div>
+                            <div class="col-md-2">
+                                Ações
+                            </div>
+
+                        </div>
+                        <hr />
+                        @foreach (tb_atividade item in ViewBag.Atividades as List<tb_atividade>)
                         {
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                    </div>
-                                    <div class="col-md-4">
-                                    </div>
-                                    <div class="col-md-2">
-                                    </div>
-                                    <div class="col-md-2">
+                            if (item.id_statusAtividade == 3)
+                            {
+
+                                <div class="container-fluid">
+
+                                    <div class="row">
+
+                                        <div class="col-md-1">
+                                            @item.sequencia
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            @Html.ActionLink(item.titulo, "A", "Atividade", new { id = item.id_projeto, id2 = item.id_atividade }, new { @style = "color:#333333" })
+                                        </div>
+                                        <div class="col-md-4">
+                                            @item.tb_prioridadeAtividade.descricao
+                                        </div>
+                                        <div class="col-md-2">
+                                            @foreach (tb_atividadeResponsavel ar in item.tb_atividadeResponsavel)
+                                            {
+                                                var imgUrl = Url.Content("~/Content/images/profile/" + ar.UserName + ".png");
+                                                if (!File.Exists(Server.MapPath(imgUrl)))
+                                                {
+                                                    imgUrl = Url.Content("~/Content/images/profile/noUser.png") + "?time=" + DateTime.Now.ToString();
+                                                }
+                                                <div class="col-md-5"><img src="@imgUrl" height="30" width="30" class="perfilImagem" /> </div>
+                                            }
+                                        </div>
+                                        <div class="col-md-2">
+                                            @Html.ActionLink("Ver...", "A", "Atividade", new { id = item.id_projeto, id2 = item.id_atividade }, null)
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                                <hr />
+                            }
                         }
-                    }</p>
+
+                    </p>
+
                 </div>
                 <div class="tab-pane fade" id="finalizada">
-                    <p>@foreach (var item in ViewBag.Atividades as List<tb_atividade>)
-                    {
-                        if (item.id_statusAtividade == 4)
+                    <p>
+                        <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                            <div class="col-md-1">
+                                Cod.
+                            </div>
+                            <div class="col-md-3">
+                                Título
+                            </div>
+                            <div class="col-md-4">
+                                Prioridade
+                            </div>
+                            <div class="col-md-2">
+                                Responsáveis
+                            </div>
+                            <div class="col-md-2">
+                                Ações
+                            </div>
+
+                        </div>
+                        <hr />
+                        @foreach (tb_atividade item in ViewBag.Atividades as List<tb_atividade>)
                         {
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                    </div>
-                                    <div class="col-md-4">
-                                    </div>
-                                    <div class="col-md-2">
-                                    </div>
-                                    <div class="col-md-2">
+                            if (item.id_statusAtividade == 4)
+                            {
+
+                                <div class="container-fluid">
+
+                                    <div class="row">
+
+                                        <div class="col-md-1">
+                                            @item.sequencia
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            @Html.ActionLink(item.titulo, "A", "Atividade", new { id = item.id_projeto, id2 = item.id_atividade }, new { @style = "color:#333333" })
+                                        </div>
+                                        <div class="col-md-4">
+                                            @item.tb_prioridadeAtividade.descricao
+                                        </div>
+                                        <div class="col-md-2">
+                                            @foreach (tb_atividadeResponsavel ar in item.tb_atividadeResponsavel)
+                                            {
+                                                var imgUrl = Url.Content("~/Content/images/profile/" + ar.UserName + ".png");
+                                                if (!File.Exists(Server.MapPath(imgUrl)))
+                                                {
+                                                    imgUrl = Url.Content("~/Content/images/profile/noUser.png") + "?time=" + DateTime.Now.ToString();
+                                                }
+                                                <div class="col-md-5"><img src="@imgUrl" height="30" width="30" class="perfilImagem" /> </div>
+                                            }
+                                        </div>
+                                        <div class="col-md-2">
+                                            @Html.ActionLink("Ver...", "A", "Atividade", new { id = item.id_projeto, id2 = item.id_atividade }, null)
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                                <hr />
+                            }
                         }
-                    }</p>
+
+                    </p>
+
                 </div>
             </div>
 

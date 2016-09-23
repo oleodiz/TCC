@@ -59,6 +59,8 @@ namespace Mvc5Project.Controllers
 
             }
 
+
+
             ViewBag.Atividades = mAtividade.obterAtividadesDoProjeto(id);
             ViewBag.ComboFuncoes = comboBoxFuncoes;
             ViewBag.Funcoes = funcoes;
