@@ -19,6 +19,7 @@ namespace Mvc5Project.Controllers
         ManterProjetoUsuarioFuncao mPuf = new ManterProjetoUsuarioFuncao();
         ManterAcoesProjeto mAcoes = new ManterAcoesProjeto();
         ManterAtividade mAtividade = new ManterAtividade();
+        ManterComentarios mComentario = new ManterComentarios();
         // GET: Projetos       
         public ActionResult Index()
         {
@@ -179,6 +180,25 @@ namespace Mvc5Project.Controllers
             return comboBoxFuncoes;
         }
 
+
+        [HttpGet]
+        public ActionResult InformacoesDaAtividade(int idAtividade, int idProjeto)
+        {
+            if (!User.Identity.IsAuthenticated)
+                return Json("Você não está autenticado!", JsonRequestBehavior.AllowGet);
+
+            String id_user = AccountController.FindIdByUser(User.Identity.Name);
+
+            if (!mPuf.usuarioEstaNoProjeto(id_user, idProjeto))
+                return Json("Você não pode visualizar essa atividade", JsonRequestBehavior.AllowGet);
+
+            tb_atividade ativ = mAtividade.obterProId(idAtividade);
+
+            return PartialView(ativ);
+        }
+
+
+
         [HttpGet]
         public JsonResult AdicionarUsuarioAoProjeto(string userEmail, int idFuncao, int idProjeto)
         {
@@ -222,7 +242,6 @@ namespace Mvc5Project.Controllers
         {
             if (ultimaData == null)
                 return null;
-            //TODO VERIFICAR SE ESSE METODO ESTÁ DEMORANDO
             if (!User.Identity.IsAuthenticated)
                 return RedirectToAction("Index", "Home");
 
@@ -237,17 +256,38 @@ namespace Mvc5Project.Controllers
             }
 
             List<tb_acoesProjeto> acoes = mAcoes.obterAcoesDosProjetosDoUsuario(idUser, idsProjetoUsuario, DateTime.Parse( ultimaData));
-            if (acoes != null)
-            for (int i =0; i < acoes.Count; i++) //Preguiça de fazer um Join
-            {
-                foreach(tb_projeto p in projetos)
-                {
-                    if (acoes[i].id_projeto == p.id_projeto)
-                        acoes[i].nomeProjeto = p.titulo;
-                }
-            }
+          
 
             return PartialView(acoes);
+        }
+
+        [HttpGet]
+        public ActionResult Comentario(String comentario, int id_atividade)
+        {
+            if (comentario == "")
+                return null;
+
+
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
+            string idUser = AccountController.FindIdByUser(User.Identity.Name);
+
+            tb_comentarioAtividade coment = new tb_comentarioAtividade();
+            coment.ativo = true;
+            coment.comentario = comentario;
+            coment.data_comentario = DateTime.Now;
+            coment.id_atividade = id_atividade;
+            coment.id_usuario = idUser;
+
+            coment.id_comentario =  mComentario.salvarComentario(coment);
+            if(coment.id_comentario == -1)
+            {
+                return null;
+            }
+
+
+            return PartialView(mComentario.obterProId(coment.id_comentario));
         }
 
 

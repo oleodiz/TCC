@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Manter\ManterAcoesProjeto.cs" />
     <Compile Include="Manter\ManterAtividade.cs" />
+    <Compile Include="Manter\ManterComentarios.cs" />
     <Compile Include="Manter\ManterEtapa.cs" />
     <Compile Include="Manter\ManterFuncao.cs" />
     <Compile Include="Manter\ManterPrioridadeAtividade.cs" />

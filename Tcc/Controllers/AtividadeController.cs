@@ -30,7 +30,9 @@ namespace Mvc5Project.Controllers
             if (!mPuf.usuarioEstaNoProjeto(idUser, id))
                 return RedirectToAction("Index", "Projetos");
 
-            return View();
+            tb_atividade atividade = mAtividade.obterProId(id2);
+
+            return View(atividade);
         }
 
         public ActionResult Nova(int id)

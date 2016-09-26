@@ -57,5 +57,6 @@ namespace Persistencia.Manter
 
             return atividades.Last().sequencia +1;
         }
+
     }
 }

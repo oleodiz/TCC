@@ -319,6 +319,8 @@
     <Content Include="Views\Atividade\Nova.cshtml" />
     <Content Include="Views\Projetos\ListaAcoes.cshtml" />
     <Content Include="Views\Atividade\A.cshtml" />
+    <Content Include="Views\Projetos\InformacoesDaAtividade.cshtml" />
+    <Content Include="Views\Projetos\Comentario.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

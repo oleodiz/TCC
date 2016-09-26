@@ -71,11 +71,23 @@
                                                 {
                                                     imgUrl = Url.Content("~/Content/images/profile/noUser.png") + "?time=" + DateTime.Now.ToString();
                                                 }
-                                                <div class="col-md-5"><img src="@imgUrl" height="30" width="30" class="perfilImagem" /> </div>
+                                                <div class="col-md-5">
+                                                    <a class="tooltips"  title="@ar.AspNetUser.UserName"  href="@Url.Action("U", "Usuario",new { id = ar.AspNetUser.UserName })">
+                                                        <img src="@imgUrl" height="30" width="30" class="perfilImagem" />
+                                                    </a>
+                                                 </div>
+                                                    
                                             }
                                         </div>
                                         <div class="col-md-2">
-                                            @Html.ActionLink("Ver...", "A", "Atividade", new { id = item.id_projeto, id2 = item.id_atividade }, null)
+                                            @*@Html.ActionLink("Ver...", "A", "Atividade", new { id = item.id_projeto, id2 = item.id_atividade }, null)*@    
+                                            <a class="btn_ver" data-toggle="modal" data-target="#myModal">Ver...</a>
+                                            <input type="hidden" value="@item.id_atividade"/>
+                                            @if (item.tb_comentarioAtividade.Count > 0)
+                                            {
+                                                <br>
+                                                <a style="font-size:9px; color:dimgray">@item.tb_comentarioAtividade.Count comentários</a>
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -133,11 +145,22 @@
                                                 {
                                                     imgUrl = Url.Content("~/Content/images/profile/noUser.png") + "?time=" + DateTime.Now.ToString();
                                                 }
-                                                <div class="col-md-5"><img src="@imgUrl" height="30" width="30" class="perfilImagem" /> </div>
+                                                <div class="col-md-5">
+                                                    <a class="tooltips" title="@ar.AspNetUser.UserName" href="@Url.Action("U", "Usuario",new { id = ar.AspNetUser.UserName })">
+                                                        <img src="@imgUrl" height="30" width="30" class="perfilImagem" />
+                                                    </a>
+                                                </div>
                                             }
                                         </div>
                                         <div class="col-md-2">
-                                            @Html.ActionLink("Ver...", "A", "Atividade", new { id = item.id_projeto, id2 = item.id_atividade }, null)
+                                            <a class="btn_ver" data-toggle="modal" data-target="#myModal">Ver...</a>
+                                            <input type="hidden" value="@item.id_atividade" />
+                                            @*@Html.ActionLink("Ver...", "A", "Atividade", new { id = item.id_projeto, id2 = item.id_atividade }, null)*@
+                                            @if (item.tb_comentarioAtividade.Count > 0)
+                                            {
+                                                <br>
+                                                <a >@item.tb_comentarioAtividade.Count comentários</a>
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -196,11 +219,22 @@
                                                 {
                                                     imgUrl = Url.Content("~/Content/images/profile/noUser.png") + "?time=" + DateTime.Now.ToString();
                                                 }
-                                                <div class="col-md-5"><img src="@imgUrl" height="30" width="30" class="perfilImagem" /> </div>
+                                                <div class="col-md-5">
+                                                    <a class="tooltips" title="@ar.AspNetUser.UserName" href="@Url.Action("U", "Usuario",new { id = ar.AspNetUser.UserName })">
+                                                        <img src="@imgUrl" height="30" width="30" class="perfilImagem" />
+                                                    </a>
+                                                </div>
                                             }
                                         </div>
                                         <div class="col-md-2">
-                                            @Html.ActionLink("Ver...", "A", "Atividade", new { id = item.id_projeto, id2 = item.id_atividade }, null)
+                                            @*@Html.ActionLink("Ver...", "A", "Atividade", new { id = item.id_projeto, id2 = item.id_atividade }, null)*@
+                                            <a class="btn_ver" data-toggle="modal" data-target="#myModal">Ver...</a>
+                                            <input type="hidden" value="@item.id_atividade" />
+                                            @if (item.tb_comentarioAtividade.Count > 0)
+                                            {
+                                                <br>
+                                                <a>@item.tb_comentarioAtividade.Count comentários</a>
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -259,11 +293,22 @@
                                                 {
                                                     imgUrl = Url.Content("~/Content/images/profile/noUser.png") + "?time=" + DateTime.Now.ToString();
                                                 }
-                                                <div class="col-md-5"><img src="@imgUrl" height="30" width="30" class="perfilImagem" /> </div>
+                                                <div class="col-md-5">
+                                                    <a class="tooltips" title="@ar.AspNetUser.UserName" href="@Url.Action("U", "Usuario",new { id = ar.AspNetUser.UserName })">
+                                                        <img src="@imgUrl" height="30" width="30" class="perfilImagem" />
+                                                    </a>
+                                                </div>
                                             }
                                         </div>
                                         <div class="col-md-2">
-                                            @Html.ActionLink("Ver...", "A", "Atividade", new { id = item.id_projeto, id2 = item.id_atividade }, null)
+                                            @*@Html.ActionLink("Ver...", "A", "Atividade", new { id = item.id_projeto, id2 = item.id_atividade }, null)*@
+                                            <a class="btn_ver" data-toggle="modal" data-target="#myModal">Ver...</a>
+                                            <input type="hidden" value="@item.id_atividade" />
+                                            @if (item.tb_comentarioAtividade.Count > 0)
+                                            {
+                                                <br>
+                                                <a>@item.tb_comentarioAtividade.Count comentários</a>
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -342,9 +387,22 @@
     </div>
 
 </div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog" id="model">
 
+       
 
+    </div>
+</div>
 <script>
+
+    var id_atividade = -1;
+    $('.btn_ver').on("click", function () {
+        //alert($(this).next().val());
+        id_atividade = $(this).next().val();
+        buscaInformacoesDaAtividade($(this).next().val());
+    });
 
     function hideAzul() {
         $('#alertaAzul').hide();
@@ -385,12 +443,68 @@
                         $('#retornoUsuarioErro').html(request);
                     }
                 }
-                
+
             },
             error: function (request) {
                 if (request != null) {
                     $('#alertaAmarelo').show();
-                }           
+                }
+            }
+
+        });
+    }
+
+    function buscaInformacoesDaAtividade(id) {
+        $.ajax({
+            url: '@Url.Action("InformacoesDaAtividade", "Projetos")',
+            type: 'GET',
+            dataType: 'json',
+            cache: false,
+            data: {
+                idAtividade: id,
+                idProjeto: '@Model.id_projeto'
+            },
+            success: function (request) {
+                if (request != null) {
+                    $('#model').html(request.responseText);
+
+                }
+            },
+            error: function (request) {
+                if (request != null) {
+                    $('#model').html(request.responseText);
+
+                }
+            }
+        });
+    }
+
+    $('#enviar_comentario').on("click", function () {
+        enviarComentario()
+    });
+
+    function enviarComentario() {
+        $.ajax({
+            url: '@Url.Action("Comentario", "Projetos")',
+            type: 'GET',
+            dataType: 'json',
+            cache: false,
+            data: {
+                comentario: $('#textocomentario').val(),
+                id_atividade: id_atividade
+            },
+            success: function (request) {
+                if (request != null) {
+                    $('#lista_comentarios').append(request.responseText);
+
+                }
+
+            },
+            error: function (request) {
+                if (request != null) {
+                    $('#lista_comentarios').append(request.responseText);
+
+                }
             }
 
         });

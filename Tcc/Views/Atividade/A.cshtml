@@ -1,67 +1,133 @@
 ﻿@model Model.tb_atividade
+@using Model;
 
-<div>
-    <h4>tb_atividade</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.titulo)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.titulo)
-        </dd>
+<div class="jumbotron">
+    <h2> @Model.titulo</h2>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.descricao)
-        </dt>
+    <p>@Model.descricao</p>
 
-        <dd>
-            @Html.DisplayFor(model => model.descricao)
-        </dd>
+    <div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.data_criacao)
-        </dt>
+        <div class="titleBox">
+            <label>@Model.tb_comentarioAtividade.Count Comentários</label>
+        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.data_criacao)
-        </dd>
+        <div class="actionBox">
+            <div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.id_usuario)
-        </dt>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <textarea class="form-control" rows="3" id="textocomentario" placeholder="Adicione um comentário" style="max-width: 550px;"></textarea>
 
-        <dd>
-            @Html.DisplayFor(model => model.id_usuario)
-        </dd>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-default" id="enviar_comentario" onclick="enviarComentario()">Enviar</button>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.tb_prioridadeAtividade.descricao)
-        </dt>
+                        </div>
+                    </div>
+                </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.tb_prioridadeAtividade.descricao)
-        </dd>
+            </div>
+            <ul class="commentList" id="lista_comentarios" style="max-height:1000px">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.tb_projeto.titulo)
-        </dt>
+                @foreach (tb_comentarioAtividade comentario in Model.tb_comentarioAtividade)
+                {
+                    if ((bool)comentario.ativo)
+                    {
 
-        <dd>
-            @Html.DisplayFor(model => model.tb_projeto.titulo)
-        </dd>
+                        var imgUrl = Url.Content("~/Content/images/profile/" + comentario.AspNetUser.UserName + ".png");
+                        if (!File.Exists(Server.MapPath(imgUrl)))
+                        {
+                            imgUrl = Url.Content("~/Content/images/profile/noUser.png") + "?time=" + DateTime.Now.ToString();
+                        }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.tb_statusAtividade.descricao)
-        </dt>
+                        <li>
+                            <div class="commenterImage">
+                                <img src="@imgUrl" height="30" width="30" />
+                            </div>
+                            <div class="commentText">
 
-        <dd>
-            @Html.DisplayFor(model => model.tb_statusAtividade.descricao)
-        </dd>
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-md-7">
+                                            <a class="tooltips" href="@Url.Action("U", "Usuario",new { id = comentario.AspNetUser.UserName })">@comentario.AspNetUser.UserName</a>
 
-    </dl>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <span class="date sub-text" title="@comentario.data_comentario" style="float:right">@textoDaData(comentario.data_comentario)</span>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <p class="" align="justify" style="padding-left:20px">@comentario.comentario</p>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </li>
+                        <hr />
+                    }
+                }
+
+            </ul>
+
+         
+
+        </div>
+
+    </div>
+
 </div>
-<p>
- 
-</p>
+<script>
+
+
+    function enviarComentario() {
+        $.ajax({
+            url: '@Url.Action("Comentario", "Projetos")',
+            type: 'GET',
+            dataType: 'json',
+            cache: false,
+            data: {
+                comentario: $('#textocomentario').val(),
+                id_atividade: '@Model.id_atividade'
+            },
+            success: function (request) {
+                if (request != null) {
+                    $('#lista_comentarios').append(request.responseText);
+
+                }
+
+            },
+            error: function (request) {
+                if (request != null) {
+                    $('#lista_comentarios').append(request.responseText);
+
+                }
+            }
+
+        });
+    }
+</script>
+
+    @functions{
+        public string textoDaData(DateTime data_acao)
+        {
+            TimeSpan diferenca = DateTime.Now - data_acao;
+
+            if (diferenca.Days > 0)
+            {
+                return diferenca.Days + " dia" + (diferenca.Days == 1 ? "" : "s") + " atrás";
+            }
+            if (diferenca.Hours > 0)
+                return diferenca.Hours + " hora" + (diferenca.Hours == 1 ? "" : "s") + " atrás";
+            if (diferenca.Minutes > 0)
+                return diferenca.Minutes + " minuto" + (diferenca.Minutes == 1 ? "" : "s") + " atrás";
+            if (diferenca.Seconds > 0)
+                return diferenca.Seconds + " segundo" + (diferenca.Seconds == 1 ? "" : "s") + " atrás";
+            return string.Empty;
+        }
+    }
+
