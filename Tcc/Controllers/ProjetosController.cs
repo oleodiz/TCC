@@ -1,4 +1,5 @@
 ﻿using Model;
+using Model.Auxiliares;
 using Persistencia.Manter;
 using System;
 using System.Collections.Generic;
@@ -63,6 +64,8 @@ namespace Mvc5Project.Controllers
 
 
             ViewBag.Atividades = mAtividade.obterAtividadesDoProjeto(id);
+            ViewBag.Etapas = mEtapa.obterTodosPorProjeto(id);
+
             ViewBag.ComboFuncoes = comboBoxFuncoes;
             ViewBag.Funcoes = funcoes;
             ViewBag.Participantes  = participantes;
@@ -133,15 +136,26 @@ namespace Mvc5Project.Controllers
           
             tb_projeto projeto = mProjeto.obterProId(id);
 
+            List<tb_atividade> atividadesSemEtapa = projeto.tb_atividade.Where(p => p.tb_etapa.Count() == 0).ToList();
+
+            List<CheckBoxModel> list = new List<CheckBoxModel>();
+            for (int i = 0; i < atividadesSemEtapa.Count; i++)
+            {
+                list.Add(new CheckBoxModel { Id = atividadesSemEtapa[i].id_atividade, Name = atividadesSemEtapa[i].titulo, Checked = false });
+            }
+
             ViewBag.Informacao = projeto.titulo;
             ViewBag.Id_projeto = id;
+            ViewBag.Atividades = list;
+
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> NovaEtapa(tb_etapa model)
+        public async Task<ActionResult> NovaEtapa(tb_etapa model, List<CheckBoxModel> item)
         {
+          // Request.Form.
             if (!User.Identity.IsAuthenticated)
                 return RedirectToAction("Index", "Home");
 
@@ -151,8 +165,12 @@ namespace Mvc5Project.Controllers
                 model.id_usuario = AccountController.FindIdByUser(User.Identity.Name);
                 model.id_statusEtapa = 1;
                 model.sequencia = 1;
-                
 
+                for (int i = 0; i < item.Count; i++)
+                {
+                    if (item[i].Checked)
+                        model.tb_atividade.Add(mEtapa.obterAtividadeProId(item[i].Id));
+                }
                 int id = mEtapa.salvarEtapa(model);
                 if (id != -1)
                     return RedirectToAction("P", "Projetos", new { id = model.id_projeto });
@@ -161,8 +179,17 @@ namespace Mvc5Project.Controllers
 
             tb_projeto projeto = mProjeto.obterProId(model.id_projeto);
 
+            List<tb_atividade> atividadesSemEtapa = projeto.tb_atividade.Where(p => p.tb_etapa.Count() == 0).ToList();
+
+            List<CheckBoxModel> list = new List<CheckBoxModel>();
+            for (int i = 0; i < atividadesSemEtapa.Count; i++)
+            {
+                list.Add(new CheckBoxModel { Id = atividadesSemEtapa[i].id_atividade, Name = atividadesSemEtapa[i].titulo, Checked = false });
+            }
+
             ViewBag.Informacao = projeto.titulo;
             ViewBag.Id_projeto = model.id_projeto;
+                        ViewBag.Atividades = list;
 
             return View();
         }

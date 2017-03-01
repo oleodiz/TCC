@@ -21,6 +21,11 @@ namespace Persistencia.Manter
             List<tb_etapa> etapas = conexao.tb_etapa.Where(e => e.id_projeto == idProjeto).ToList();
             return etapas;
         }
+        public tb_atividade obterAtividadeProId(int idAtividade)
+        {
+            tb_atividade atividade = conexao.tb_atividade.ToList().Where(p => p.id_atividade == idAtividade).FirstOrDefault();
+            return atividade;
+        }
         public int salvarEtapa(tb_etapa etapa)
         {
             try

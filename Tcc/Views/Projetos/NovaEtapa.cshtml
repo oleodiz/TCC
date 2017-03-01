@@ -1,5 +1,5 @@
 ﻿@model Model.tb_etapa
-
+@using Model.Auxiliares;
 @{
     ViewBag.Title = "NovaEtapa";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -12,7 +12,7 @@
 
     <div class="container" style="padding-top: 50px;">
         <div class="jumbotron">
-            <h2>Nova Etapa- Projeto "@ViewBag.Informacao"</h2>
+            <h3>Nova Etapa para o projeto "@ViewBag.Informacao"</h3>
             <hr />
             <div class="row">
                 <div class="col-md-6">
@@ -31,7 +31,7 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.data_inicio, htmlAttributes: new {})
+                        @Html.LabelFor(model => model.data_inicio, htmlAttributes: new { })
                         @Html.EditorFor(model => model.data_inicio, new { htmlAttributes = new { type = "date", @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.data_inicio, "", new { @class = "text-danger" })
                     </div>
@@ -49,12 +49,26 @@
 
                 <div class="col-md-6">
 
-                    <h4>Atividades</h4>
+                    <h4>Selecione as atividades desta etapa do projeto</h4>
+                    @{int i = 0;}
+                    @foreach (CheckBoxModel item in ViewBag.Atividades as List<CheckBoxModel>)
+                    {
 
-                  
-                  
-                  
-                  
+                    <table>
+                        <tr>
+                            <td>
+                                @Html.CheckBoxFor(it => item.Checked, new { Style = "vertical-align:3px",  id = "item[" + i + "].Checked", Name = "item[" + i + "].Checked" })
+                            </td>
+                            <td>
+                                @Html.HiddenFor(it => item.Id, new { id = "item[" + i + "].Id", Name = "item[" + i + "].Id" })
+                                @Html.DisplayFor(it => item.Name)
+                            </td>
+                           
+                        </tr>
+                    </table>
+                   {i = i + 1;}
+                    }  
+  
                 </div>
 
             </div>
@@ -69,7 +83,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Voltar", "P","Projetos", new { id = ViewBag.Id_projeto }, null)
 </div>
 
 @section Scripts {

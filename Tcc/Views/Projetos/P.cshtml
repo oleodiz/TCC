@@ -8,506 +8,625 @@
 }
 
 <script src="~/Scripts/jquery-2.1.4.min.js"></script>
-<div class="col-lg-8" style="padding-top: 50px;">
-    
-    <div class="jumbotronnomarginbot" style="background-color: #FFFFFF;">
-        <center>         
-            <h4 style="margin-right:60px">Atividades</h4>
-            @Html.ActionLink("Nova", "Nova", "Atividade", new { id = ViewBag.IdProjeto }, new { @class = "btn btn-success btn-lg", style = "float: left" })
-            <ul class="nav nav-tabs">
-              
-                <li class="active"><a href="#pendentes" data-toggle="tab" aria-expanded="true">Pendentes</a></li>
-                <li class=""><a href="#andamento" data-toggle="tab" aria-expanded="false">Em andamento</a></li>
-                <li class=""><a href="#verificacao" data-toggle="tab" aria-expanded="false">Em verificação</a></li>
-                <li class=""><a href="#finalizada" data-toggle="tab" aria-expanded="false">Finalizadas</a></li>
-                
-            </ul>
-            <div id="myTabContent" class="tab-content">
-                <div class="tab-pane fade active in" id="pendentes">
-                    <p>
-                        <div class="row" style="margin-left: 0px;margin-right: 0px;">
-                            <div class="col-md-1">
-                                Cod.
-                            </div>
-                            <div class="col-md-3">
-                                Título
-                            </div>
-                            <div class="col-md-4">
-                                Prioridade
-                            </div>
-                            <div class="col-md-2">
-                                Responsáveis
-                            </div>
-                            <div class="col-md-2">
-                                Ações
-                            </div>
+<link href="~/Content/style.css" rel="stylesheet" />
+<script src="~/Scripts/main.js"></script>
+<script src="~/Scripts/jquery.mobile.custom.min.js"></script>
+    <div class="col-lg-8" style="padding-top: 50px;">
 
-                        </div>
-                        <hr />
-                        @foreach (tb_atividade item in ViewBag.Atividades as List<tb_atividade>)
+       @if (((List<tb_etapa>)ViewBag.Etapas).Count > 0)
+       {
+
+        <div class="jumbotronnomarginbot" style="background-color: #FFFFFF;">
+            @Html.ActionLink("Nova", "NovaEtapa", "Projetos", new { id = ViewBag.IdProjeto }, new { @class = "btn btn-success btn-lg", style = "float: left" })
+
+            <center>
+                <h4 style="margin-right:60px;">Etapas</h4>
+
+
+            </center>
+
+            <section class="cd-horizontal-timeline">
+                <div class="timeline">
+                    <div class="events-wrapper">
+                        <div class="events">
+                            <ol>
+                               @foreach (tb_etapa item in ViewBag.Etapas as List<tb_etapa>)
+                               {
+                                    if (DateTime.Now >= item.data_inicio)
+                                    {
+                                        <li><a href="#" data-date="@item.data_inicio.ToShortDateString()" class="selected">@item.data_inicio.Day.ToString("00")/@item.data_inicio.Month.ToString("00")</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li><a href="#" data-date="@item.data_inicio.ToShortDateString()">@item.data_inicio.Day.ToString("00")/@item.data_inicio.Month.ToString("00")</a></li>
+                                    }
+
+                               }
+                               
+                            </ol>
+                            <span class="filling-line" aria-hidden="true"></span>
+                        </div> <!-- .events -->
+                    </div> <!-- .events-wrapper -->
+
+                    <ul class="cd-timeline-navigation">
+                        <li><a href="#0" class="prev inactive">Ant.</a></li>
+                        <li><a href="#0" class="next">Prox.</a></li>
+                    </ul> <!-- .cd-timeline-navigation -->
+                </div> <!-- .timeline -->
+                <div class="events-content">
+                    <ol>
+                        @foreach (tb_etapa item in ViewBag.Etapas as List<tb_etapa>)
                         {
-                            if (item.id_statusAtividade == 1)
+                            if (DateTime.Now >= item.data_inicio)
                             {
-                            
-                            <div class="container-fluid">
-                                   
-                                    <div class="row">
-
-                                        <div class="col-md-1">
-                                            @item.sequencia
-                                        </div>
-                                       
-                                        <div class="col-md-3">
-                                            @Html.ActionLink(item.titulo, "A", "Atividade", new { id = item.id_projeto, id2 = item.id_atividade }, new { @style = "color:#333333" })
-                                        </div>
-                                        <div class="col-md-4">
-                                            @item.tb_prioridadeAtividade.descricao
-                                        </div>
-                                        <div class="col-md-2">
-                                            @foreach (tb_atividadeResponsavel ar in item.tb_atividadeResponsavel)
-                                            {
-                                                var imgUrl = Url.Content("~/Content/images/profile/" + ar.AspNetUser.UserName + ".png");
-                                                if (!File.Exists(Server.MapPath(imgUrl)))
-                                                {
-                                                    imgUrl = Url.Content("~/Content/images/profile/noUser.png") + "?time=" + DateTime.Now.ToString();
-                                                }
-                                                <div class="col-md-5">
-                                                    <a class="tooltips"  title="@ar.AspNetUser.UserName"  href="@Url.Action("U", "Usuario",new { id = ar.AspNetUser.UserName })">
-                                                        <img src="@imgUrl" height="30" width="30" class="perfilImagem" />
-                                                    </a>
-                                                 </div>
-                                                    
-                                            }
-                                        </div>
-                                        <div class="col-md-2">
-                                            @*@Html.ActionLink("Ver...", "A", "Atividade", new { id = item.id_projeto, id2 = item.id_atividade }, null)*@    
-                                            <a class="btn_ver" data-toggle="modal" data-target="#myModal">Ver...</a>
-                                            <input type="hidden" value="@item.id_atividade"/>
-                                            @if (item.tb_comentarioAtividade.Count > 0)
-                                            {
-                                                <br>
-                                                <a style="font-size:9px; color:dimgray">@item.tb_comentarioAtividade.Count comentários</a>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                            <hr />
+                                <li class="selected" data-date="@item.data_inicio.ToShortDateString()">
+                                    <h4>@item.titulo</h4>
+                                    <p>De @item.data_inicio.Day.ToString("00")/@item.data_inicio.Month.ToString("00") até @item.data_fim.Day.ToString("00")/@item.data_fim.Month.ToString("00")</p>
+                                    <p>
+                                       @item.descricao
+                                    </p>
+                                    <p>@item.tb_atividade.Count atividades</p>
+                                </li>
                             }
-                        }
-
-                    </p>
-                </div>
-                <div class="tab-pane fade" id="andamento">
-                    <p>
-                        <div class="row" style="margin-left: 0px;margin-right: 0px;">
-                            <div class="col-md-1">
-                                Cod.
-                            </div>
-                            <div class="col-md-3">
-                                Título
-                            </div>
-                            <div class="col-md-4">
-                                Prioridade
-                            </div>
-                            <div class="col-md-2">
-                                Responsáveis
-                            </div>
-                            <div class="col-md-2">
-                                Ações
-                            </div>
-
-                        </div>
-                        <hr />
-                        @foreach (tb_atividade item in ViewBag.Atividades as List<tb_atividade>)
-                        {
-                            if (item.id_statusAtividade == 2)
+                            else
                             {
 
-                                <div class="container-fluid">
+                                <li  data-date="@item.data_inicio.ToShortDateString()">
+                                    <h4>@item.titulo</h4>
 
-                                    <div class="row">
+                                    <p>De @item.data_inicio.Day.ToString("00")/@item.data_inicio.Month.ToString("00") até @item.data_fim.Day.ToString("00")/@item.data_fim.Month.ToString("00")</p>
+                                    <p>
+                                        @item.descricao
+                                    </p>
 
-                                        <div class="col-md-1">
-                                            @item.sequencia
-                                        </div>
+                                    <p>@item.tb_atividade.Count atividades</p>
 
-                                        <div class="col-md-3">
-                                            @Html.ActionLink(item.titulo, "A", "Atividade", new { id = item.id_projeto, id2 = item.id_atividade }, new { @style = "color:#333333" })
-                                        </div>
-                                        <div class="col-md-4">
-                                            @item.tb_prioridadeAtividade.descricao
-                                        </div>
-                                        <div class="col-md-2">
-                                            @foreach (tb_atividadeResponsavel ar in item.tb_atividadeResponsavel)
-                                            {
-                                                var imgUrl = Url.Content("~/Content/images/profile/" + ar.UserName + ".png");
-                                                if (!File.Exists(Server.MapPath(imgUrl)))
-                                                {
-                                                    imgUrl = Url.Content("~/Content/images/profile/noUser.png") + "?time=" + DateTime.Now.ToString();
-                                                }
-                                                <div class="col-md-5">
-                                                    <a class="tooltips" title="@ar.AspNetUser.UserName" href="@Url.Action("U", "Usuario",new { id = ar.AspNetUser.UserName })">
-                                                        <img src="@imgUrl" height="30" width="30" class="perfilImagem" />
-                                                    </a>
-                                                </div>
-                                            }
-                                        </div>
-                                        <div class="col-md-2">
-                                            <a class="btn_ver" data-toggle="modal" data-target="#myModal">Ver...</a>
-                                            <input type="hidden" value="@item.id_atividade" />
-                                            @*@Html.ActionLink("Ver...", "A", "Atividade", new { id = item.id_projeto, id2 = item.id_atividade }, null)*@
-                                            @if (item.tb_comentarioAtividade.Count > 0)
-                                            {
-                                                <br>
-                                                <a >@item.tb_comentarioAtividade.Count comentários</a>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr />
+                                </li>
                             }
                         }
+                       
+                    
+                    </ol>
+                </div> <!-- .events-content -->
+            </section>
 
-                    </p>
 
-                </div>
-                <div class="tab-pane fade" id="verificacao">
-                    <p>
-                        <div class="row" style="margin-left: 0px;margin-right: 0px;">
-                            <div class="col-md-1">
-                                Cod.
-                            </div>
-                            <div class="col-md-3">
-                                Título
-                            </div>
-                            <div class="col-md-4">
-                                Prioridade
-                            </div>
-                            <div class="col-md-2">
-                                Responsáveis
-                            </div>
-                            <div class="col-md-2">
-                                Ações
-                            </div>
+        </div>
 
-                        </div>
-                        <hr />
-                        @foreach (tb_atividade item in ViewBag.Atividades as List<tb_atividade>)
-                        {
-                            if (item.id_statusAtividade == 3)
-                            {
+        <br/>
+        <br/>
+       }
+       else
 
-                                <div class="container-fluid">
+       {
+            <div class="jumbotronnomarginbot" style="background-color: #FFFFFF;">
+            @Html.ActionLink("Nova", "NovaEtapa", "Projetos", new { id = ViewBag.IdProjeto }, new { @class = "btn btn-success btn-lg", style = "float: left" })
 
-                                    <div class="row">
-
-                                        <div class="col-md-1">
-                                            @item.sequencia
-                                        </div>
-
-                                        <div class="col-md-3">
-                                            @Html.ActionLink(item.titulo, "A", "Atividade", new { id = item.id_projeto, id2 = item.id_atividade }, new { @style = "color:#333333" })
-                                        </div>
-                                        <div class="col-md-4">
-                                            @item.tb_prioridadeAtividade.descricao
-                                        </div>
-                                        <div class="col-md-2">
-                                            @foreach (tb_atividadeResponsavel ar in item.tb_atividadeResponsavel)
-                                            {
-                                                var imgUrl = Url.Content("~/Content/images/profile/" + ar.UserName + ".png");
-                                                if (!File.Exists(Server.MapPath(imgUrl)))
-                                                {
-                                                    imgUrl = Url.Content("~/Content/images/profile/noUser.png") + "?time=" + DateTime.Now.ToString();
-                                                }
-                                                <div class="col-md-5">
-                                                    <a class="tooltips" title="@ar.AspNetUser.UserName" href="@Url.Action("U", "Usuario",new { id = ar.AspNetUser.UserName })">
-                                                        <img src="@imgUrl" height="30" width="30" class="perfilImagem" />
-                                                    </a>
-                                                </div>
-                                            }
-                                        </div>
-                                        <div class="col-md-2">
-                                            @*@Html.ActionLink("Ver...", "A", "Atividade", new { id = item.id_projeto, id2 = item.id_atividade }, null)*@
-                                            <a class="btn_ver" data-toggle="modal" data-target="#myModal">Ver...</a>
-                                            <input type="hidden" value="@item.id_atividade" />
-                                            @if (item.tb_comentarioAtividade.Count > 0)
-                                            {
-                                                <br>
-                                                <a>@item.tb_comentarioAtividade.Count comentários</a>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr />
-                            }
-                        }
-
-                    </p>
-
-                </div>
-                <div class="tab-pane fade" id="finalizada">
-                    <p>
-                        <div class="row" style="margin-left: 0px;margin-right: 0px;">
-                            <div class="col-md-1">
-                                Cod.
-                            </div>
-                            <div class="col-md-3">
-                                Título
-                            </div>
-                            <div class="col-md-4">
-                                Prioridade
-                            </div>
-                            <div class="col-md-2">
-                                Responsáveis
-                            </div>
-                            <div class="col-md-2">
-                                Ações
-                            </div>
-
-                        </div>
-                        <hr />
-                        @foreach (tb_atividade item in ViewBag.Atividades as List<tb_atividade>)
-                        {
-                            if (item.id_statusAtividade == 4)
-                            {
-
-                                <div class="container-fluid">
-
-                                    <div class="row">
-
-                                        <div class="col-md-1">
-                                            @item.sequencia
-                                        </div>
-
-                                        <div class="col-md-3">
-                                            @Html.ActionLink(item.titulo, "A", "Atividade", new { id = item.id_projeto, id2 = item.id_atividade }, new { @style = "color:#333333" })
-                                        </div>
-                                        <div class="col-md-4">
-                                            @item.tb_prioridadeAtividade.descricao
-                                        </div>
-                                        <div class="col-md-2">
-                                            @foreach (tb_atividadeResponsavel ar in item.tb_atividadeResponsavel)
-                                            {
-                                                var imgUrl = Url.Content("~/Content/images/profile/" + ar.UserName + ".png");
-                                                if (!File.Exists(Server.MapPath(imgUrl)))
-                                                {
-                                                    imgUrl = Url.Content("~/Content/images/profile/noUser.png") + "?time=" + DateTime.Now.ToString();
-                                                }
-                                                <div class="col-md-5">
-                                                    <a class="tooltips" title="@ar.AspNetUser.UserName" href="@Url.Action("U", "Usuario",new { id = ar.AspNetUser.UserName })">
-                                                        <img src="@imgUrl" height="30" width="30" class="perfilImagem" />
-                                                    </a>
-                                                </div>
-                                            }
-                                        </div>
-                                        <div class="col-md-2">
-                                            @*@Html.ActionLink("Ver...", "A", "Atividade", new { id = item.id_projeto, id2 = item.id_atividade }, null)*@
-                                            <a class="btn_ver" data-toggle="modal" data-target="#myModal">Ver...</a>
-                                            <input type="hidden" value="@item.id_atividade" />
-                                            @if (item.tb_comentarioAtividade.Count > 0)
-                                            {
-                                                <br>
-                                                <a>@item.tb_comentarioAtividade.Count comentários</a>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr />
-                            }
-                        }
-
-                    </p>
-
-                </div>
+            <center>
+                <h4 style="margin-right:60px;">Etapas</h4>
+                Sem etapas cadastradas. Crie uma nova!
+            </center>
+                <br />
             </div>
 
-
-        </center>
-    </div>
-</div>
-
-
-<div class="col-lg-4" style="padding-top: 50px;">
-    <div class="jumbotron" style="margin-bottom: 10px;">
-        <center>
-            <h4>Membros</h4>
-        </center>
-        @{int i = 0; }
-        @foreach (var usu in ViewBag.Participantes as List<string>)
-        {
-            var imgUrl = Url.Content("~/Content/images/profile/" + usu + ".png");
-            if (!File.Exists(Server.MapPath(imgUrl)))
-            {
-                imgUrl = Url.Content("~/Content/images/profile/noUser.png") + "?time=" + DateTime.Now.ToString();
-            }
-
-            <div class="col-md-5">
-                <a class="tooltips" href="@Url.Action("U", "Usuario",new { id = usu })">
-                    <table>
-                        <tr>
-                            <th><center><p style="font-size:10px;margin-bottom: 0px;">(@ViewBag.Funcoes[i])</p></center></th></tr>
-                        <tr>
-                            <th><img src="@imgUrl" height="50" width="50" class="perfilImagem" /></th></tr>
-                        <tr>
-                            <th><center><p style="font-size:15px;margin-bottom: 0px;">@usu</p></center></th></tr>
-                    </table>
-                </a>
-            </div>
-            i = i + 1;
+            <br />
+            <br />
         }
 
-        <div class="container" style="padding-left: 0px; padding-right: 0px;">
-            <div class="row" style="padding-left: 0px; padding-right: 0px;">
+            @if (((List<tb_atividade>)ViewBag.Atividades).Count > 0)
+            {
+                <div class="jumbotronnomarginbot" style="background-color: #FFFFFF;">
+                    <center>
+                        <h4 style="margin-right:60px">Atividades</h4>
+                        @Html.ActionLink("Nova", "Nova", "Atividade", new { id = ViewBag.IdProjeto }, new { @class = "btn btn-success btn-lg", style = "float: left" })
+                        <ul class="nav nav-tabs">
 
-            </div>
-            <div class="row" style="padding-left: 0px; padding-right: 0px;">
-                @if (ViewBag.IsOrientador)
+                            <li class="active"><a href="#pendentes" data-toggle="tab" aria-expanded="true">Pendentes</a></li>
+                            <li class=""><a href="#andamento" data-toggle="tab" aria-expanded="false">Em andamento</a></li>
+                            <li class=""><a href="#verificacao" data-toggle="tab" aria-expanded="false">Em verificação</a></li>
+                            <li class=""><a href="#finalizada" data-toggle="tab" aria-expanded="false">Finalizadas</a></li>
+
+                        </ul>
+                        <div id="myTabContent" class="tab-content">
+                            <div class="tab-pane fade active in" id="pendentes">
+                                <p>
+                                    <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                        <div class="col-md-1">
+                                            Cod.
+                                        </div>
+                                        <div class="col-md-3">
+                                            Título
+                                        </div>
+                                        <div class="col-md-4">
+                                            Prioridade
+                                        </div>
+                                        <div class="col-md-2">
+                                            Responsáveis
+                                        </div>
+                                        <div class="col-md-2">
+                                            Ações
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    @foreach (tb_atividade item in ViewBag.Atividades as List<tb_atividade>)
+                                    {
+                                        if (item.id_statusAtividade == 1)
+                                        {
+
+                                            <div class="container-fluid">
+
+                                                <div class="row">
+
+                                                    <div class="col-md-1">
+                                                        @item.sequencia
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        @Html.ActionLink(item.titulo, "A", "Atividade", new { id = item.id_projeto, id2 = item.id_atividade }, new { @style = "color:#333333" })
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        @item.tb_prioridadeAtividade.descricao
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        @foreach (tb_atividadeResponsavel ar in item.tb_atividadeResponsavel)
+                                                        {
+                                                            var imgUrl = Url.Content("~/Content/images/profile/" + ar.AspNetUser.UserName + ".png");
+                                                            if (!File.Exists(Server.MapPath(imgUrl)))
+                                                            {
+                                                                imgUrl = Url.Content("~/Content/images/profile/noUser.png") + "?time=" + DateTime.Now.ToString();
+                                                            }
+                                                            <div class="col-md-5">
+                                                                <a class="tooltips" title="@ar.AspNetUser.UserName" href="@Url.Action("U", "Usuario", new { id = ar.AspNetUser.UserName })">
+                                                                    <img src="@imgUrl" height="30" width="30" class="perfilImagem" />
+                                                                </a>
+                                                            </div>
+
+                                                        }
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        @*@Html.ActionLink("Ver...", "A", "Atividade", new { id = item.id_projeto, id2 = item.id_atividade }, null)*@
+                                                        <a class="btn_ver" data-toggle="modal" data-target="#myModal">Ver...</a>
+                                                        <input type="hidden" value="@item.id_atividade" />
+                                                        @if (item.tb_comentarioAtividade.Count > 0)
+                                                        {
+                                                            <br>
+                                                            <a style="font-size:9px; color:dimgray">@item.tb_comentarioAtividade.Count comentários</a>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr />
+                                        }
+                                    }
+
+                                </p>
+                            </div>
+                            <div class="tab-pane fade" id="andamento">
+                                <p>
+                                    <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                        <div class="col-md-1">
+                                            Cod.
+                                        </div>
+                                        <div class="col-md-3">
+                                            Título
+                                        </div>
+                                        <div class="col-md-4">
+                                            Prioridade
+                                        </div>
+                                        <div class="col-md-2">
+                                            Responsáveis
+                                        </div>
+                                        <div class="col-md-2">
+                                            Ações
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    @foreach (tb_atividade item in ViewBag.Atividades as List<tb_atividade>)
+                                    {
+                                        if (item.id_statusAtividade == 2)
+                                        {
+
+                                            <div class="container-fluid">
+
+                                                <div class="row">
+
+                                                    <div class="col-md-1">
+                                                        @item.sequencia
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        @Html.ActionLink(item.titulo, "A", "Atividade", new { id = item.id_projeto, id2 = item.id_atividade }, new { @style = "color:#333333" })
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        @item.tb_prioridadeAtividade.descricao
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        @foreach (tb_atividadeResponsavel ar in item.tb_atividadeResponsavel)
+                                                        {
+                                                            var imgUrl = Url.Content("~/Content/images/profile/" + ar.UserName + ".png");
+                                                            if (!File.Exists(Server.MapPath(imgUrl)))
+                                                            {
+                                                                imgUrl = Url.Content("~/Content/images/profile/noUser.png") + "?time=" + DateTime.Now.ToString();
+                                                            }
+                                                            <div class="col-md-5">
+                                                                <a class="tooltips" title="@ar.AspNetUser.UserName" href="@Url.Action("U", "Usuario", new { id = ar.AspNetUser.UserName })">
+                                                                    <img src="@imgUrl" height="30" width="30" class="perfilImagem" />
+                                                                </a>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <a class="btn_ver" data-toggle="modal" data-target="#myModal">Ver...</a>
+                                                        <input type="hidden" value="@item.id_atividade" />
+                                                        @*@Html.ActionLink("Ver...", "A", "Atividade", new { id = item.id_projeto, id2 = item.id_atividade }, null)*@
+                                                        @if (item.tb_comentarioAtividade.Count > 0)
+                                                        {
+                                                            <br>
+                                                            <a>@item.tb_comentarioAtividade.Count comentários</a>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr />
+                                        }
+                                    }
+
+                                </p>
+
+                            </div>
+                            <div class="tab-pane fade" id="verificacao">
+                                <p>
+                                    <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                        <div class="col-md-1">
+                                            Cod.
+                                        </div>
+                                        <div class="col-md-3">
+                                            Título
+                                        </div>
+                                        <div class="col-md-4">
+                                            Prioridade
+                                        </div>
+                                        <div class="col-md-2">
+                                            Responsáveis
+                                        </div>
+                                        <div class="col-md-2">
+                                            Ações
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    @foreach (tb_atividade item in ViewBag.Atividades as List<tb_atividade>)
+                                    {
+                                        if (item.id_statusAtividade == 3)
+                                        {
+
+                                            <div class="container-fluid">
+
+                                                <div class="row">
+
+                                                    <div class="col-md-1">
+                                                        @item.sequencia
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        @Html.ActionLink(item.titulo, "A", "Atividade", new { id = item.id_projeto, id2 = item.id_atividade }, new { @style = "color:#333333" })
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        @item.tb_prioridadeAtividade.descricao
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        @foreach (tb_atividadeResponsavel ar in item.tb_atividadeResponsavel)
+                                                        {
+                                                            var imgUrl = Url.Content("~/Content/images/profile/" + ar.UserName + ".png");
+                                                            if (!File.Exists(Server.MapPath(imgUrl)))
+                                                            {
+                                                                imgUrl = Url.Content("~/Content/images/profile/noUser.png") + "?time=" + DateTime.Now.ToString();
+                                                            }
+                                                            <div class="col-md-5">
+                                                                <a class="tooltips" title="@ar.AspNetUser.UserName" href="@Url.Action("U", "Usuario", new { id = ar.AspNetUser.UserName })">
+                                                                    <img src="@imgUrl" height="30" width="30" class="perfilImagem" />
+                                                                </a>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        @*@Html.ActionLink("Ver...", "A", "Atividade", new { id = item.id_projeto, id2 = item.id_atividade }, null)*@
+                                                        <a class="btn_ver" data-toggle="modal" data-target="#myModal">Ver...</a>
+                                                        <input type="hidden" value="@item.id_atividade" />
+                                                        @if (item.tb_comentarioAtividade.Count > 0)
+                                                        {
+                                                            <br>
+                                                            <a>@item.tb_comentarioAtividade.Count comentários</a>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr />
+                                        }
+                                    }
+
+                                </p>
+
+                            </div>
+                            <div class="tab-pane fade" id="finalizada">
+                                <p>
+                                    <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                        <div class="col-md-1">
+                                            Cod.
+                                        </div>
+                                        <div class="col-md-3">
+                                            Título
+                                        </div>
+                                        <div class="col-md-4">
+                                            Prioridade
+                                        </div>
+                                        <div class="col-md-2">
+                                            Responsáveis
+                                        </div>
+                                        <div class="col-md-2">
+                                            Ações
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    @foreach (tb_atividade item in ViewBag.Atividades as List<tb_atividade>)
+                                    {
+                                        if (item.id_statusAtividade == 4)
+                                        {
+
+                                            <div class="container-fluid">
+
+                                                <div class="row">
+
+                                                    <div class="col-md-1">
+                                                        @item.sequencia
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        @Html.ActionLink(item.titulo, "A", "Atividade", new { id = item.id_projeto, id2 = item.id_atividade }, new { @style = "color:#333333" })
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        @item.tb_prioridadeAtividade.descricao
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        @foreach (tb_atividadeResponsavel ar in item.tb_atividadeResponsavel)
+                                                        {
+                                                            var imgUrl = Url.Content("~/Content/images/profile/" + ar.UserName + ".png");
+                                                            if (!File.Exists(Server.MapPath(imgUrl)))
+                                                            {
+                                                                imgUrl = Url.Content("~/Content/images/profile/noUser.png") + "?time=" + DateTime.Now.ToString();
+                                                            }
+                                                            <div class="col-md-5">
+                                                                <a class="tooltips" title="@ar.AspNetUser.UserName" href="@Url.Action("U", "Usuario", new { id = ar.AspNetUser.UserName })">
+                                                                    <img src="@imgUrl" height="30" width="30" class="perfilImagem" />
+                                                                </a>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        @*@Html.ActionLink("Ver...", "A", "Atividade", new { id = item.id_projeto, id2 = item.id_atividade }, null)*@
+                                                        <a class="btn_ver" data-toggle="modal" data-target="#myModal">Ver...</a>
+                                                        <input type="hidden" value="@item.id_atividade" />
+                                                        @if (item.tb_comentarioAtividade.Count > 0)
+                                                        {
+                                                            <br>
+                                                            <a>@item.tb_comentarioAtividade.Count comentários</a>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr />
+                                        }
+                                    }
+
+                                </p>
+
+                            </div>
+                        </div>
+
+
+                    </center>
+                </div>
+            }
+            else
+            {
+                <div class="jumbotronnomarginbot" style="background-color: #FFFFFF;">
+                    @Html.ActionLink("Nova", "Nova", "Atividade", new { id = ViewBag.IdProjeto }, new { @class = "btn btn-success btn-lg", style = "float: left" })
+
+                    <center>
+                        <h4 style="margin-right:60px;">Atividades</h4>
+                        Sem atividades cadastradas. Crie uma nova!
+                    </center>
+                    <br />
+                </div>
+            }
+        </div>
+
+
+    <div class="col-lg-4" style="padding-top: 50px;">
+        <div class="jumbotron" style="margin-bottom: 10px;">
+            <center>
+                <h4>Membros</h4>
+            </center>
+            @{int i = 0; }
+            @foreach (var usu in ViewBag.Participantes as List<string>)
+            {
+                var imgUrl = Url.Content("~/Content/images/profile/" + usu + ".png");
+                if (!File.Exists(Server.MapPath(imgUrl)))
                 {
-                    <div id="novoMembro"  hidden>
-                        <hr>
-                        <label style="width:70%;"> Usuário</label>
-                        <label  style="width:20%;">Função</label>
-                        <input class="form-control input-sm" type="text" id="txt_usuario" placeholder="Usuário ou e-mail" style="width:70%;float:left;">
-                        @Html.DropDownList("ComboFuncoes", null, new { @class = "form-control dropCostumizado", id = "cbb_funcao"  })
-                        
-                        <a  onclick="AdicionarUsuarioAoProjeto()" class="btn btn-info costumizado" >Adicionar</a>
-                    </div>
-                    <a onclick="mostrarBlocoNovoMembro()" id="btn_plus" style="float:right;">+ Membro</a>
-                }            
+                    imgUrl = Url.Content("~/Content/images/profile/noUser.png") + "?time=" + DateTime.Now.ToString();
+                }
+
+                <div class="col-md-5">
+                    <a class="tooltips" href="@Url.Action("U", "Usuario",new { id = usu })">
+                        <table>
+                            <tr>
+                                <th><center><p style="font-size:10px;margin-bottom: 0px;">(@ViewBag.Funcoes[i])</p></center></th>
+                            </tr>
+                            <tr>
+                                <th><img src="@imgUrl" height="50" width="50" class="perfilImagem" /></th>
+                            </tr>
+                            <tr>
+                                <th><center><p style="font-size:15px;margin-bottom: 0px;">@usu</p></center></th>
+                            </tr>
+                        </table>
+                    </a>
+                </div>
+                i = i + 1;
+            }
+
+            <div class="container" style="padding-left: 0px; padding-right: 0px;">
+                <div class="row" style="padding-left: 0px; padding-right: 0px;">
+
+                </div>
+                <div class="row" style="padding-left: 0px; padding-right: 0px;">
+                    @if (ViewBag.IsOrientador)
+                    {
+                        <div id="novoMembro" hidden>
+                            <hr>
+                            <label style="width:70%;"> Usuário</label>
+                            <label style="width:20%;">Função</label>
+                            <input class="form-control input-sm" type="text" id="txt_usuario" placeholder="Usuário ou e-mail" style="width:70%;float:left;">
+                            @Html.DropDownList("ComboFuncoes", null, new { @class = "form-control dropCostumizado", id = "cbb_funcao" })
+
+                            <a onclick="AdicionarUsuarioAoProjeto()" class="btn btn-info costumizado">Adicionar</a>
+                        </div>
+                        <a onclick="mostrarBlocoNovoMembro()" id="btn_plus" style="float:right;">+ Membro</a>
+                    }
+                </div>
             </div>
         </div>
-    </div>
-    <div class="alert alert-dismissible alert-warning" id="alertaAmarelo" hidden>
-        <button type="button" class="close" onclick="hideAmarelo()">&times;</button>
-        <div id="retornoUsuarioErro"></div>
-    </div>
-    <div class="alert alert-dismissible alert-info" id="alertaAzul" hidden>
-        <button type="button" class="close" onclick="hideAzul()" >&times;</button>
-        <div id="retornoUsuarioSucesso"></div>
-    </div>
-
-</div>
-<!-- Modal -->
-<div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog" id="model">
-
-       
+        <div class="alert alert-dismissible alert-warning" id="alertaAmarelo" hidden>
+            <button type="button" class="close" onclick="hideAmarelo()">&times;</button>
+            <div id="retornoUsuarioErro"></div>
+        </div>
+        <div class="alert alert-dismissible alert-info" id="alertaAzul" hidden>
+            <button type="button" class="close" onclick="hideAzul()">&times;</button>
+            <div id="retornoUsuarioSucesso"></div>
+        </div>
 
     </div>
-</div>
-<script>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog" id="model">
 
-    var id_atividade = -1;
-    $('.btn_ver').on("click", function () {
-        //alert($(this).next().val());
-        id_atividade = $(this).next().val();
-        buscaInformacoesDaAtividade($(this).next().val());
-    });
 
-    function hideAzul() {
-        $('#alertaAzul').hide();
-    }
-    function hideAmarelo() {
-        $('#alertaAmarelo').hide();
-    }
 
-    function mostrarBlocoNovoMembro()
-    {
-        $('#novoMembro').show();
-        $('#btn_plus').hide();
-    }
+        </div>
+    </div>
+    <script>
 
-    function AdicionarUsuarioAoProjeto() {
-        $.ajax({
-            url: '@Url.Action("AdicionarUsuarioAoProjeto", "Projetos")',
-            type: 'GET',
-            dataType: 'json',
-            cache: false,
-            data: {
-                userEmail: document.getElementById("txt_usuario").value,
-                idFuncao: $('#cbb_funcao').val(),
-                idProjeto: '@Model.id_projeto'
-            },
-            success: function (request) {
-                if (request != null) {
+        var id_atividade = -1;
+        $('.btn_ver').on("click", function () {
+            //alert($(this).next().val());
+            id_atividade = $(this).next().val();
+            buscaInformacoesDaAtividade($(this).next().val());
+        });
 
-                    if (request.indexOf("adicionado") >= 0) {
-                        $('#alertaAzul').show();
-                        hideAmarelo();
-                        $('#retornoUsuarioSucesso').html(request);
+        function hideAzul() {
+            $('#alertaAzul').hide();
+        }
+        function hideAmarelo() {
+            $('#alertaAmarelo').hide();
+        }
+
+        function mostrarBlocoNovoMembro() {
+            $('#novoMembro').show();
+            $('#btn_plus').hide();
+        }
+
+        function AdicionarUsuarioAoProjeto() {
+            $.ajax({
+                url: '@Url.Action("AdicionarUsuarioAoProjeto", "Projetos")',
+                type: 'GET',
+                dataType: 'json',
+                cache: false,
+                data: {
+                    userEmail: document.getElementById("txt_usuario").value,
+                    idFuncao: $('#cbb_funcao').val(),
+                    idProjeto: '@Model.id_projeto'
+                },
+                success: function (request) {
+                    if (request != null) {
+
+                        if (request.indexOf("adicionado") >= 0) {
+                            $('#alertaAzul').show();
+                            hideAmarelo();
+                            $('#retornoUsuarioSucesso').html(request);
+                        }
+                        else {
+                            $('#alertaAmarelo').show();
+                            hideAzul();
+                            $('#retornoUsuarioErro').html(request);
+                        }
                     }
-                    else
-                    {
+
+                },
+                error: function (request) {
+                    if (request != null) {
                         $('#alertaAmarelo').show();
-                        hideAzul();
-                        $('#retornoUsuarioErro').html(request);
                     }
                 }
 
-            },
-            error: function (request) {
-                if (request != null) {
-                    $('#alertaAmarelo').show();
-                }
-            }
+            });
+        }
 
+        function buscaInformacoesDaAtividade(id) {
+            $.ajax({
+                url: '@Url.Action("InformacoesDaAtividade", "Projetos")',
+                type: 'GET',
+                dataType: 'json',
+                cache: false,
+                data: {
+                    idAtividade: id,
+                    idProjeto: '@Model.id_projeto'
+                },
+                success: function (request) {
+                    if (request != null) {
+                        $('#model').html(request.responseText);
+
+                    }
+                },
+                error: function (request) {
+                    if (request != null) {
+                        $('#model').html(request.responseText);
+
+                    }
+                }
+            });
+        }
+
+        $('#enviar_comentario').on("click", function () {
+            enviarComentario()
         });
-    }
 
-    function buscaInformacoesDaAtividade(id) {
-        $.ajax({
-            url: '@Url.Action("InformacoesDaAtividade", "Projetos")',
-            type: 'GET',
-            dataType: 'json',
-            cache: false,
-            data: {
-                idAtividade: id,
-                idProjeto: '@Model.id_projeto'
-            },
-            success: function (request) {
-                if (request != null) {
-                    $('#model').html(request.responseText);
+        function enviarComentario() {
+            $.ajax({
+                url: '@Url.Action("Comentario", "Projetos")',
+                type: 'GET',
+                dataType: 'json',
+                cache: false,
+                data: {
+                    comentario: $('#textocomentario').val(),
+                    id_atividade: id_atividade
+                },
+                success: function (request) {
+                    if (request != null) {
+                        $('#lista_comentarios').append(request.responseText);
 
-                }
-            },
-            error: function (request) {
-                if (request != null) {
-                    $('#model').html(request.responseText);
+                    }
 
-                }
-            }
-        });
-    }
+                },
+                error: function (request) {
+                    if (request != null) {
+                        $('#lista_comentarios').append(request.responseText);
 
-    $('#enviar_comentario').on("click", function () {
-        enviarComentario()
-    });
-
-    function enviarComentario() {
-        $.ajax({
-            url: '@Url.Action("Comentario", "Projetos")',
-            type: 'GET',
-            dataType: 'json',
-            cache: false,
-            data: {
-                comentario: $('#textocomentario').val(),
-                id_atividade: id_atividade
-            },
-            success: function (request) {
-                if (request != null) {
-                    $('#lista_comentarios').append(request.responseText);
-
+                    }
                 }
 
-            },
-            error: function (request) {
-                if (request != null) {
-                    $('#lista_comentarios').append(request.responseText);
+            });
+        }
 
-                }
-            }
-
-        });
-    }
-
-</script>
+    </script>
