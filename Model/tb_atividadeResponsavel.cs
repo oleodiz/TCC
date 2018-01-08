@@ -18,7 +18,7 @@ namespace Model
         public string id_usuario { get; set; }
         public string UserName { get; set; }
     
+        public virtual AspNetUsers AspNetUsers { get; set; }
         public virtual tb_atividade tb_atividade { get; set; }
-        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

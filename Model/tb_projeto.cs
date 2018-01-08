@@ -11,9 +11,7 @@ namespace Model
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-
+    
     public partial class tb_projeto
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -25,18 +23,15 @@ namespace Model
             this.tb_projetoUsuarioFuncao = new HashSet<tb_projetoUsuarioFuncao>();
         }
     
-        public int id_projeto { get; set; }   
-
-        [Required(AllowEmptyStrings =false,ErrorMessage ="Campo Obrigatório",ErrorMessageResourceName =null,ErrorMessageResourceType =null)]      
+        public int id_projeto { get; set; }
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Campo Obrigatório", ErrorMessageResourceName = null, ErrorMessageResourceType = null)]
         [StringLength(20, ErrorMessage = "O título de {0} deve conter entre {2} e {1} caracteres.", MinimumLength = 5)]
         [Display(Name = "Título:")]
         public string titulo { get; set; }
-
         [DataType(DataType.MultilineText)]
         [StringLength(8000, ErrorMessage = "Limite de caracteres excedido. Máximo 8000 caracteres!", MinimumLength = 0)]
         [Display(Name = "Descrição:")]
         public string descricao { get; set; }
-
         [Required(AllowEmptyStrings = false, ErrorMessage = "Campo Obrigatório", ErrorMessageResourceName = null, ErrorMessageResourceType = null)]
         [Column(TypeName = "DateTime2")]
         [Display(Name = "Início:")]
@@ -45,10 +40,10 @@ namespace Model
         [Display(Name = "Término:")]
         [Column(TypeName = "DateTime2")]
         public Nullable<System.DateTime> data_fim { get; set; }
-
         public int id_statusProjeto { get; set; }
         public string id_usuario { get; set; }
     
+        public virtual AspNetUsers AspNetUsers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_acoesProjeto> tb_acoesProjeto { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -58,6 +53,5 @@ namespace Model
         public virtual tb_statusProjeto tb_statusProjeto { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_projetoUsuarioFuncao> tb_projetoUsuarioFuncao { get; set; }
-        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

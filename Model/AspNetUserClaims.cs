@@ -12,16 +12,13 @@ namespace Model
     using System;
     using System.Collections.Generic;
     
-    public partial class tb_projetoUsuarioFuncao
+    public partial class AspNetUserClaims
     {
-        public int id_projeto { get; set; }
-        public string id_usuario { get; set; }
-        public int id_funcaoProjeto { get; set; }
-        public DateTime data_inclusao { get { return DateTime.Now; } set {} }
-        public string username { get; set; }
-        public string funcao { get; set; }
-        public virtual tb_funcaoProjeto tb_funcaoProjeto { get; set; }
-        public virtual tb_projeto tb_projeto { get; set; }
+        public int Id { get; set; }
+        public string UserId { get; set; }
+        public string ClaimType { get; set; }
+        public string ClaimValue { get; set; }
+    
         public virtual AspNetUsers AspNetUsers { get; set; }
     }
 }

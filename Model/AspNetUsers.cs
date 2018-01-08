@@ -12,10 +12,10 @@ namespace Model
     using System;
     using System.Collections.Generic;
     
-    public partial class AspNetUser
+    public partial class AspNetUsers
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public AspNetUser()
+        public AspNetUsers()
         {
             this.tb_acoesProjeto = new HashSet<tb_acoesProjeto>();
             this.tb_atividade = new HashSet<tb_atividade>();
@@ -24,6 +24,9 @@ namespace Model
             this.tb_etapa = new HashSet<tb_etapa>();
             this.tb_projeto = new HashSet<tb_projeto>();
             this.tb_projetoUsuarioFuncao = new HashSet<tb_projetoUsuarioFuncao>();
+            this.AspNetUserClaims = new HashSet<AspNetUserClaims>();
+            this.AspNetUserLogins = new HashSet<AspNetUserLogins>();
+            this.AspNetRoles = new HashSet<AspNetRoles>();
         }
     
         public string Id { get; set; }
@@ -60,5 +63,11 @@ namespace Model
         public virtual ICollection<tb_projeto> tb_projeto { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_projetoUsuarioFuncao> tb_projetoUsuarioFuncao { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AspNetUserClaims> AspNetUserClaims { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AspNetUserLogins> AspNetUserLogins { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AspNetRoles> AspNetRoles { get; set; }
     }
 }

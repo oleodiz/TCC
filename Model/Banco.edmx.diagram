@@ -4,20 +4,32 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="5e384688ae19496eaf7c2afeb2bf16bd" Name="Diagram1" ZoomLevel="80">
-        <EntityTypeShape EntityType="tccModel.tb_acoesProjeto" Width="1.5" PointX="5.5" PointY="7.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="tccModel.tb_atividade" Width="1.5" PointX="8.25" PointY="7.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="tccModel.tb_atividadeResponsavel" Width="1.5" PointX="10.5" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="tccModel.tb_comentarioAtividade" Width="1.5" PointX="10.5" PointY="9.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="tccModel.tb_etapa" Width="1.5" PointX="13" PointY="9.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="tccModel.tb_funcaoProjeto" Width="1.5" PointX="1.5" PointY="4.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="tccModel.tb_prioridadeAtividade" Width="1.5" PointX="6" PointY="11.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="tccModel.tb_projeto" Width="1.5" PointX="3" PointY="7.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="tccModel.tb_projetoUsuarioFuncao" Width="1.5" PointX="5.25" PointY="4" IsExpanded="true" />
-        <EntityTypeShape EntityType="tccModel.tb_statusAtividade" Width="1.5" PointX="6" PointY="13.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="tccModel.tb_statusEtapa" Width="1.5" PointX="11.25" PointY="4.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="tccModel.tb_statusProjeto" Width="1.5" PointX="0.75" PointY="8.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="tccModel.tb_tipoAcaoProjeto" Width="1.5" PointX="3" PointY="12.25" IsExpanded="true" />
+      <Diagram DiagramId="a6106e1d9f604ecb9216df0f1a5dfdcc" Name="Diagram1">
+        <EntityTypeShape EntityType="tccModel.AspNetUserClaims" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="tccModel.AspNetUsers" Width="1.5" PointX="0.75" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="tccModel.tb_acoesProjeto" Width="1.5" PointX="3" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="tccModel.tb_atividade" Width="1.5" PointX="6" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="tccModel.tb_atividadeResponsavel" Width="1.5" PointX="8.25" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="tccModel.tb_comentarioAtividade" Width="1.5" PointX="11.25" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="tccModel.tb_etapa" Width="1.5" PointX="8.25" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="tccModel.tb_funcaoProjeto" Width="1.5" PointX="3" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="tccModel.tb_prioridadeAtividade" Width="1.5" PointX="3.75" PointY="14.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="tccModel.tb_projeto" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="tccModel.tb_projetoUsuarioFuncao" Width="1.5" PointX="5.25" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="tccModel.tb_statusAtividade" Width="1.5" PointX="3.75" PointY="16.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="tccModel.tb_statusEtapa" Width="1.5" PointX="6" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="tccModel.tb_statusProjeto" Width="1.5" PointX="0.75" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="tccModel.tb_tipoAcaoProjeto" Width="1.5" PointX="0.75" PointY="3" IsExpanded="true" />
+        <AssociationConnector Association="tccModel.fk_acoesProjeto_id_usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="tccModel.fk_atividade_id_usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="tccModel.fk_atividadeResponsavel_id_usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="tccModel.fk_comentarioAtividade_id_usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="tccModel.fk_etapa_id_usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="tccModel.fk_projeto_id_usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="tccModel.fk_projetoUsuarioFuncao_id_usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="tccModel.fk_acoesProjeto_id_atividade" ManuallyRouted="false" />
+        <AssociationConnector Association="tccModel.fk_acoesProjeto_id_comentarioAtividade" ManuallyRouted="false" />
+        <AssociationConnector Association="tccModel.fk_acoesProjeto_id_etapa" ManuallyRouted="false" />
         <AssociationConnector Association="tccModel.fk_acoesProjeto_id_projeto" ManuallyRouted="false" />
         <AssociationConnector Association="tccModel.fk_acoesProjeto_id_tipoAcao" ManuallyRouted="false" />
         <AssociationConnector Association="tccModel.fk_atividade_id_prioridadeAtividade" ManuallyRouted="false" />
@@ -30,19 +42,14 @@
         <AssociationConnector Association="tccModel.fk_projetoUsuarioFuncao_id_statusEtapa" ManuallyRouted="false" />
         <AssociationConnector Association="tccModel.fk_projeto_id_statusProjeto" ManuallyRouted="false" />
         <AssociationConnector Association="tccModel.fk_projetoUsuarioFuncao_id_projeto" ManuallyRouted="false" />
-        <AssociationConnector Association="tccModel.tb_etapaAtividade" ManuallyRouted="false" />
-        <AssociationConnector Association="tccModel.fk_acoesProjeto_id_atividade" />
-        <AssociationConnector Association="tccModel.fk_acoesProjeto_id_comentarioAtividade" />
-        <AssociationConnector Association="tccModel.fk_acoesProjeto_id_etapa" />
-        <EntityTypeShape EntityType="tccModel.AspNetUser" Width="1.5" PointX="0.75" PointY="5.625" />
-        <AssociationConnector Association="tccModel.fk_acoesProjeto_id_usuario" />
-        <AssociationConnector Association="tccModel.fk_atividade_id_usuario" />
-        <AssociationConnector Association="tccModel.fk_atividadeResponsavel_id_usuario" />
-        <AssociationConnector Association="tccModel.fk_comentarioAtividade_id_usuario" />
-        <AssociationConnector Association="tccModel.fk_etapa_id_usuario" />
-        <AssociationConnector Association="tccModel.fk_projeto_id_usuario" />
-        <AssociationConnector Association="tccModel.fk_projetoUsuarioFuncao_id_usuario" />
-        </Diagram>
+        <EntityTypeShape EntityType="tccModel.C__MigrationHistory" Width="1.5" PointX="10.375" PointY="3.75" />
+        <EntityTypeShape EntityType="tccModel.AspNetRoles" Width="1.5" PointX="0.75" PointY="15.75" />
+        <EntityTypeShape EntityType="tccModel.AspNetUserLogins" Width="1.5" PointX="3" PointY="19.625" />
+        <AssociationConnector Association="tccModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="tccModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="tccModel.AspNetUserRoles" />
+        <AssociationConnector Association="tccModel.tb_etapaAtividade2" />
+      </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

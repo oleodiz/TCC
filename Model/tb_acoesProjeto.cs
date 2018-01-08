@@ -24,13 +24,12 @@ namespace Model
         public Nullable<int> id_comentarioAtividade { get; set; }
         public Nullable<int> id_etapa { get; set; }
         public string username { get; set; }
-        public string nomeProjeto { get; set; }
-
-        public virtual tb_projeto tb_projeto { get; set; }
-        public virtual tb_tipoAcaoProjeto tb_tipoAcaoProjeto { get; set; }
+    
+        public virtual AspNetUsers AspNetUsers { get; set; }
         public virtual tb_atividade tb_atividade { get; set; }
         public virtual tb_comentarioAtividade tb_comentarioAtividade { get; set; }
         public virtual tb_etapa tb_etapa { get; set; }
-        public virtual AspNetUser AspNetUser { get; set; }
+        public virtual tb_projeto tb_projeto { get; set; }
+        public virtual tb_tipoAcaoProjeto tb_tipoAcaoProjeto { get; set; }
     }
 }

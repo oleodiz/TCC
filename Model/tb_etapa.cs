@@ -11,14 +11,13 @@ namespace Model
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-
+    
     public partial class tb_etapa
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tb_etapa()
         {
+            this.tb_acoesProjeto = new HashSet<tb_acoesProjeto>();
             this.tb_atividade = new HashSet<tb_atividade>();
         }
     
@@ -28,10 +27,10 @@ namespace Model
         [StringLength(20, ErrorMessage = "O título deve conter entre {2} e {1} caracteres.", MinimumLength = 5)]
         [Display(Name = "Título:")]
         public string titulo { get; set; }
-
         [DataType(DataType.MultilineText)]
         [StringLength(8000, ErrorMessage = "Limite de caracteres excedido. Máximo 8000 caracteres!", MinimumLength = 0)]
         [Display(Name = "Descrição:")]
+
         public string descricao { get; set; }
         public int sequencia { get; set; }
         [Required]
@@ -45,12 +44,12 @@ namespace Model
         public int id_statusEtapa { get; set; }
         public string id_usuario { get; set; }
     
+        public virtual AspNetUsers AspNetUsers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tb_acoesProjeto> tb_acoesProjeto { get; set; }
         public virtual tb_projeto tb_projeto { get; set; }
         public virtual tb_statusEtapa tb_statusEtapa { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tb_atividade> tb_atividade { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_acoesProjeto> tb_acoesProjeto { get; set; }
-        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

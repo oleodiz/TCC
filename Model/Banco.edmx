@@ -5,6 +5,50 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="tccModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+          <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ClaimType" Type="nvarchar(max)" />
+          <Property Name="ClaimValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
         <EntityType Name="AspNetUsers">
           <Key>
             <PropertyRef Name="Id" />
@@ -121,7 +165,7 @@
           <Property Name="id_projeto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="titulo" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="descricao" Type="varchar" MaxLength="8000" />
-          <Property Name="data_inicio" Type="datetime" />
+          <Property Name="data_inicio" Type="datetime" Nullable="false" />
           <Property Name="data_fim" Type="datetime" />
           <Property Name="id_statusProjeto" Type="int" Nullable="false" />
           <Property Name="id_usuario" Type="nvarchar" MaxLength="128" Nullable="false" />
@@ -332,6 +376,62 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_etapa_id_projeto">
           <End Role="tb_projeto" Type="Self.tb_projeto" Multiplicity="1" />
           <End Role="tb_etapa" Type="Self.tb_etapa" Multiplicity="*" />
@@ -452,38 +552,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
-        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="version" Type="int" Mode="In" />
-          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-        </Function>
-        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="version" Type="int" Mode="In" />
-          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-        </Function>
-        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
-        </Function>
-        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="tccModelStoreContainer">
+          <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_acoesProjeto" EntityType="Self.tb_acoesProjeto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tb_atividade" EntityType="Self.tb_atividade" Schema="dbo" store:Type="Tables" />
@@ -555,6 +629,22 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="tb_comentarioAtividade" EntitySet="tb_comentarioAtividade" />
           </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
           <AssociationSet Name="fk_etapa_id_projeto" Association="Self.fk_etapa_id_projeto">
             <End Role="tb_projeto" EntitySet="tb_projeto" />
             <End Role="tb_etapa" EntitySet="tb_etapa" />
@@ -600,6 +690,50 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="tccModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="tccModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BirthDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Country" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EmailLinkDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="JoinDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastLoginDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="tb_acoesProjeto" Relationship="Self.fk_acoesProjeto_id_usuario" FromRole="AspNetUsers" ToRole="tb_acoesProjeto" />
+          <NavigationProperty Name="tb_atividade" Relationship="Self.fk_atividade_id_usuario" FromRole="AspNetUsers" ToRole="tb_atividade" />
+          <NavigationProperty Name="tb_atividadeResponsavel" Relationship="Self.fk_atividadeResponsavel_id_usuario" FromRole="AspNetUsers" ToRole="tb_atividadeResponsavel" />
+          <NavigationProperty Name="tb_comentarioAtividade" Relationship="Self.fk_comentarioAtividade_id_usuario" FromRole="AspNetUsers" ToRole="tb_comentarioAtividade" />
+          <NavigationProperty Name="tb_etapa" Relationship="Self.fk_etapa_id_usuario" FromRole="AspNetUsers" ToRole="tb_etapa" />
+          <NavigationProperty Name="tb_projeto" Relationship="Self.fk_projeto_id_usuario" FromRole="AspNetUsers" ToRole="tb_projeto" />
+          <NavigationProperty Name="tb_projetoUsuarioFuncao" Relationship="Self.fk_projetoUsuarioFuncao_id_usuario" FromRole="AspNetUsers" ToRole="tb_projetoUsuarioFuncao" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="tccModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="tccModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
+          <NavigationProperty Name="AspNetRoles" Relationship="tccModel.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+        </EntityType>
         <EntityType Name="tb_acoesProjeto">
           <Key>
             <PropertyRef Name="id_acao" />
@@ -610,16 +744,16 @@
           <Property Name="id_tipoAcaoProjeto" Type="Int32" Nullable="false" />
           <Property Name="data_acao" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="descricao" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="tb_projeto" Relationship="Self.fk_acoesProjeto_id_projeto" FromRole="tb_acoesProjeto" ToRole="tb_projeto" />
-          <NavigationProperty Name="tb_tipoAcaoProjeto" Relationship="Self.fk_acoesProjeto_id_tipoAcao" FromRole="tb_acoesProjeto" ToRole="tb_tipoAcaoProjeto" />
           <Property Name="id_atividade" Type="Int32" />
           <Property Name="id_comentarioAtividade" Type="Int32" />
           <Property Name="id_etapa" Type="Int32" />
-          <NavigationProperty Name="tb_atividade" Relationship="tccModel.fk_acoesProjeto_id_atividade" FromRole="tb_acoesProjeto" ToRole="tb_atividade" />
-          <NavigationProperty Name="tb_comentarioAtividade" Relationship="tccModel.fk_acoesProjeto_id_comentarioAtividade" FromRole="tb_acoesProjeto" ToRole="tb_comentarioAtividade" />
-          <NavigationProperty Name="tb_etapa" Relationship="tccModel.fk_acoesProjeto_id_etapa" FromRole="tb_acoesProjeto" ToRole="tb_etapa" />
-          <Property Name="username" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="AspNetUser" Relationship="tccModel.fk_acoesProjeto_id_usuario" FromRole="tb_acoesProjeto" ToRole="AspNetUser" />
+          <Property Name="username" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.fk_acoesProjeto_id_usuario" FromRole="tb_acoesProjeto" ToRole="AspNetUsers" />
+          <NavigationProperty Name="tb_atividade" Relationship="Self.fk_acoesProjeto_id_atividade" FromRole="tb_acoesProjeto" ToRole="tb_atividade" />
+          <NavigationProperty Name="tb_comentarioAtividade" Relationship="Self.fk_acoesProjeto_id_comentarioAtividade" FromRole="tb_acoesProjeto" ToRole="tb_comentarioAtividade" />
+          <NavigationProperty Name="tb_etapa" Relationship="Self.fk_acoesProjeto_id_etapa" FromRole="tb_acoesProjeto" ToRole="tb_etapa" />
+          <NavigationProperty Name="tb_projeto" Relationship="Self.fk_acoesProjeto_id_projeto" FromRole="tb_acoesProjeto" ToRole="tb_projeto" />
+          <NavigationProperty Name="tb_tipoAcaoProjeto" Relationship="Self.fk_acoesProjeto_id_tipoAcao" FromRole="tb_acoesProjeto" ToRole="tb_tipoAcaoProjeto" />
         </EntityType>
         <EntityType Name="tb_atividade">
           <Key>
@@ -633,15 +767,15 @@
           <Property Name="id_statusAtividade" Type="Int32" Nullable="false" />
           <Property Name="id_usuario" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="id_prioridadeAtividade" Type="Int32" Nullable="false" />
+          <Property Name="sequencia" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.fk_atividade_id_usuario" FromRole="tb_atividade" ToRole="AspNetUsers" />
+          <NavigationProperty Name="tb_acoesProjeto" Relationship="Self.fk_acoesProjeto_id_atividade" FromRole="tb_atividade" ToRole="tb_acoesProjeto" />
           <NavigationProperty Name="tb_prioridadeAtividade" Relationship="Self.fk_atividade_id_prioridadeAtividade" FromRole="tb_atividade" ToRole="tb_prioridadeAtividade" />
           <NavigationProperty Name="tb_projeto" Relationship="Self.fk_atividade_id_projeto" FromRole="tb_atividade" ToRole="tb_projeto" />
           <NavigationProperty Name="tb_statusAtividade" Relationship="Self.fk_atividade_id_statusEtapa" FromRole="tb_atividade" ToRole="tb_statusAtividade" />
           <NavigationProperty Name="tb_atividadeResponsavel" Relationship="Self.fk_atividadeResponsavel_id_atividade" FromRole="tb_atividade" ToRole="tb_atividadeResponsavel" />
           <NavigationProperty Name="tb_comentarioAtividade" Relationship="Self.fk_comentarioAtividade_id_atividade" FromRole="tb_atividade" ToRole="tb_comentarioAtividade" />
-          <NavigationProperty Name="tb_etapa" Relationship="Self.tb_etapaAtividade" FromRole="tb_atividade" ToRole="tb_etapa" />
-          <NavigationProperty Name="tb_acoesProjeto" Relationship="tccModel.fk_acoesProjeto_id_atividade" FromRole="tb_atividade" ToRole="tb_acoesProjeto" />
-          <Property Name="sequencia" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="AspNetUser" Relationship="tccModel.fk_atividade_id_usuario" FromRole="tb_atividade" ToRole="AspNetUser" />
+          <NavigationProperty Name="tb_etapa" Relationship="tccModel.tb_etapaAtividade2" FromRole="tb_atividade" ToRole="tb_etapa" />
         </EntityType>
         <EntityType Name="tb_atividadeResponsavel">
           <Key>
@@ -650,9 +784,9 @@
           </Key>
           <Property Name="id_atividade" Type="Int32" Nullable="false" />
           <Property Name="id_usuario" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="tb_atividade" Relationship="Self.fk_atividadeResponsavel_id_atividade" FromRole="tb_atividadeResponsavel" ToRole="tb_atividade" />
           <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUser" Relationship="tccModel.fk_atividadeResponsavel_id_usuario" FromRole="tb_atividadeResponsavel" ToRole="AspNetUser" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.fk_atividadeResponsavel_id_usuario" FromRole="tb_atividadeResponsavel" ToRole="AspNetUsers" />
+          <NavigationProperty Name="tb_atividade" Relationship="Self.fk_atividadeResponsavel_id_atividade" FromRole="tb_atividadeResponsavel" ToRole="tb_atividade" />
         </EntityType>
         <EntityType Name="tb_comentarioAtividade">
           <Key>
@@ -664,9 +798,9 @@
           <Property Name="comentario" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="data_comentario" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ativo" Type="Boolean" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.fk_comentarioAtividade_id_usuario" FromRole="tb_comentarioAtividade" ToRole="AspNetUsers" />
+          <NavigationProperty Name="tb_acoesProjeto" Relationship="Self.fk_acoesProjeto_id_comentarioAtividade" FromRole="tb_comentarioAtividade" ToRole="tb_acoesProjeto" />
           <NavigationProperty Name="tb_atividade" Relationship="Self.fk_comentarioAtividade_id_atividade" FromRole="tb_comentarioAtividade" ToRole="tb_atividade" />
-          <NavigationProperty Name="tb_acoesProjeto" Relationship="tccModel.fk_acoesProjeto_id_comentarioAtividade" FromRole="tb_comentarioAtividade" ToRole="tb_acoesProjeto" />
-          <NavigationProperty Name="AspNetUser" Relationship="tccModel.fk_comentarioAtividade_id_usuario" FromRole="tb_comentarioAtividade" ToRole="AspNetUser" />
         </EntityType>
         <EntityType Name="tb_etapa">
           <Key>
@@ -681,11 +815,11 @@
           <Property Name="data_fim" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="id_statusEtapa" Type="Int32" Nullable="false" />
           <Property Name="id_usuario" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.fk_etapa_id_usuario" FromRole="tb_etapa" ToRole="AspNetUsers" />
+          <NavigationProperty Name="tb_acoesProjeto" Relationship="Self.fk_acoesProjeto_id_etapa" FromRole="tb_etapa" ToRole="tb_acoesProjeto" />
           <NavigationProperty Name="tb_projeto" Relationship="Self.fk_etapa_id_projeto" FromRole="tb_etapa" ToRole="tb_projeto" />
           <NavigationProperty Name="tb_statusEtapa" Relationship="Self.fk_etapa_id_statusEtapa" FromRole="tb_etapa" ToRole="tb_statusEtapa" />
-          <NavigationProperty Name="tb_atividade" Relationship="Self.tb_etapaAtividade" FromRole="tb_etapa" ToRole="tb_atividade" />
-          <NavigationProperty Name="tb_acoesProjeto" Relationship="tccModel.fk_acoesProjeto_id_etapa" FromRole="tb_etapa" ToRole="tb_acoesProjeto" />
-          <NavigationProperty Name="AspNetUser" Relationship="tccModel.fk_etapa_id_usuario" FromRole="tb_etapa" ToRole="AspNetUser" />
+          <NavigationProperty Name="tb_atividade" Relationship="tccModel.tb_etapaAtividade2" FromRole="tb_etapa" ToRole="tb_atividade" />
         </EntityType>
         <EntityType Name="tb_funcaoProjeto">
           <Key>
@@ -710,16 +844,16 @@
           <Property Name="id_projeto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="titulo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="descricao" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
-          <Property Name="data_inicio" Type="DateTime" Precision="3" />
+          <Property Name="data_inicio" Type="DateTime" Precision="3" Nullable="false" />
           <Property Name="data_fim" Type="DateTime" Precision="3" />
           <Property Name="id_statusProjeto" Type="Int32" Nullable="false" />
           <Property Name="id_usuario" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.fk_projeto_id_usuario" FromRole="tb_projeto" ToRole="AspNetUsers" />
           <NavigationProperty Name="tb_acoesProjeto" Relationship="Self.fk_acoesProjeto_id_projeto" FromRole="tb_projeto" ToRole="tb_acoesProjeto" />
           <NavigationProperty Name="tb_atividade" Relationship="Self.fk_atividade_id_projeto" FromRole="tb_projeto" ToRole="tb_atividade" />
           <NavigationProperty Name="tb_etapa" Relationship="Self.fk_etapa_id_projeto" FromRole="tb_projeto" ToRole="tb_etapa" />
           <NavigationProperty Name="tb_statusProjeto" Relationship="Self.fk_projeto_id_statusProjeto" FromRole="tb_projeto" ToRole="tb_statusProjeto" />
           <NavigationProperty Name="tb_projetoUsuarioFuncao" Relationship="Self.fk_projetoUsuarioFuncao_id_projeto" FromRole="tb_projeto" ToRole="tb_projetoUsuarioFuncao" />
-          <NavigationProperty Name="AspNetUser" Relationship="tccModel.fk_projeto_id_usuario" FromRole="tb_projeto" ToRole="AspNetUser" />
         </EntityType>
         <EntityType Name="tb_projetoUsuarioFuncao">
           <Key>
@@ -730,9 +864,9 @@
           <Property Name="id_usuario" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="id_funcaoProjeto" Type="Int32" Nullable="false" />
           <Property Name="data_inclusao" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.fk_projetoUsuarioFuncao_id_usuario" FromRole="tb_projetoUsuarioFuncao" ToRole="AspNetUsers" />
           <NavigationProperty Name="tb_funcaoProjeto" Relationship="Self.fk_projetoUsuarioFuncao_id_statusEtapa" FromRole="tb_projetoUsuarioFuncao" ToRole="tb_funcaoProjeto" />
           <NavigationProperty Name="tb_projeto" Relationship="Self.fk_projetoUsuarioFuncao_id_projeto" FromRole="tb_projetoUsuarioFuncao" ToRole="tb_projeto" />
-          <NavigationProperty Name="AspNetUser" Relationship="tccModel.fk_projetoUsuarioFuncao_id_usuario" FromRole="tb_projetoUsuarioFuncao" ToRole="AspNetUser" />
         </EntityType>
         <EntityType Name="tb_statusAtividade">
           <Key>
@@ -766,6 +900,126 @@
           <Property Name="descricao" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="tb_acoesProjeto" Relationship="Self.fk_acoesProjeto_id_tipoAcao" FromRole="tb_tipoAcaoProjeto" ToRole="tb_acoesProjeto" />
         </EntityType>
+        <Association Name="fk_acoesProjeto_id_usuario">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="tb_acoesProjeto" Type="Self.tb_acoesProjeto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tb_acoesProjeto">
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_atividade_id_usuario">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="tb_atividade" Type="Self.tb_atividade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tb_atividade">
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_atividadeResponsavel_id_usuario">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="tb_atividadeResponsavel" Type="Self.tb_atividadeResponsavel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tb_atividadeResponsavel">
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_comentarioAtividade_id_usuario">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="tb_comentarioAtividade" Type="Self.tb_comentarioAtividade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tb_comentarioAtividade">
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_etapa_id_usuario">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="tb_etapa" Type="Self.tb_etapa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tb_etapa">
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_projeto_id_usuario">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="tb_projeto" Type="Self.tb_projeto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tb_projeto">
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_projetoUsuarioFuncao_id_usuario">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="tb_projetoUsuarioFuncao" Type="Self.tb_projetoUsuarioFuncao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tb_projetoUsuarioFuncao">
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_acoesProjeto_id_atividade">
+          <End Role="tb_atividade" Type="Self.tb_atividade" Multiplicity="0..1" />
+          <End Role="tb_acoesProjeto" Type="Self.tb_acoesProjeto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_atividade">
+              <PropertyRef Name="id_atividade" />
+            </Principal>
+            <Dependent Role="tb_acoesProjeto">
+              <PropertyRef Name="id_atividade" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_acoesProjeto_id_comentarioAtividade">
+          <End Role="tb_comentarioAtividade" Type="Self.tb_comentarioAtividade" Multiplicity="0..1" />
+          <End Role="tb_acoesProjeto" Type="Self.tb_acoesProjeto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_comentarioAtividade">
+              <PropertyRef Name="id_comentario" />
+            </Principal>
+            <Dependent Role="tb_acoesProjeto">
+              <PropertyRef Name="id_comentarioAtividade" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_acoesProjeto_id_etapa">
+          <End Role="tb_etapa" Type="Self.tb_etapa" Multiplicity="0..1" />
+          <End Role="tb_acoesProjeto" Type="Self.tb_acoesProjeto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_etapa">
+              <PropertyRef Name="id_etapa" />
+            </Principal>
+            <Dependent Role="tb_acoesProjeto">
+              <PropertyRef Name="id_etapa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_acoesProjeto_id_projeto">
           <End Role="tb_projeto" Type="Self.tb_projeto" Multiplicity="1" />
           <End Role="tb_acoesProjeto" Type="Self.tb_acoesProjeto" Multiplicity="*" />
@@ -910,11 +1164,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="tb_etapaAtividade">
-          <End Role="tb_atividade" Type="Self.tb_atividade" Multiplicity="*" />
-          <End Role="tb_etapa" Type="Self.tb_etapa" Multiplicity="*" />
-        </Association>
         <EntityContainer Name="tccEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" />
           <EntitySet Name="tb_acoesProjeto" EntityType="Self.tb_acoesProjeto" />
           <EntitySet Name="tb_atividade" EntityType="Self.tb_atividade" />
           <EntitySet Name="tb_atividadeResponsavel" EntityType="Self.tb_atividadeResponsavel" />
@@ -928,6 +1180,46 @@
           <EntitySet Name="tb_statusEtapa" EntityType="Self.tb_statusEtapa" />
           <EntitySet Name="tb_statusProjeto" EntityType="Self.tb_statusProjeto" />
           <EntitySet Name="tb_tipoAcaoProjeto" EntityType="Self.tb_tipoAcaoProjeto" />
+          <AssociationSet Name="fk_acoesProjeto_id_usuario" Association="Self.fk_acoesProjeto_id_usuario">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="tb_acoesProjeto" EntitySet="tb_acoesProjeto" />
+          </AssociationSet>
+          <AssociationSet Name="fk_atividade_id_usuario" Association="Self.fk_atividade_id_usuario">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="tb_atividade" EntitySet="tb_atividade" />
+          </AssociationSet>
+          <AssociationSet Name="fk_atividadeResponsavel_id_usuario" Association="Self.fk_atividadeResponsavel_id_usuario">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="tb_atividadeResponsavel" EntitySet="tb_atividadeResponsavel" />
+          </AssociationSet>
+          <AssociationSet Name="fk_comentarioAtividade_id_usuario" Association="Self.fk_comentarioAtividade_id_usuario">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="tb_comentarioAtividade" EntitySet="tb_comentarioAtividade" />
+          </AssociationSet>
+          <AssociationSet Name="fk_etapa_id_usuario" Association="Self.fk_etapa_id_usuario">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="tb_etapa" EntitySet="tb_etapa" />
+          </AssociationSet>
+          <AssociationSet Name="fk_projeto_id_usuario" Association="Self.fk_projeto_id_usuario">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="tb_projeto" EntitySet="tb_projeto" />
+          </AssociationSet>
+          <AssociationSet Name="fk_projetoUsuarioFuncao_id_usuario" Association="Self.fk_projetoUsuarioFuncao_id_usuario">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="tb_projetoUsuarioFuncao" EntitySet="tb_projetoUsuarioFuncao" />
+          </AssociationSet>
+          <AssociationSet Name="fk_acoesProjeto_id_atividade" Association="Self.fk_acoesProjeto_id_atividade">
+            <End Role="tb_atividade" EntitySet="tb_atividade" />
+            <End Role="tb_acoesProjeto" EntitySet="tb_acoesProjeto" />
+          </AssociationSet>
+          <AssociationSet Name="fk_acoesProjeto_id_comentarioAtividade" Association="Self.fk_acoesProjeto_id_comentarioAtividade">
+            <End Role="tb_comentarioAtividade" EntitySet="tb_comentarioAtividade" />
+            <End Role="tb_acoesProjeto" EntitySet="tb_acoesProjeto" />
+          </AssociationSet>
+          <AssociationSet Name="fk_acoesProjeto_id_etapa" Association="Self.fk_acoesProjeto_id_etapa">
+            <End Role="tb_etapa" EntitySet="tb_etapa" />
+            <End Role="tb_acoesProjeto" EntitySet="tb_acoesProjeto" />
+          </AssociationSet>
           <AssociationSet Name="fk_acoesProjeto_id_projeto" Association="Self.fk_acoesProjeto_id_projeto">
             <End Role="tb_projeto" EntitySet="tb_projeto" />
             <End Role="tb_acoesProjeto" EntitySet="tb_acoesProjeto" />
@@ -976,270 +1268,151 @@
             <End Role="tb_projeto" EntitySet="tb_projeto" />
             <End Role="tb_projetoUsuarioFuncao" EntitySet="tb_projetoUsuarioFuncao" />
           </AssociationSet>
-          <AssociationSet Name="tb_etapaAtividade" Association="Self.tb_etapaAtividade">
+          <EntitySet Name="C__MigrationHistory" EntityType="tccModel.C__MigrationHistory" />
+          <EntitySet Name="AspNetRoles" EntityType="tccModel.AspNetRoles" />
+          <EntitySet Name="AspNetUserLogins" EntityType="tccModel.AspNetUserLogins" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="tccModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="tccModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="tccModel.AspNetUserRoles">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <AssociationSet Name="tb_etapaAtividade2" Association="tccModel.tb_etapaAtividade2">
             <End Role="tb_atividade" EntitySet="tb_atividade" />
             <End Role="tb_etapa" EntitySet="tb_etapa" />
           </AssociationSet>
-          <FunctionImport Name="sp_alterdiagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="version" Mode="In" Type="Int32" />
-            <Parameter Name="definition" Mode="In" Type="Binary" />
-          </FunctionImport>
-          <FunctionImport Name="sp_creatediagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="version" Mode="In" Type="Int32" />
-            <Parameter Name="definition" Mode="In" Type="Binary" />
-          </FunctionImport>
-          <FunctionImport Name="sp_dropdiagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(tccModel.sp_helpdiagramdefinition_Result)">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(tccModel.sp_helpdiagrams_Result)">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_renamediagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="new_diagramname" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="sp_upgraddiagrams" />
-          <AssociationSet Name="fk_acoesProjeto_id_atividade" Association="tccModel.fk_acoesProjeto_id_atividade">
-            <End Role="tb_atividade" EntitySet="tb_atividade" />
-            <End Role="tb_acoesProjeto" EntitySet="tb_acoesProjeto" />
-          </AssociationSet>
-          <AssociationSet Name="fk_acoesProjeto_id_comentarioAtividade" Association="tccModel.fk_acoesProjeto_id_comentarioAtividade">
-            <End Role="tb_comentarioAtividade" EntitySet="tb_comentarioAtividade" />
-            <End Role="tb_acoesProjeto" EntitySet="tb_acoesProjeto" />
-          </AssociationSet>
-          <AssociationSet Name="fk_acoesProjeto_id_etapa" Association="tccModel.fk_acoesProjeto_id_etapa">
-            <End Role="tb_etapa" EntitySet="tb_etapa" />
-            <End Role="tb_acoesProjeto" EntitySet="tb_acoesProjeto" />
-          </AssociationSet>
-          <EntitySet Name="AspNetUsers" EntityType="tccModel.AspNetUser" />
-          <AssociationSet Name="fk_acoesProjeto_id_usuario" Association="tccModel.fk_acoesProjeto_id_usuario">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="tb_acoesProjeto" EntitySet="tb_acoesProjeto" />
-          </AssociationSet>
-          <AssociationSet Name="fk_atividade_id_usuario" Association="tccModel.fk_atividade_id_usuario">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="tb_atividade" EntitySet="tb_atividade" />
-          </AssociationSet>
-          <AssociationSet Name="fk_atividadeResponsavel_id_usuario" Association="tccModel.fk_atividadeResponsavel_id_usuario">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="tb_atividadeResponsavel" EntitySet="tb_atividadeResponsavel" />
-          </AssociationSet>
-          <AssociationSet Name="fk_comentarioAtividade_id_usuario" Association="tccModel.fk_comentarioAtividade_id_usuario">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="tb_comentarioAtividade" EntitySet="tb_comentarioAtividade" />
-          </AssociationSet>
-          <AssociationSet Name="fk_etapa_id_usuario" Association="tccModel.fk_etapa_id_usuario">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="tb_etapa" EntitySet="tb_etapa" />
-          </AssociationSet>
-          <AssociationSet Name="fk_projeto_id_usuario" Association="tccModel.fk_projeto_id_usuario">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="tb_projeto" EntitySet="tb_projeto" />
-          </AssociationSet>
-          <AssociationSet Name="fk_projetoUsuarioFuncao_id_usuario" Association="tccModel.fk_projetoUsuarioFuncao_id_usuario">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="tb_projetoUsuarioFuncao" EntitySet="tb_projetoUsuarioFuncao" />
-          </AssociationSet>
-          </EntityContainer>
-        <ComplexType Name="sp_helpdiagramdefinition_Result">
-          <Property Type="Int32" Name="version" Nullable="true" />
-          <Property Type="Binary" Name="definition" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="sp_helpdiagrams_Result">
-          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
-          <Property Type="Int32" Name="OwnerID" Nullable="false" />
-        </ComplexType>
-        <Association Name="fk_acoesProjeto_id_atividade">
-          <End Type="tccModel.tb_atividade" Role="tb_atividade" Multiplicity="0..1" />
-          <End Type="tccModel.tb_acoesProjeto" Role="tb_acoesProjeto" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tb_atividade">
-              <PropertyRef Name="id_atividade" />
-            </Principal>
-            <Dependent Role="tb_acoesProjeto">
-              <PropertyRef Name="id_atividade" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_acoesProjeto_id_comentarioAtividade">
-          <End Type="tccModel.tb_comentarioAtividade" Role="tb_comentarioAtividade" Multiplicity="0..1" />
-          <End Type="tccModel.tb_acoesProjeto" Role="tb_acoesProjeto" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tb_comentarioAtividade">
-              <PropertyRef Name="id_comentario" />
-            </Principal>
-            <Dependent Role="tb_acoesProjeto">
-              <PropertyRef Name="id_comentarioAtividade" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_acoesProjeto_id_etapa">
-          <End Type="tccModel.tb_etapa" Role="tb_etapa" Multiplicity="0..1" />
-          <End Type="tccModel.tb_acoesProjeto" Role="tb_acoesProjeto" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tb_etapa">
-              <PropertyRef Name="id_etapa" />
-            </Principal>
-            <Dependent Role="tb_acoesProjeto">
-              <PropertyRef Name="id_etapa" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="AspNetUser">
+        </EntityContainer>
+        <EntityType Name="C__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ContextKey" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Model" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="ProductVersion" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="BirthDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Country" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="EmailLinkDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="JoinDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="LastLoginDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
-          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
-          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
-          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
-          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
-          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tb_acoesProjeto" Relationship="tccModel.fk_acoesProjeto_id_usuario" FromRole="AspNetUser" ToRole="tb_acoesProjeto" />
-          <NavigationProperty Name="tb_atividade" Relationship="tccModel.fk_atividade_id_usuario" FromRole="AspNetUser" ToRole="tb_atividade" />
-          <NavigationProperty Name="tb_atividadeResponsavel" Relationship="tccModel.fk_atividadeResponsavel_id_usuario" FromRole="AspNetUser" ToRole="tb_atividadeResponsavel" />
-          <NavigationProperty Name="tb_comentarioAtividade" Relationship="tccModel.fk_comentarioAtividade_id_usuario" FromRole="AspNetUser" ToRole="tb_comentarioAtividade" />
-          <NavigationProperty Name="tb_etapa" Relationship="tccModel.fk_etapa_id_usuario" FromRole="AspNetUser" ToRole="tb_etapa" />
-          <NavigationProperty Name="tb_projeto" Relationship="tccModel.fk_projeto_id_usuario" FromRole="AspNetUser" ToRole="tb_projeto" />
-          <NavigationProperty Name="tb_projetoUsuarioFuncao" Relationship="tccModel.fk_projetoUsuarioFuncao_id_usuario" FromRole="AspNetUser" ToRole="tb_projetoUsuarioFuncao" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="tccModel.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
         </EntityType>
-        <Association Name="fk_acoesProjeto_id_usuario">
-          <End Type="tccModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="tccModel.tb_acoesProjeto" Role="tb_acoesProjeto" Multiplicity="*" />
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="tccModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+        </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Type="tccModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="tccModel.AspNetUserClaims" Role="AspNetUserClaims" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="AspNetUser">
+            <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="tb_acoesProjeto">
-              <PropertyRef Name="id_usuario" />
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_atividade_id_usuario">
-          <End Type="tccModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Type="tccModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="tccModel.AspNetUserLogins" Role="AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AspNetUserRoles">
+          <End Type="tccModel.AspNetRoles" Role="AspNetRoles" Multiplicity="*" />
+          <End Type="tccModel.AspNetUsers" Role="AspNetUsers" Multiplicity="*" />
+        </Association>
+        <Association Name="tb_etapaAtividade2">
           <End Type="tccModel.tb_atividade" Role="tb_atividade" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="tb_atividade">
-              <PropertyRef Name="id_usuario" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_atividadeResponsavel_id_usuario">
-          <End Type="tccModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="tccModel.tb_atividadeResponsavel" Role="tb_atividadeResponsavel" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="tb_atividadeResponsavel">
-              <PropertyRef Name="id_usuario" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_comentarioAtividade_id_usuario">
-          <End Type="tccModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="tccModel.tb_comentarioAtividade" Role="tb_comentarioAtividade" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="tb_comentarioAtividade">
-              <PropertyRef Name="id_usuario" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_etapa_id_usuario">
-          <End Type="tccModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
           <End Type="tccModel.tb_etapa" Role="tb_etapa" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="tb_etapa">
-              <PropertyRef Name="id_usuario" />
-            </Dependent>
-          </ReferentialConstraint>
         </Association>
-        <Association Name="fk_projeto_id_usuario">
-          <End Type="tccModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="tccModel.tb_projeto" Role="tb_projeto" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="tb_projeto">
-              <PropertyRef Name="id_usuario" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_projetoUsuarioFuncao_id_usuario">
-          <End Type="tccModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="tccModel.tb_projetoUsuarioFuncao" Role="tb_projetoUsuarioFuncao" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="tb_projetoUsuarioFuncao">
-              <PropertyRef Name="id_usuario" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        </Schema>
+      </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="tccModelStoreContainer" CdmEntityContainer="tccEntities">
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="tccModel.AspNetUserClaims">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="tccModel.AspNetUsers">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="EmailLinkDate" ColumnName="EmailLinkDate" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="JoinDate" ColumnName="JoinDate" />
+                <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tb_acoesProjeto">
             <EntityTypeMapping TypeName="tccModel.tb_acoesProjeto">
               <MappingFragment StoreEntitySet="tb_acoesProjeto">
-                <ScalarProperty Name="username" ColumnName="username" />
-                <ScalarProperty Name="id_etapa" ColumnName="id_etapa" />
-                <ScalarProperty Name="id_comentarioAtividade" ColumnName="id_comentarioAtividade" />
-                <ScalarProperty Name="id_atividade" ColumnName="id_atividade" />
                 <ScalarProperty Name="id_acao" ColumnName="id_acao" />
                 <ScalarProperty Name="id_projeto" ColumnName="id_projeto" />
                 <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
                 <ScalarProperty Name="id_tipoAcaoProjeto" ColumnName="id_tipoAcaoProjeto" />
                 <ScalarProperty Name="data_acao" ColumnName="data_acao" />
                 <ScalarProperty Name="descricao" ColumnName="descricao" />
+                <ScalarProperty Name="id_atividade" ColumnName="id_atividade" />
+                <ScalarProperty Name="id_comentarioAtividade" ColumnName="id_comentarioAtividade" />
+                <ScalarProperty Name="id_etapa" ColumnName="id_etapa" />
+                <ScalarProperty Name="username" ColumnName="username" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tb_atividade">
             <EntityTypeMapping TypeName="tccModel.tb_atividade">
               <MappingFragment StoreEntitySet="tb_atividade">
-                <ScalarProperty Name="sequencia" ColumnName="sequencia" />
                 <ScalarProperty Name="id_atividade" ColumnName="id_atividade" />
                 <ScalarProperty Name="id_projeto" ColumnName="id_projeto" />
                 <ScalarProperty Name="titulo" ColumnName="titulo" />
@@ -1248,15 +1421,16 @@
                 <ScalarProperty Name="id_statusAtividade" ColumnName="id_statusAtividade" />
                 <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
                 <ScalarProperty Name="id_prioridadeAtividade" ColumnName="id_prioridadeAtividade" />
+                <ScalarProperty Name="sequencia" ColumnName="sequencia" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tb_atividadeResponsavel">
             <EntityTypeMapping TypeName="tccModel.tb_atividadeResponsavel">
               <MappingFragment StoreEntitySet="tb_atividadeResponsavel">
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="id_atividade" ColumnName="id_atividade" />
                 <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1358,63 +1532,49 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="tb_etapaAtividade" TypeName="tccModel.tb_etapaAtividade" StoreEntitySet="tb_etapaAtividade">
-            <EndProperty Name="tb_atividade">
-              <ScalarProperty Name="id_atividade" ColumnName="id_atividade" />
-            </EndProperty>
-            <EndProperty Name="tb_etapa">
-              <ScalarProperty Name="id_etapa" ColumnName="id_etapa" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="tccModel.Store.sp_alterdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="tccModel.Store.sp_creatediagram" />
-          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="tccModel.Store.sp_dropdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="tccModel.Store.sp_helpdiagramdefinition">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="tccModel.sp_helpdiagramdefinition_Result">
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="tccModel.Store.sp_helpdiagrams">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="tccModel.sp_helpdiagrams_Result">
-                <ScalarProperty Name="Database" ColumnName="Database" />
+          <EntitySetMapping Name="C__MigrationHistory">
+            <EntityTypeMapping TypeName="tccModel.C__MigrationHistory">
+              <MappingFragment StoreEntitySet="__MigrationHistory">
+                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="tccModel.AspNetRoles">
+              <MappingFragment StoreEntitySet="AspNetRoles">
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Owner" ColumnName="Owner" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="tccModel.Store.sp_renamediagram" />
-          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="tccModel.Store.sp_upgraddiagrams" />
-          <EntitySetMapping Name="AspNetUsers">
-            <EntityTypeMapping TypeName="tccModel.AspNetUser">
-              <MappingFragment StoreEntitySet="AspNetUsers">
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
-                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
-                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
-                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
-                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
-                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
-                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
-                <ScalarProperty Name="JoinDate" ColumnName="JoinDate" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="EmailLinkDate" ColumnName="EmailLinkDate" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserLogins">
+            <EntityTypeMapping TypeName="tccModel.AspNetUserLogins">
+              <MappingFragment StoreEntitySet="AspNetUserLogins">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="tccModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetUsers">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="AspNetRoles">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="tb_etapaAtividade2" TypeName="tccModel.tb_etapaAtividade2" StoreEntitySet="tb_etapaAtividade">
+            <EndProperty Name="tb_etapa">
+              <ScalarProperty Name="id_etapa" ColumnName="id_etapa" />
+            </EndProperty>
+            <EndProperty Name="tb_atividade">
+              <ScalarProperty Name="id_atividade" ColumnName="id_atividade" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -1429,7 +1589,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />

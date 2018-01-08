@@ -12,24 +12,18 @@ namespace Model
     using System;
     using System.Collections.Generic;
     
-    public partial class tb_comentarioAtividade
+    public partial class AspNetRoles
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tb_comentarioAtividade()
+        public AspNetRoles()
         {
-            this.tb_acoesProjeto = new HashSet<tb_acoesProjeto>();
+            this.AspNetUsers = new HashSet<AspNetUsers>();
         }
     
-        public int id_comentario { get; set; }
-        public int id_atividade { get; set; }
-        public string id_usuario { get; set; }
-        public string comentario { get; set; }
-        public System.DateTime data_comentario { get; set; }
-        public Nullable<bool> ativo { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
     
-        public virtual AspNetUsers AspNetUsers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tb_acoesProjeto> tb_acoesProjeto { get; set; }
-        public virtual tb_atividade tb_atividade { get; set; }
+        public virtual ICollection<AspNetUsers> AspNetUsers { get; set; }
     }
 }

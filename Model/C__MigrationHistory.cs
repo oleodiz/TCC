@@ -10,10 +10,13 @@
 namespace Model
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class sp_helpdiagramdefinition_Result
+    public partial class C__MigrationHistory
     {
-        public Nullable<int> version { get; set; }
-        public byte[] definition { get; set; }
+        public string MigrationId { get; set; }
+        public string ContextKey { get; set; }
+        public byte[] Model { get; set; }
+        public string ProductVersion { get; set; }
     }
 }
